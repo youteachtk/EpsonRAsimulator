@@ -5,8 +5,15 @@ data class JointDefinition(
     val displayName: String,
     val type: JointType,
     val minValue: Double,
-    val maxValue: Double
-)
+    val maxValue: Double,
+    val maxSpeedDegPerSec: Double? = null,
+    val minPulse: Long? = null,
+    val maxPulse: Long? = null
+) {
+    fun clamp(value: Double): Double = value.coerceIn(minValue, maxValue)
+
+    fun contains(value: Double): Boolean = value in minValue..maxValue
+}
 
 enum class JointType {
     REVOLUTE,
@@ -18,13 +25,38 @@ data class RobotDefinition(
     val displayName: String,
     val joints: List<JointDefinition>,
     val reachMm: Double? = null,
+    val wristFlangeReachMm: Double? = null,
+    val ratedPayloadKg: Double? = null,
     val maxPayloadKg: Double? = null,
-    val modelAsset: String? = null
-)
+    val modelAsset: String? = null,
+    val zeroJointValues: List<Double> = List(joints.size) { 0.0 }
+) {
+    init {
+        require(zeroJointValues.size == joints.size) {
+            "zeroJointValues must contain one value for every joint"
+        }
+        zeroJointValues.forEachIndexed { index, value ->
+            require(joints[index].contains(value)) {
+                "Zero value for ${joints[index].id} is outside its configured range"
+            }
+        }
+    }
+
+    fun zeroState(): JointState = JointState(zeroJointValues)
+
+    fun validatedState(values: List<Double>): JointState {
+        require(values.size == joints.size) {
+            "Joint state must contain exactly ${joints.size} values"
+        }
+        return JointState(values.mapIndexed { index, value -> joints[index].clamp(value) })
+    }
+}
 
 data class JointState(
     val values: List<Double>
-)
+) {
+    operator fun get(index: Int): Double = values[index]
+}
 
 data class CartesianPose(
     val x: Double,
