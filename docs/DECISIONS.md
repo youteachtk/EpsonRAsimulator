@@ -22,6 +22,12 @@ This file records decisions that should survive future conversations.
 - Workpieces should eventually be graspable.
 - The app should support multiple Epson robot models through data-driven RobotDefinition objects.
 
+### Confirmed Epson environment
+- Windows software: EPSON RC+ 7.0.
+- Installed version confirmed by user screenshot: 7.5.3.
+- The splash-screen robot artwork is not being treated as the configured robot model.
+- Exact configured Epson robot model is still pending.
+
 ### Architecture
 - Kotlin + Android + Jetpack Compose.
 - 3D direction: SceneView/Filament.
@@ -33,4 +39,5 @@ This file records decisions that should survive future conversations.
 3D robot + camera + joint control + direct TCP touch + IK + ghost target + teach points + functional gripper + simulated pick-and-place.
 
 ### Pending
-Exact Epson robot model and Windows Epson software/version still need to be identified.
+- Exact Epson robot model.
+- Robot-specific geometry, joint limits and kinematic parameters.
