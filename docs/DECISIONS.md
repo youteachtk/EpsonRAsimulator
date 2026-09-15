@@ -25,8 +25,11 @@ This file records decisions that should survive future conversations.
 ### Confirmed Epson environment
 - Windows software: EPSON RC+ 7.0.
 - Installed version confirmed by user screenshot: 7.5.3.
-- The splash-screen robot artwork is not being treated as the configured robot model.
-- Exact configured Epson robot model is still pending.
+- Configured robot: **Epson C4-A601S**.
+- Robot type: six-axis articulated robot.
+- Baseline reach: 600 mm.
+- Baseline maximum payload: 4 kg.
+- Epson publishes official C4-A601S STEP geometry; this is the preferred source for the simulator's 3D model.
 
 ### Architecture
 - Kotlin + Android + Jetpack Compose.
@@ -36,8 +39,11 @@ This file records decisions that should survive future conversations.
 - Initial real-equipment behavior must never be implied by the simulated behavior.
 
 ### First usable milestone
-3D robot + camera + joint control + direct TCP touch + IK + ghost target + teach points + functional gripper + simulated pick-and-place.
+3D C4-A601S + camera + joint control + direct TCP touch + IK + ghost target + teach points + functional gripper + simulated pick-and-place.
 
-### Pending
-- Exact Epson robot model.
-- Robot-specific geometry, joint limits and kinematic parameters.
+### Next technical work
+- Acquire and convert official C4-A601S STEP geometry to optimized GLB/glTF.
+- Establish exact link pivots and J1-J6 axes.
+- Implement and validate forward kinematics.
+- Connect joints to the 3D model.
+- Implement touch TCP and inverse kinematics.
