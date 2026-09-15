@@ -1,0 +1,26 @@
+name: Acquire official C4 CAD source
+
+on:
+  push:
+    branches:
+      - "feature/c4-cad-acquisition"
+
+jobs:
+  fetch-cad:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download official Epson C4-A601S STEP package
+        run: |
+          curl --fail --location --retry 3 --retry-delay 2 \
+            "https://eposs.epson.com.cn/EPSON/assets/resource/Download/Robot/C4-A601S/C4-A601S-step.zip" \
+            --output C4-A601S-step.zip
+          test -s C4-A601S-step.zip
+          unzip -l C4-A601S-step.zip
+
+      - name: Upload source package
+        uses: actions/upload-artifact@v4
+        with:
+          name: C4-A601S-official-step
+          path: C4-A601S-step.zip
+          if-no-files-found: error
+          retention-days: 7
