@@ -1,11 +1,14 @@
 name: Android CI
 
 on:
+  pull_request:
   push:
     branches:
       - main
-      - "feature/**"
-  pull_request:
+
+concurrency:
+  group: android-ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
