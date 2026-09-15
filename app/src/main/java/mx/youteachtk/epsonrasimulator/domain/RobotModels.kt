@@ -17,6 +17,8 @@ data class RobotDefinition(
     val id: String,
     val displayName: String,
     val joints: List<JointDefinition>,
+    val reachMm: Double? = null,
+    val maxPayloadKg: Double? = null,
     val modelAsset: String? = null
 )
 
