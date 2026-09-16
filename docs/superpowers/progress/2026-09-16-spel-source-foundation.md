@@ -50,7 +50,18 @@ Chat-context handoff must tell the next chat to re-check GitHub/Codex before edi
 ## Tasks
 
 ### Task 1 — Source ranges and lossless SPEL+ lexer
-**Status:** pending
+**Status:** complete
+
+Evidence:
+- RED commit: `5bf7c377c3225f64bb5cc27d7726876cc2120660` (`test: add failing source range tests`).
+- RED CI: Android CI run #127 failed in Unit tests with `Unresolved reference 'SourceRange'`.
+- GREEN implementation commit: `46914c3e09503705299c57d06adae3bf6cab79e3` (`feat: add lossless SPEL source lexer`).
+- GREEN CI: Android CI run #128 completed successfully.
+- Unit tests: success.
+- Debug APK build: success.
+- Debug APK upload: success.
+- Implemented `SourceRange`, `SourceToken`, `SpelTokenKind`, `SpelLexer`, and `SpelLexerTest`.
+- Verified by tests: token concatenation reconstructs source exactly; ranges are contiguous; CR/LF is preserved; apostrophe inside a string is not treated as a comment; comments remain trivia; unknown characters are retained as symbols.
 
 ### Task 2 — Conservative SPEL+ semantic model and analyzer
 **Status:** pending
@@ -90,6 +101,8 @@ Before Phase 2 may be accepted:
 - Phase 1 accepted and preserved on its own branch.
 - Phase 2 branch created from exact accepted Phase 1 head.
 - Phase 2 implementation plan committed as `f59fa75781e84c725ad57639942059024801288d`.
-- Draft PR #8 created with base `feature/shared-runtime-foundation`.
-- No Phase 2 production implementation started.
-- Exact next action: Task 1 TDD, beginning with SourceRange tests.
+- Draft PR #8 uses base `feature/shared-runtime-foundation`.
+- Task 1 completed with RED/GREEN evidence and full Android CI green.
+- Implementation head before this ledger update: `46914c3e09503705299c57d06adae3bf6cab79e3`.
+- No concurrent Codex activity was observed before Task 1 edits; inline execution performed the task.
+- Exact next action: Task 2 Step 1 — add failing semantic-subset tests for `Function...Fend`, `Speed`, `Go`, `Move`, `Wait`, `Call`, and Direct Code preservation.
