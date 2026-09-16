@@ -273,3 +273,31 @@ This file records decisions that should survive future conversations.
 - A change made through one interface becomes visible to the other because both observe the same underlying state.
 - The future Windows RC+ Bridge also connects at the shared runtime/integration boundary rather than coupling directly to either UI.
 - This architecture is intended to prevent RC+ desktop constraints from leaking into Visual Lab while also preventing divergent project state between the two experiences.
+
+### Extensible multi-robot / multi-simulator platform
+- The C4-A601S + EPSON RC+ 7.0 v7.5.3 implementation is the **first reference implementation**, not the permanent product boundary.
+- The architecture must allow the training platform to be expanded later with:
+  - additional Epson robot models;
+  - other Epson controller/RC+ versions or simulator configurations;
+  - additional robot simulators and, where technically/documentarily/legal feasible, other manufacturers.
+- Expansion is allowed only when there is enough reliable information to build an honest simulator/trainer: official/public documentation, kinematic and controller data, programming/workflow references, and lawful 3D assets or sufficient dimensional/visual information to create an independent model.
+- Never claim high-fidelity support for a robot/simulator when the required behavior or data has not been verified.
+- Manufacturer/simulator-specific behavior must live behind adapters/providers instead of being hard-coded into the shared simulation runtime.
+- A new robot should be addable through a data-driven robot package containing, as applicable:
+  - kinematic chain and joint types;
+  - joint limits, velocities and other verified motion data;
+  - base/flange/TCP frames;
+  - home/calibration poses;
+  - render model + collision geometry + provenance;
+  - tool-mount information;
+  - robot/controller capability metadata.
+- A new simulator/training environment should be addable through a simulator adapter/profile containing, as applicable:
+  - menus, windows, tool/workflow definitions and shortcuts;
+  - project/file-format adapters;
+  - programming-language parser/runtime/diagnostics adapters;
+  - simulator/controller capability metadata;
+  - optional bridge/integration adapter.
+- Source-specific project formats and programming languages must remain preserved. Cross-simulator conversion is never assumed to be lossless unless an explicit, tested semantic mapping exists.
+- The current shared runtime remains the common robot/workcell/I-O/task foundation wherever concepts are portable; vendor-specific semantics stay in adapter modules.
+- Future robot/model assets must follow the same provenance/IP rule as the C4: use redistributable assets or independently authored geometry rather than silently redistributing proprietary CAD.
+- Existing C4-A601S / RC+ projects must remain compatible as the catalog grows.
