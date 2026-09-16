@@ -157,16 +157,11 @@ Tap/drag a desired target pose. Show a ghost solution first, then allow the simu
 - import/export point data later.
 
 ### Program
-Create and execute a simple Epson-inspired educational program representation, line by line. The simulation layer must not pretend this syntax is valid on a specific real controller unless verified against that controller/software version.
+Use the **native programming language of the selected simulator adapter**. For the initial EPSON RC+ 7.0 profile, this means real SPEL+ source, not a disconnected educational pseudo-language.
 
-Examples of educational actions:
-- MotorOn
-- Speed
-- Go / Move to point
-- Wait
-- OpenGripper / CloseGripper
-- VacuumOn / VacuumOff
-- WeldStart / WeldStop
+Visual Lab provides a synchronized visual representation of supported native program semantics. Unsupported/advanced native code is preserved as editable direct code rather than silently rewritten or discarded.
+
+The programming architecture must preserve comments, formatting/trivia, unsupported regions, diagnostics, task/debug state, and native project round-trip behavior wherever technically possible.
 
 ### Learn
 Guided challenges such as:
@@ -239,41 +234,29 @@ Later phases:
 
 ## Data model
 
-RobotDefinition
-- id
-- displayName
-- joint definitions
-- kinematic chain
-- home pose
-- joint limits
-- 3D asset mapping
-- flange transform
-- metadata
+The approved architecture uses a **neutral Shared Runtime** as the single source of truth for project, program, robot, task, I/O, tool and workcell state.
 
-ToolDefinition
-- id
-- displayName
-- mount transform
-- TCP
-- collision geometry
-- command capabilities
-- visualization asset
+Core extensibility boundaries:
+- RobotProvider / RobotDefinition
+- SimulatorAdapter
+- ProgrammingLanguageAdapter
+- ProjectFormatAdapter
+- BridgeAdapter
 
-Pose
-- X/Y/Z
-- orientation
-- optional joint solution
+Representative domain concepts include:
+- RobotDefinition
+- ToolDefinition
+- Pose
+- TeachPoint
+- ProgramDocument
+- ProjectResource
+- TaskState
+- IoState
+- WorkcellEntity / components
+- Diagnostic
+- Capability/Profile metadata
 
-TeachPoint
-- id/name
-- pose
-- preferred joint solution
-- tool/local context
-
-Program
-- ordered actions
-- simulation execution state
-- diagnostics
+See the formal architecture design spec for authoritative boundaries and synchronization rules.
 
 ## Future Epson integration
 
@@ -299,14 +282,20 @@ The first milestone is complete when a user can:
 9. attach a functional gripper;
 10. execute a simulated pick-and-place sequence.
 
-## Information still needed
+## Remaining verified research / calibration
 
-- exact Epson robot model used by the current Windows simulator;
-- screenshots/version of the current Epson software;
-- joint specifications for that model if not obtainable from public documentation;
-- preferred Android phone/tablet form factor.
+Confirmed baseline:
+- robot: **EPSON C4-A601S**;
+- software: **EPSON RC+ 7.0 v7.5.3**;
+- primary RC+ Trainer form factor: **landscape tablet**, with phone/portrait adaptations.
 
-Until the model is confirmed, robot-specific geometry and kinematic constants remain placeholders.
+Remaining work includes:
+- validate positive J1-J6 directions against RC+;
+- validate the CAD-to-RC+ Cartesian frame mapping against RC+;
+- verify the exact school controller/options inventory;
+- continue field-level verification of RC+ screens before marking them High Fidelity;
+- research officially supported Windows integration interfaces for the future bridge;
+- replace or commercially clear the current CAD-derived render asset before public paid release.
 
 ## Future robot and simulator catalog
 
@@ -333,3 +322,20 @@ Likely expansion order:
 3. other industrial-robot simulator ecosystems where documentation, programming semantics, and legal asset paths make accurate training possible.
 
 This expansion does not change the separation between simulated equipment and future real-hardware control.
+
+## Formal architecture design
+
+The approved architecture is specified in:
+
+`docs/superpowers/specs/2026-09-16-rcplus-trainer-shared-runtime-design.md`
+
+That design spec is the authoritative source for:
+- Shared Runtime / single source of truth;
+- source-preserving native programming;
+- Workcell / I-O / Task Runtime;
+- RC+ Trainer MDI workspace/command architecture;
+- project round-trip/persistence;
+- Windows bridge boundaries;
+- multi-robot / multi-simulator extension architecture.
+
+Implementation must not begin from older simplified assumptions when they conflict with the approved design spec.
