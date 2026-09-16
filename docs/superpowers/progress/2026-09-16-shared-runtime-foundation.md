@@ -77,7 +77,12 @@ Do not rely only on Codex conversation history or a local `.superpowers` workspa
 **Next action:** Task 6 TDD.
 
 ### Task 6 — AppRuntimeFactory composition root
-**Status:** pending
+**Status:** complete
+**RED commit:** `d9559eecf5ff47556cd4f0bfdca7307dd1e3c1d0`
+**Implementation commit:** `78c452b665b3bd7d6f5cd6da2defeb0fc1c34625`
+**Review:** inline plan/spec review passed; no Critical/Important findings.
+**Tests/CI:** run 115 failed as intended because `AppRuntimeFactory` did not exist; run 116 passed unit tests, debug APK build, and artifact upload.
+**Next action:** Task 7 Compose binding.
 
 ### Task 7 — Compose binding to SharedRuntime
 **Status:** pending
@@ -383,3 +388,8 @@ No preflight finding requires adding source parsing, project persistence, task s
 - GitHub Actions run 113 succeeded end-to-end.
 - Non-local connection mode dispatch throws before state mutation; Local Simulation remains the only executable authority.
 - Review limitation: no subagent reviewer tool is exposed in this chat; Codex may re-review later but should not reimplement without a concrete finding.
+
+### Inline Task 6 completion checkpoint
+- Task 6 complete at `78c452b665b3bd7d6f5cd6da2defeb0fc1c34625`.
+- Default composition resolves C4, RC+ 7.5.3, SPEL+, School Setup, and Local Simulation through the registries.
+- No extra simulator/profile switching behavior was introduced.
