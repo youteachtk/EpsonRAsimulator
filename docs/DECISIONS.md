@@ -309,3 +309,20 @@ This file records decisions that should survive future conversations.
 - UIs issue commands/actions to the runtime and observe resulting state; they do not maintain independent authoritative copies.
 - School Setup and Full Learning are capability/profile configurations over the same runtime.
 - The architecture remains extensible through RobotProvider / SimulatorAdapter / ProgrammingLanguageAdapter / ProjectFormatAdapter boundaries so future robots/simulators can be added without redefining the application core.
+
+### Approved design section 2: Program Document + Programming Language Architecture
+- The program/SPEL+ architecture section is approved.
+- Native source text is authoritative for preservation and round-trip safety.
+- The programming layer maintains:
+  - original source text;
+  - comments/formatting/trivia;
+  - token/concrete-syntax information;
+  - semantic program nodes for understood code;
+  - opaque/direct-code regions for unsupported or not-yet-understood code.
+- Supported and valid code synchronizes between native source, semantic model, Visual Lab representation, and Local Simulation.
+- Valid but partially supported source remains preserved; understood regions may be visualized while unsupported regions remain editable Advanced SPEL+ / Direct Code.
+- Valid source that cannot yet be simulated remains editable/exportable and is explicitly marked non-simulatable in Local Simulation.
+- Syntax-invalid source is preserved exactly, receives diagnostics, and does not destroy the last valid visual/semantic representation.
+- Visual Lab is not a separate pseudo-language. Its blocks/actions are an alternate representation of the same semantic program and should generate/modify real native-language source when the adapter supports it.
+- SPEL+ is the first ProgrammingLanguageAdapter; future simulator ecosystems may provide different native-language adapters without forcing conversion to SPEL+.
+- Cross-language conversion is never assumed to be lossless unless an explicit tested semantic mapping exists.
