@@ -126,3 +126,13 @@ Source references:
 - EPSON RC+ 7.0 User's Guide, GUI / Tools / Window menu sections.
 - Official Epson support PDF: https://files.support.epson.com/far/docs/epson_rc_pl_70_users_guide_spanish_%28v73r2%29.pdf
 - Official Epson support PDF: https://files.support.epson.com/far/docs/r6.pdf
+
+## Verified keyboard shortcuts baseline
+
+Current verified examples from official RC+ 7 documentation:
+- Robot Manager: F6
+- Command Window: Ctrl+M
+- I/O Monitor: Ctrl+I
+- Task Manager: Ctrl+T
+
+The complete shortcut inventory must be extracted from official RC+ 7 documentation and tracked here before implementation. Only verified mappings should be presented to learners as official RC+ shortcuts.
