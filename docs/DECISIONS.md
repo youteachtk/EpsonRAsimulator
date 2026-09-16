@@ -97,3 +97,11 @@ This file records decisions that should survive future conversations.
 - Contextual help should distinguish clearly between:
   - verified EPSON RC+ behavior/concepts;
   - the app's own enhanced/educational behavior.
+
+### Startup and resume behavior
+- On the **first launch** or when there is no active project/work in progress, the home screen presents two large primary entries:
+  - **RC+ Trainer**
+  - **Visual Lab**
+- Once a project/session has active work, subsequent launches should **resume directly into the last active view/mode** instead of forcing the user through the mode chooser every time.
+- The user must still be able to switch between RC+ Trainer and Visual Lab at any time from a clear in-app mode switcher.
+- The last-view resume behavior must never hide or duplicate project state: both experiences continue operating on the same current project/simulation state.
