@@ -89,3 +89,40 @@ Each optional capability in RC+ Trainer should be marked with metadata such as:
 ## Product rule
 
 RC+ Trainer should allow learning optional modules even when the real school installation does not have them. The UI must clearly distinguish simulated learning availability from actual license/hardware availability on a real Epson controller.
+
+## Verified shell behavior from official RC+ 7 documentation
+
+The official RC+ 7 User's Guide confirms the following behavior for the desktop development environment:
+
+- RC+ uses an MDI-style main environment with multiple child windows.
+- Project Explorer remains alongside the child-window workspace.
+- Standard top-level menus are: File, Edit, View, Project, Run, Tools, Setup, Window, Help.
+- The Window menu manages open child windows and includes at least Cascade and Tile Vertical behaviors.
+- Robot Manager can be configured as either:
+  - an MDI child window; or
+  - a foreground dialog.
+- Robot Manager shortcut: F6.
+- Command Window shortcut: Ctrl+M.
+- I/O Monitor shortcut: Ctrl+I.
+- Task Manager shortcut: Ctrl+T.
+
+### Verified Tools menu baseline
+
+The RC+ 7.0 manual documents these standard Tools entries:
+- Robot Manager
+- Command Window
+- I/O Monitor
+- Task Manager
+- Macros
+- I/O Label Editor
+- User Error Editor
+- Controller
+
+### RC+ Trainer implication
+
+The Android trainer should model these as distinct windows/tools inside the RC+ workspace rather than flattening them into a mobile dashboard. Touch adaptations may modernize window chrome and controls, but opening, focusing, switching, arranging, and using tools should teach the same mental model as RC+.
+
+Source references:
+- EPSON RC+ 7.0 User's Guide, GUI / Tools / Window menu sections.
+- Official Epson support PDF: https://files.support.epson.com/far/docs/epson_rc_pl_70_users_guide_spanish_%28v73r2%29.pdf
+- Official Epson support PDF: https://files.support.epson.com/far/docs/r6.pdf
