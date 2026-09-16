@@ -307,3 +307,29 @@ The first milestone is complete when a user can:
 - preferred Android phone/tablet form factor.
 
 Until the model is confirmed, robot-specific geometry and kinematic constants remain placeholders.
+
+## Future robot and simulator catalog
+
+The product is designed as a training **platform**, not a single C4-A601S application.
+
+The initial validated package is:
+- EPSON C4-A601S;
+- EPSON RC+ 7.0 v7.5.3.
+
+Future releases may add other robots and simulator environments when sufficient trustworthy technical information and lawful modeling resources are available.
+
+Expansion principles:
+- shared runtime stays manufacturer-neutral wherever possible;
+- robot-specific kinematics/limits/assets/capabilities are delivered through robot definitions/providers;
+- simulator-specific UI/workflows/project formats/languages are delivered through simulator adapters/profiles;
+- fidelity level is explicitly documented per robot/simulator;
+- unsupported or uncertain behavior is identified rather than guessed;
+- proprietary 3D/CAD assets are not redistributed without rights; independent models may be authored from lawful reference information;
+- adding a new catalog item must not break existing C4-A601S / RC+ projects.
+
+Likely expansion order:
+1. additional Epson robot models for which reliable documentation and geometry are available;
+2. additional Epson RC+/controller configurations;
+3. other industrial-robot simulator ecosystems where documentation, programming semantics, and legal asset paths make accurate training possible.
+
+This expansion does not change the separation between simulated equipment and future real-hardware control.
