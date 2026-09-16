@@ -159,3 +159,12 @@ This file records decisions that should survive future conversations.
   - **Full Learning**: expose the full documented RC+ learning catalog, including optional/license/hardware-dependent modules, for study and simulation.
 - Full Learning availability must not imply that those options are licensed or physically installed on the school controller.
 - The profile choice affects availability/learning context, not the underlying fidelity requirement for RC+ concepts and workflows.
+
+### Robot 3D asset strategy for commercialization
+- Do **not** contact Epson for permission at this stage.
+- The preferred long-term commercial path is to build a **new independently created C4-A601S-compatible visual model** using our own modeling work, measurements, photographs, dimensional references, and other lawfully usable factual information.
+- The independent model should preserve the robot's recognizable proportions, joint layout, mounting points, kinematic pivots, envelopes, and simulator usefulness while using independently authored mesh/topology/materials/textures.
+- The current CAD-derived C4 model remains the **development/reference fallback** because its visual quality is already approved by the user.
+- If the independent replacement cannot achieve acceptable visual/technical quality, the current model may continue to be used for private development/testing; however, its commercial redistribution status remains unresolved and it must not silently be treated as commercially cleared.
+- Kinematics, pivots, joint axes, collision proxies, TCP/flange data, and animation behavior must be kept separate from the render mesh so the visual model can be replaced without rewriting robot logic.
+- Asset provenance must be documented for every future robot/tool/workcell model.
