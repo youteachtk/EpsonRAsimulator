@@ -43,6 +43,13 @@ Key characteristics:
 - Language can be switched in place without resetting the current activity.
 - RC+/SPEL+ technical tokens remain exact; English terms are preserved where needed, with Spanish explanation rather than unsafe translation.
 
+### RC+ Trainer window management
+- Child windows support move, resize, maximize, restore, minimize, focus, and close.
+- Minimized windows remain visible in an internal RC+ taskbar/window bar and can be restored with one tap.
+- Cascade/Tile arrange active non-minimized windows.
+- Window geometry/state should be preserved across layout changes where practical.
+- Small-screen mode maps the same taskbar concept to a compact open-window switcher.
+
 ### RC+ Trainer form factors
 - Landscape tablet is the primary RC+ Trainer target and should expose the fullest MDI-style workspace.
 - Phone and portrait layouts preserve the same RC+ windows and workflow, adapting presentation rather than removing functionality.
