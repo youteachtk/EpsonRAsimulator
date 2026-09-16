@@ -354,3 +354,16 @@ This file records decisions that should survive future conversations.
 - RC+-specific dialogs/windows are separated from Android-native app dialogs and from the independent Visual Lab UI.
 - Contextual help is data-driven through help identifiers and original bilingual content, and may distinguish verified RC+ behavior, training simulation behavior, hardware/option requirements, and unsupported/not-yet-simulated functionality.
 - The command/tool/window registry architecture must be simulator-adapter driven so future RC+ versions or other simulator ecosystems can provide their own command/window catalogs without redefining the shared runtime.
+
+### Approved design section 5: Persistence / Round-trip / Bridge Architecture
+- The persistence / round-trip / bridge architecture section is approved.
+- Native project resources are imported through ProjectFormatAdapter and separated conceptually into known editable resources, known preserved resources, opaque resources, and app sidecar metadata.
+- Unknown/proprietary project resources are preserved intact whenever technically possible; opaque .sprj or other native structures are never guessed or destructively regenerated.
+- App-only data such as Visual Lab state, internal window geometry, camera state, tutorial progress and touch preferences remain in separate metadata rather than contaminating native project files.
+- Local/offline operation is the default; cloud features are optional future services.
+- Windows integration uses a separate bridge boundary: Android Shared Runtime <-> Bridge Protocol <-> Windows Epson Bridge <-> EPSON RC+.
+- Local Simulation, RC+ Digital Twin and future Real Hardware are distinct authority/safety modes.
+- In RC+ Digital Twin mode, externally authoritative live controller state is accepted from RC+ through the bridge; Android-issued commands pass through a CommandGateway and await confirmation rather than pretending success.
+- Project synchronization and live synchronization are separate concerns.
+- Simultaneous source/project edits from Android and RC+ produce explicit conflicts; silent last-writer-wins is not acceptable.
+- Future simulator ecosystems may provide separate bridge adapters while the shared runtime remains neutral.
