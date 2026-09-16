@@ -116,7 +116,20 @@ Evidence:
 - Out-of-bounds source edits are rejected.
 
 ### Task 5 — Source-capable SPEL+ adapter registry wiring
-**Status:** pending
+**Status:** complete
+
+Evidence:
+- RED commit: `e65e9cbd042e233d3a5d1dddf15e2261edf3a339` (`test: add failing source-capable adapter registry test`).
+- RED CI: Android CI run #139 failed in Unit tests with `Unresolved reference 'sourceLanguageFor'`.
+- GREEN implementation commit: `8b09d9ab10e445b708410b64a61be4d4a948c99e` (`feat: expose source-capable SPEL adapter`).
+- GREEN CI: Android CI run #140 completed successfully.
+- Unit tests: success.
+- Debug APK build: success.
+- Debug APK upload: success.
+- Added `SourceProgrammingLanguageAdapter` as a source-capable sub-interface without changing metadata-only language adapters.
+- Added `AdapterRegistry.sourceLanguageFor(simulatorId)` with an explicit capability check.
+- `SpelPlusLanguageAdapter` now implements the source-capable interface and opens `ProgramDocumentSession` with `SpelAnalyzer`.
+- Verified that RC+ 7.5.3 resolves SPEL+ through the registry and opens a lossless supported source document.
 
 ### Task 6 — Native RC+ project-resource categories/classifier
 **Status:** pending
@@ -145,7 +158,7 @@ Before Phase 2 may be accepted:
 - Phase 2 branch created from exact accepted Phase 1 head.
 - Phase 2 implementation plan committed as `f59fa75781e84c725ad57639942059024801288d`.
 - Draft PR #8 uses base `feature/shared-runtime-foundation`.
-- Tasks 1–4 completed with RED/GREEN evidence and full Android CI green.
-- Implementation head before this ledger update: `633e5e8f8bfb3209bc68df30fd001195a90f0440`.
-- No concurrent Codex activity was observed before Task 4 edits; inline execution performed the task.
-- Exact next action: Task 5 Step 1 — add a failing registry test proving RC+ resolves a source-capable SPEL+ adapter and opens a lossless `ProgramDocumentSession`.
+- Tasks 1–5 completed with RED/GREEN evidence and full Android CI green.
+- Implementation head before this ledger update: `8b09d9ab10e445b708410b64a61be4d4a948c99e`.
+- No concurrent Codex activity was observed before Task 5 edits; inline execution performed the task.
+- Exact next action: Task 6 Step 1 — add failing RC+ resource-classification and defensive-copy tests for editable, preserved, and opaque native project resources.
