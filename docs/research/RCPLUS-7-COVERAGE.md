@@ -136,3 +136,31 @@ Current verified examples from official RC+ 7 documentation:
 - Task Manager: Ctrl+T
 
 The complete shortcut inventory must be extracted from official RC+ 7 documentation and tracked here before implementation. Only verified mappings should be presented to learners as official RC+ shortcuts.
+
+## Verified RC+ 7.0 project/file model
+
+Official RC+ 7.0 v7.5 documentation establishes the following project structure and behavior:
+
+- Each project has a generated project file with extension **.sprj**.
+- Program/source files use **.prg** and contain SPEL+ functions.
+- Include files use **.inc**.
+- Robot point files use **.pts**.
+- Imported macro files use **.mac**.
+- Project-scoped I/O labels and user errors are managed as project data/resources.
+- A file can exist physically in the project folder without being part of the project build tree; it must be added to the project before normal editing/use through the project.
+- Project > Edit manages which program/include/point files are included in the project build tree.
+- File > New creates Program, Include, or Point files.
+- File > Open opens project Program/Include/Point files; Ctrl+O is documented.
+- Project Explorer presents current project files/functions as a sorted tree and supports opening a file or jumping to a function by double-clicking.
+- Project Explorer supports contextual actions for project-tree items.
+- The Project Explorer pane can be hidden/shown, resized, and placed on the left or right side in RC+ 7.0.
+- The Status pane is bottom-docked in RC+ 7.0 and automatically reopens when important build/error output needs to be shown.
+- A default point file can be assigned per robot; common point files can also be loaded explicitly from SPEL+.
+
+### RC+ Trainer implication
+
+The Trainer should model a **real project model**, not a generic Android file browser. The Project Explorer is a view of the active RC+ project/build structure, while Android storage/import/export is a separate adapter layer.
+
+Sources:
+- Epson RC+ 7.0 support/manual page: https://epson.com/Support/Robots/Software/Epson-RC%2B-7-0/s/SPT_R12N793031
+- Epson RC+ 7.0 v7.5 User's Guide, Project Explorer / File / Project sections.
