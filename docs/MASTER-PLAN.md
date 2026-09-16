@@ -31,6 +31,12 @@ Key characteristics:
 - contextual ? help for unfamiliar RC+ screens and concepts;
 - improved 3D robot/workcell visualization alongside the RC+-like workflow.
 
+### RC+ Trainer learning behavior
+- All implemented RC+-like screens remain available from the start.
+- Guided learning is optional and overlays the real interface rather than replacing it.
+- Contextual ? help explains unfamiliar screens, controls, SPEL+ concepts, points, I/O, and robot-management concepts.
+- Optional walkthroughs and practice tasks can recommend a learning path while preserving free exploration.
+
 ### Visual Lab
 A separate enhanced interface designed around the app's own strengths.
 
