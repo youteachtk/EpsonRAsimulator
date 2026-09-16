@@ -326,3 +326,18 @@ This file records decisions that should survive future conversations.
 - Visual Lab is not a separate pseudo-language. Its blocks/actions are an alternate representation of the same semantic program and should generate/modify real native-language source when the adapter supports it.
 - SPEL+ is the first ProgrammingLanguageAdapter; future simulator ecosystems may provide different native-language adapters without forcing conversion to SPEL+.
 - Cross-language conversion is never assumed to be lossless unless an explicit tested semantic mapping exists.
+
+### Approved design section 3: Workcell / I-O / Task Runtime
+- The Workcell / I-O / Task Runtime architecture section is approved.
+- Robot motion, SPEL+ execution, Task Manager, I/O Monitor, Command Window, tools, sensors, actuators, parts and workcell objects operate over one shared runtime state rather than independent mock screens.
+- I/O is functional and event-driven: sensors may drive inputs; programs/tasks may react; outputs may actuate simulated devices such as cylinders, conveyors, grippers, vacuum, welding processes and other components.
+- Tool interaction is functional: tools may grasp/release parts, alter TCP/collision state, and expose process-specific behavior.
+- Task Runtime is canonical for program execution/debugging so Run Window, Task Manager, editor breakpoint state and Command Window observe/control the same tasks.
+- A common simulation clock drives robot motion, Wait/timers, conveyors, actuators, sensors, task scheduling and stepping/pausing.
+- Workcell objects are component-driven and reusable across cells. Candidate components include RigidBody, Sensor, Actuator, SignalBinding, Graspable, Conveyor, Fixture, ProcessTarget and auxiliary-axis components.
+- The runtime supports multiple robots and auxiliary axes where the selected robot/simulator profile allows them.
+- Connection modes remain explicitly separated:
+  - Local Simulation;
+  - RC+ Digital Twin via future Windows bridge;
+  - future Real Hardware as a separately gated safety path.
+- Simulated metrics such as CPU load are labeled as simulated when they are not measured from a real controller.
