@@ -284,3 +284,14 @@ No preflight finding requires adding source parsing, project persistence, task s
 - Files touched: four Task 1 Kotlin files currently uncommitted; ledger updated via GitHub connector; generated .kotlin cache remains untracked and must not be committed.
 - Rulings: no new architecture ruling; signing/ADB failures remain explicit verification gaps.
 - Next exact action: obtain Task 1 valid implementation commit/report; independent review; publish reviewed task and clean handoff if quota threshold reached.
+
+### Task 1 implementation completed / independent review running
+- Status: implementation complete; task acceptance pending independent review.
+- GitHub implementation commit: 2f914f1875979424d282abeb2ce2a2644a1d66f0. Local original commit: 3747723; authenticated connector published identical task content above latest ledger via non-force ref update.
+- Tests: `gradle -Pkotlin.compiler.execution.strategy=in-process :app:testDebugUnitTest --tests mx.youteachtk.epsonrasimulator.robot.RobotRegistryTest --stacktrace`: RED exit 1 unresolved RobotProvider before production; GREEN BUILD SUCCESSFUL (22s). Full `:app:testDebugUnitTest --stacktrace`: BUILD SUCCESSFUL (19s). `git diff --check e1f22ab HEAD`: exit 0.
+- Behavior covered: cross-provider lookup, duplicate global robot-ID rejection, missing require rejection, Epson provider wraps unchanged catalog.
+- Reviewer verdict: independent task reviewer dispatched; pending.
+- Findings open: APK validateSigningDebug AccessDeniedException and ADB environment restriction; overlap was implementer hypothesis, not proven root cause. No production correctness findings yet.
+- Rulings: no new ones; providerId remains provenance-only as recorded.
+- Files touched: robot/RobotProvider.kt, robot/RobotRegistry.kt, robot/EpsonRobotProvider.kt, test robot/RobotRegistryTest.kt (all under existing app Kotlin package roots); ledger.
+- Next exact action: record independent Task 1 review verdict, fix/re-review if necessary, then execute quota-stop handoff before starting Task 2 if remaining budget is insufficient.
