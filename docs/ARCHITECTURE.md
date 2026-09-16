@@ -1,5 +1,13 @@
 # Architecture
 
+## Authoritative design spec
+
+The approved architecture is fully defined in:
+
+`docs/superpowers/specs/2026-09-16-rcplus-trainer-shared-runtime-design.md`
+
+This file remains a concise architectural overview. Where an older statement here conflicts with the formal design spec, the formal design spec takes precedence.
+
 ## Layering
 
 ### UI
@@ -30,20 +38,32 @@ Stores user projects, selected robot/tool, points, lessons and programs.
 ### External Integration
 Reserved for future bridge protocols. It must not be imported by the core simulation module.
 
-## Proposed modules
+## Architectural components
 
-- app
-- core-model
-- kinematics
-- simulation
-- renderer
-- tools
-- programming
-- learning
-- persistence
-- epson-bridge-protocol (future)
+The current approved architecture is organized around neutral contracts rather than a single RC+-specific application core.
 
-The first commit keeps one Android app module for speed, but domain APIs are placed so they can later be extracted cleanly.
+Conceptual components:
+- app-shell / navigation
+- shared-runtime
+- project-domain
+- robot-domain / RobotProvider
+- kinematics / motion
+- task-runtime
+- io-runtime
+- workcell-runtime
+- renderer / 3D presentation
+- tool-runtime
+- programming-core
+- programming-language adapters (SPEL+ first)
+- project-format adapters (RC+ first)
+- simulator adapters (RC+ 7.0 first)
+- RC+ Trainer workspace/window/command layer
+- Visual Lab UI
+- persistence / sidecar metadata
+- learning / contextual help / localization
+- bridge-protocol + vendor-specific bridge adapters (future)
+
+Exact Gradle/module extraction is deferred to the implementation plan. The dependency rule is more important than the physical module count.
 
 ## State flow
 
@@ -56,11 +76,13 @@ Touch input
 -> 3D renderer + numeric UI
 
 Program execution
--> Program engine
--> Desired action
--> Trajectory planner / tool command
--> Simulator state
--> 3D renderer
+-> native ProgramDocument / semantic model
+-> TaskRuntime
+-> command/motion/I-O/tool actions
+-> Shared Runtime
+-> 3D renderer + RC+ Trainer + Visual Lab
+
+All user interfaces observe the same canonical runtime state.
 
 ## Robot definition strategy
 
