@@ -1,7 +1,11 @@
 package mx.youteachtk.epsonrasimulator.adapters.rcplus.spel
 
 import mx.youteachtk.epsonrasimulator.programming.DiagnosticSeverity
+import mx.youteachtk.epsonrasimulator.programming.ProgramAnalyzer
 import mx.youteachtk.epsonrasimulator.programming.ProgramDiagnostic
+import mx.youteachtk.epsonrasimulator.programming.ProgramDocument
+import mx.youteachtk.epsonrasimulator.programming.ProgramSemanticModel
+import mx.youteachtk.epsonrasimulator.programming.ProgramSupportState
 import mx.youteachtk.epsonrasimulator.programming.SourceRange
 import mx.youteachtk.epsonrasimulator.programming.SourceToken
 
@@ -10,8 +14,42 @@ data class SpelAnalysisResult(
     val diagnostics: List<ProgramDiagnostic>
 )
 
-object SpelAnalyzer {
-    fun analyze(source: String): SpelAnalysisResult {
+object SpelAnalyzer : ProgramAnalyzer {
+    fun analyze(source: String): SpelAnalysisResult =
+        analyzeSemantic(source)
+
+    override fun analyze(
+        sourceText: String,
+        previousValidSemanticModel: ProgramSemanticModel?
+    ): ProgramDocument {
+        val tokens = SpelLexer.lex(sourceText)
+        val result = analyzeSemantic(sourceText)
+        val semanticModel = result.semanticModel
+
+        val supportState = when {
+            semanticModel == null ->
+                ProgramSupportState.SYNTAX_INVALID
+
+            containsDirectCode(semanticModel) ->
+                ProgramSupportState.PARTIALLY_SUPPORTED
+
+            else ->
+                ProgramSupportState.SUPPORTED
+        }
+
+        val lastValid = semanticModel ?: previousValidSemanticModel
+
+        return ProgramDocument(
+            sourceText = sourceText,
+            tokens = tokens,
+            semanticModel = semanticModel,
+            lastValidSemanticModel = lastValid,
+            diagnostics = result.diagnostics,
+            supportState = supportState
+        )
+    }
+
+    private fun analyzeSemantic(source: String): SpelAnalysisResult {
         val diagnostics = mutableListOf<ProgramDiagnostic>()
         val functions = mutableListOf<SpelFunction>()
         val topLevelDirectCode = mutableListOf<SpelStatement.DirectCode>()
@@ -165,6 +203,12 @@ object SpelAnalyzer {
             diagnostics = diagnostics.toList()
         )
     }
+
+    private fun containsDirectCode(model: SpelProgramSemanticModel): Boolean =
+        model.topLevelDirectCode.isNotEmpty() ||
+            model.functions.any { function ->
+                function.statements.any { it is SpelStatement.DirectCode }
+            }
 
     private fun recognizedStatement(
         keyword: String,
