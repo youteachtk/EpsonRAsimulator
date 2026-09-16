@@ -124,3 +124,18 @@ Required actions:
 8. Do not merge the PR.
 
 After that, ChatGPT inline can resume by reading the branch, Draft PR #6, and this ledger.
+
+## Execution events — 2026-09-16
+
+### Setup / resolved access interruption
+- Current task: preflight before Task 1; production implementation remains not started.
+- Status: in-progress. Last verified branch HEAD: c58387a296be7d2d548568e1b7e5769ccafb7aa8.
+- Access: initial Git clone failed with Windows Schannel SEC_E_NO_CREDENTIALS; retry using `git -c http.sslBackend=openssl clone --branch feature/shared-runtime-foundation --single-branch` succeeded after session network permission was granted.
+- Verification: exact feature branch and clean tracked checkout verified; PR #6 is open, draft, unmerged. Gradle 9.6.0 downloaded with official SHA256 verified. Baseline `gradle testDebugUnitTest --stacktrace` running; no test result claimed yet.
+- Reviewer verdict: preflight independent review in progress; no implementation review yet.
+- Open findings: none yet; baseline/build availability being checked.
+- Ruling: use this newly cloned, dedicated feature-branch checkout as the isolated workspace — no pre-existing user checkout is touched — cost if wrong: relocate checkout, no code impact.
+- Ruling: use equivalent PowerShell artifact generation when bundled Bash scripts fail Windows path resolution — preserves brief/report/diff contracts — cost if wrong: regenerate scratch review packages.
+- Files touched: this ledger only (tracked); ignored SDD workspace and external tooling/logs (scratch).
+- Next exact action: inspect baseline test result and preflight table, record rulings, then dispatch fresh Task 1 implementer with TDD brief.
+
