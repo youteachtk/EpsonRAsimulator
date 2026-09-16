@@ -272,3 +272,15 @@ No preflight finding requires adding source parsing, project persistence, task s
 - Ruling: run downloaded Gradle 9.6.0 with installed JDK 23 while retaining repository Java source/target 17 — baseline verifies compatibility, repository CI still uses JDK 17 — cost if wrong: CI catches JDK-specific discrepancy before completion.
 - Files touched: ledger; external untracked build helper/caches/logs only. No production code completed yet.
 - Next exact action: await fresh Task 1 implementer RED/GREEN report, publish its valid commit and ledger, then dispatch independent task reviewer.
+
+### Verification blocker / quota checkpoint
+- Current task: Task 1, implementation GREEN reached, self-review/commit/report pending; status: in-progress.
+- Last verified remote HEAD: f51e4f0e892aa10f7bc8eb926c092516010a33f3; no production commit yet.
+- Tests: focused RobotRegistryTest GREEN (`BUILD SUCCESSFUL in 22s`); full testDebugUnitTest GREEN (`BUILD SUCCESSFUL in 19s`). Detailed RED/GREEN report being finalized.
+- Additional assembleDebug attempt FAILED at validateSigningDebug: `java.nio.file.AccessDeniedException` for workspace `work/android-home/debug.keystore.lock`. This is an environment blocker; APK completion not claimed.
+- Manual device probe: adb devices failed trying to mkdir `\\.android`; no manual smoke test performed.
+- Reviewer verdict: Task 1 independent review pending; no open code findings yet.
+- Quota: 74% of five-hour window consumed; preserve remaining budget for Task 1 review/publication and quota-stop handoff. No new task should start if it threatens handoff completion.
+- Files touched: four Task 1 Kotlin files currently uncommitted; ledger updated via GitHub connector; generated .kotlin cache remains untracked and must not be committed.
+- Rulings: no new architecture ruling; signing/ADB failures remain explicit verification gaps.
+- Next exact action: obtain Task 1 valid implementation commit/report; independent review; publish reviewed task and clean handoff if quota threshold reached.
