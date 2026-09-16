@@ -33,6 +33,8 @@ import androidx.compose.ui.unit.dp
 import mx.youteachtk.epsonrasimulator.domain.EpsonRobotCatalog
 import mx.youteachtk.epsonrasimulator.domain.JointDefinition
 import mx.youteachtk.epsonrasimulator.domain.RobotDefinition
+import mx.youteachtk.epsonrasimulator.kinematics.C4Kinematics
+import mx.youteachtk.epsonrasimulator.kinematics.Vector3
 
 @Composable
 fun RobotTrainerScreen() {
@@ -42,6 +44,10 @@ fun RobotTrainerScreen() {
             addAll(robot.zeroJointValues.map(Double::toFloat))
         }
     }
+
+    val tcpCandidate = C4Kinematics.tcpRcCandidateMm(
+        jointValues.map(Float::toDouble)
+    )
 
     Row(
         modifier = Modifier
@@ -135,13 +141,27 @@ fun RobotTrainerScreen() {
                     Text("ZERO JOINTS")
                 }
 
+                Spacer(modifier = Modifier.height(8.dp))
+
+                OutlinedButton(
+                    onClick = {
+                        C4Kinematics.calibrationPoseDegrees.forEachIndexed { index, value ->
+                            jointValues[index] = value.toFloat()
+                        }
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("RC+ TEST POSE")
+                }
+
+                Text(
+                    text = "J1 20° • J2 -20° • J3 30° • J4 25° • J5 15° • J6 40°",
+                    style = MaterialTheme.typography.labelSmall
+                )
+
                 Spacer(modifier = Modifier.height(18.dp))
 
-                Text("TCP", fontWeight = FontWeight.Bold)
-                Text(
-                    "XYZ will be enabled after RC+ pose calibration.",
-                    style = MaterialTheme.typography.bodySmall
-                )
+                TcpPanel(tcpCandidate)
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -151,6 +171,58 @@ fun RobotTrainerScreen() {
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun TcpPanel(tcp: Vector3) {
+    Surface(
+        shape = RoundedCornerShape(12.dp),
+        tonalElevation = 2.dp
+    ) {
+        Column(modifier = Modifier.padding(12.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("TCP / FLANGE", fontWeight = FontWeight.Bold)
+                Text(
+                    "CALIBRATION",
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                CoordinateValue("X", tcp.x)
+                CoordinateValue("Y", tcp.y)
+                CoordinateValue("Z", tcp.z)
+            }
+
+            Spacer(modifier = Modifier.height(6.dp))
+
+            Text(
+                text = "mm • CAD-derived candidate frame. Compare with RC+ before treating as Epson coordinates.",
+                style = MaterialTheme.typography.labelSmall
+            )
+        }
+    }
+}
+
+@Composable
+private fun CoordinateValue(label: String, value: Double) {
+    Column {
+        Text(label, style = MaterialTheme.typography.labelSmall)
+        Text(
+            text = String.format("%.1f", value),
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.titleMedium
+        )
     }
 }
 
