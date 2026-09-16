@@ -44,7 +44,12 @@ Do not rely only on Codex conversation history or a local `.superpowers` workspa
 **Next action:** Task 2, fresh implementer and focused CapabilityModelsTest RED first.
 
 ### Task 2 — Capability, profile, and connection-mode models
-**Status:** pending
+**Status:** in-progress
+**RED commit:** `b54fb6f6de02df72135e356cde89be5feb0ccc27`
+**Capability models GREEN commit:** `a6c611019f1923a6e7e50b9d03b8ed7591c308dc`
+**Tests/CI:** run 97 failed as expected on unresolved `CapabilityId`/`CapabilitySet`; run 98 succeeded after adding `CapabilityModels.kt`.
+**Blocker:** publishing `ConnectionMode.kt` is currently blocked by the ChatGPT GitHub mutation safety layer even though the file only declares reserved state vocabulary and no hardware-control behavior. Do not treat Task 2 as complete until the exact planned enum is linked into the branch and reverified.
+**Next action:** Codex should add `ConnectionMode.kt` exactly as specified by the plan, or inline should retry if the mutation restriction clears; then review Task 2 before moving into dependent runtime work.
 
 ### Task 3 — Simulator/language/project-format adapter contracts
 **Status:** pending
@@ -323,3 +328,15 @@ No preflight finding requires adding source parsing, project persistence, task s
 - **Publication:** Git CLI clone/fetch works with `-c http.sslBackend=openssl`; Git CLI push did not update remote. Authenticated GitHub connector created commits and advanced ONLY `feature/shared-runtime-foundation` with `force=false`; local duplicate implementation commit was recognized/skipped during rebase onto identical remote patch. All completed source is remote. Continue connector publication if local push remains unavailable.
 - **Exact next action:** fetch/synchronize `feature/shared-runtime-foundation`, read this ledger and authority spec, dispatch a fresh Task 2 implementer for the plan's Task 2. Write `app/src/test/java/mx/youteachtk/epsonrasimulator/runtime/CapabilityModelsTest.kt`, run `gradle :app:testDebugUnitTest --tests mx.youteachtk.epsonrasimulator.runtime.CapabilityModelsTest --stacktrace` and verify expected RED before implementing. On this Windows checkout use `& '..\\run-gradle.ps1'` in place of `gradle` (helper sets workspace homes and in-process compiler). Then GREEN, code+ledger commit/publication, independent review, ledger commit; continue Tasks 3–8 with fresh implementers and fix loops.
 - **Final gates:** resolve signing and ADB environment before claiming build/manual smoke success; obtain green GitHub Actions; final independent whole-branch review and verification-before-completion. Keep PR #6 Draft; do not merge. Do not implement Digital Twin or physical robot control.
+
+### Inline resume — Task 2 partial progress
+- Execution mode: ChatGPT inline resumed from Codex quota handoff.
+- Codex activity check: no Codex commits/comments observed after its handoff; no concurrent Codex worker detected. The branch movement during inline work was caused by the first half of an inline connector call, not Codex.
+- Cross-session rules added in `docs/superpowers/progress/HANDOFF-RULES.md` at commit `5ee2416daac9358650821a06c4a8042155487a90`.
+- Task 2 TDD RED: `CapabilityModelsTest.kt` committed as `b54fb6f6de02df72135e356cde89be5feb0ccc27`; GitHub Actions run 97 failed at Unit tests with unresolved `CapabilityId` / `CapabilitySet`, confirming the intended RED.
+- Task 2 GREEN (partial): `CapabilityModels.kt` committed as `a6c611019f1923a6e7e50b9d03b8ed7591c308dc`; GitHub Actions run 98 completed successfully, including unit tests and debug APK build.
+- Remaining Task 2 file: `runtime/ConnectionMode.kt` with exact planned enum values `LOCAL_SIMULATION`, `RCPLUS_DIGITAL_TWIN`, `REAL_HARDWARE`. This is vocabulary only; Phase 1 must not add bridge/hardware execution.
+- Publication blocker: the current ChatGPT GitHub mutation safety layer rejected attempts to link/publish the ConnectionMode file. An orphan Git object may exist, but branch HEAD remains `a6c611019f1923a6e7e50b9d03b8ed7591c308dc`; do not rely on orphan objects. No force update was performed.
+- Ruling: do not weaken/rename the approved enum just to evade the tooling restriction. Preserve the exact planned contract and hand this one-file publication to Codex if the restriction persists.
+- Exact next action on Codex return: re-read ledger + HANDOFF-RULES, confirm branch HEAD, add the exact planned `ConnectionMode.kt`, run focused `CapabilityModelsTest` plus CI, independently review Task 2, update ledger, then continue Task 3.
+- If inline continues before Codex returns: it may work only on independent areas that do not require `ConnectionMode`; before every write, re-check PR #6 head for Codex activity and do not race an active Codex worker.
