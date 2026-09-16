@@ -1,0 +1,187 @@
+{
+  "robot": "Epson C4-A601S",
+  "sourceAssembly": "C4-A600S_ASM",
+  "unit": "metre",
+  "cadUnit": "millimetre",
+  "coordinateFrame": "CAD Y-up",
+  "angleSignStatus": "pending RC+ positive-direction validation",
+  "joints": [
+    {
+      "id": "J1",
+      "node": "C4_J1",
+      "parent": "world",
+      "axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "pivotCadMm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "relativePositionM": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "visualAngleSign": 1.0
+    },
+    {
+      "id": "J2",
+      "node": "C4_J2",
+      "parent": "C4_J1",
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "pivotCadMm": [
+        0.0,
+        320.0,
+        -100.0
+      ],
+      "relativePositionM": [
+        0.0,
+        0.32,
+        -0.1
+      ],
+      "visualAngleSign": 1.0
+    },
+    {
+      "id": "J3",
+      "node": "C4_J3",
+      "parent": "C4_J2",
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "pivotCadMm": [
+        0.0,
+        570.0,
+        -100.0
+      ],
+      "relativePositionM": [
+        0.0,
+        0.25,
+        0.0
+      ],
+      "visualAngleSign": 1.0
+    },
+    {
+      "id": "J4",
+      "node": "C4_J4",
+      "parent": "C4_J3",
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "pivotCadMm": [
+        0.0,
+        570.0,
+        -100.0
+      ],
+      "relativePositionM": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "visualAngleSign": 1.0
+    },
+    {
+      "id": "J5",
+      "node": "C4_J5",
+      "parent": "C4_J4",
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "pivotCadMm": [
+        0.0,
+        570.0,
+        -350.0
+      ],
+      "relativePositionM": [
+        0.0,
+        0.0,
+        -0.25
+      ],
+      "visualAngleSign": 1.0
+    },
+    {
+      "id": "J6",
+      "node": "C4_J6",
+      "parent": "C4_J5",
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "pivotCadMm": [
+        0.0,
+        570.0,
+        -350.0
+      ],
+      "relativePositionM": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "visualAngleSign": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "name": "C4_BASE",
+      "vertices": 55970,
+      "faces": 61440,
+      "file": "C4_BASE.glb",
+      "sizeBytes": 1409668
+    },
+    {
+      "name": "C4_J1",
+      "vertices": 33170,
+      "faces": 44006,
+      "file": "C4_J1.glb",
+      "sizeBytes": 926868
+    },
+    {
+      "name": "C4_J2",
+      "vertices": 34602,
+      "faces": 44134,
+      "file": "C4_J2.glb",
+      "sizeBytes": 945592
+    },
+    {
+      "name": "C4_J3",
+      "vertices": 24640,
+      "faces": 28798,
+      "file": "C4_J3.glb",
+      "sizeBytes": 642012
+    },
+    {
+      "name": "C4_J4",
+      "vertices": 41397,
+      "faces": 50123,
+      "file": "C4_J4.glb",
+      "sizeBytes": 1099000
+    },
+    {
+      "name": "C4_J5",
+      "vertices": 5133,
+      "faces": 5386,
+      "file": "C4_J5.glb",
+      "sizeBytes": 126984
+    },
+    {
+      "name": "C4_J6",
+      "vertices": 11116,
+      "faces": 11876,
+      "file": "C4_J6.glb",
+      "sizeBytes": 276668
+    }
+  ]
+}
