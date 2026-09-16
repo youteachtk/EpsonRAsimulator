@@ -203,3 +203,11 @@ This file records decisions that should survive future conversations.
   - minimize to the internal taskbar;
   - restore/focus with one tap from the taskbar.
 - These Android adaptations may improve usability but must not replace RC+ menu/tool workflows.
+
+### RC+ keyboard shortcut fidelity
+- RC+ Trainer should reproduce **verified EPSON RC+ keyboard shortcuts** when a physical, Bluetooth, or hardware keyboard is connected to the Android device.
+- Shortcuts are part of the learning target: using a shortcut in RC+ Trainer should open/focus/execute the same conceptual tool or command as in RC+, where documented and safe.
+- Touch controls remain fully available; keyboard support augments rather than replaces the Android interaction model.
+- Shortcut handling must be contextual and must not override Android/system-reserved key combinations.
+- Only shortcuts verified against official RC+ documentation for the supported version/profile should be labeled as official RC+ shortcuts.
+- The shortcut map should be centralized and data-driven so School Setup and Full Learning can expose the appropriate verified commands.
