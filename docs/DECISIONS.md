@@ -112,3 +112,11 @@ This file records decisions that should survive future conversations.
 - The product is intended for self-directed learning as well as guided practice; the user should be able to explore unfamiliar RC+ areas freely and use contextual help when needed.
 - Each RC+-like area should support contextual **? help**, short explanations of purpose and controls, and optional guided walkthroughs/tasks.
 - Guided mode may recommend an order of learning, highlight the next control to use, and provide practice exercises, but it must never remove access to the underlying screen or simplify away the real concept.
+
+### Bilingual learning and translation
+- Tutorials, guided walkthroughs, contextual help, and educational explanations must be available in **both English and Spanish**.
+- The learner can switch language without leaving the current screen or losing progress.
+- **English is the reference terminology** for RC+-specific labels, SPEL+ keywords, commands, and official Epson concepts so learners see the same vocabulary they will encounter in EPSON RC+.
+- Spanish translation/explanation is provided alongside or on demand for accessibility to classmates who are less comfortable in English.
+- Translation must never alter code, command names, point names, I/O identifiers, or other technical tokens that must remain exact.
+- Where an Epson/RC+ term does not have a safe one-to-one translation, keep the original English term and explain it in Spanish instead of inventing a misleading replacement.
