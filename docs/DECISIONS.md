@@ -47,3 +47,20 @@ This file records decisions that should survive future conversations.
 - Implement and validate forward kinematics.
 - Connect joints to the 3D model.
 - Implement touch TCP and inverse kinematics.
+
+## 2026-09-15 — Programming and project continuity
+
+### GitHub as project source of truth
+- GitHub is the durable technical memory for EpsonRAsimulator.
+- Approved product decisions, architecture, specifications, implementation plans, roadmap state, and relevant technical discoveries must be written back to the repository.
+- Future sessions must be able to recover project intent from the repository without depending on chat history.
+
+### SPEL+ programming model
+- Programming in the Android app must use **real Epson SPEL+**, not a disconnected educational pseudo-language.
+- The app must support **bidirectional synchronization** between an intuitive visual editor and SPEL+ source:
+  - visual actions -> internal program model -> SPEL+;
+  - SPEL+ -> parser/internal program model -> visual representation.
+- Visual and code views are two representations of the same program, not separate program formats.
+- If imported SPEL+ contains syntax or instructions that the visual editor does not yet understand, the code must be preserved as an editable **Advanced SPEL+ / Direct Code** block.
+- Unsupported SPEL+ must never be silently deleted, rewritten as something different, or rejected merely because the visual editor lacks a corresponding block.
+- Round-trip compatibility and preservation of user-authored robot programs take priority over forcing every statement into a visual block.
