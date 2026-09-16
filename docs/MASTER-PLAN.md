@@ -19,6 +19,31 @@ The learner should be able to understand what the robot will do before dealing w
 9. Programming is visual: code and robot motion remain synchronized.
 10. Preserve project decisions in this repository.
 
+## Product experiences
+
+### RC+ Trainer
+A dedicated learning experience modeled closely on verified EPSON RC+ concepts and workflows. It should teach the user how RC+ is organized while using the Android simulator as the visual execution environment.
+
+Key characteristics:
+- RC+-like terminology and conceptual organization;
+- projects/programs/functions/points/I-O/robot-management concepts;
+- real SPEL+ source as a first-class view;
+- contextual ? help for unfamiliar RC+ screens and concepts;
+- improved 3D robot/workcell visualization alongside the RC+-like workflow.
+
+### Visual Lab
+A separate enhanced interface designed around the app's own strengths.
+
+Key characteristics:
+- direct touch robot/TCP manipulation;
+- richer 3D workcell view;
+- simplified and visual controls;
+- visual <-> SPEL+ synchronized programming;
+- tool, actuator, sensor, part, and process simulation;
+- guided learning overlays and contextual ? help.
+
+Both experiences should share the same underlying simulation/project state wherever practical.
+
 ## User-facing modes
 
 ### Explore
