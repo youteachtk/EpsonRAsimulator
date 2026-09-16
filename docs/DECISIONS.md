@@ -239,3 +239,28 @@ This file records decisions that should survive future conversations.
 - **Double-click/double-tap** opens the selected file or jumps to the selected function, matching verified RC+ behavior.
 - Right-click/long-press continues to open the context menu.
 - Touch adaptation must not collapse selection and open into the same gesture because the learner should practice the same interaction distinction used in RC+.
+
+### Global RC+ fidelity default
+- From this point forward, **preserve verified RC+ behavior by default whenever doing so helps the learner transfer skills to the real EPSON RC+ environment**.
+- This blanket approval applies to verified:
+  - menu names and menu structure;
+  - tool/window names;
+  - file/project workflows;
+  - editor behavior;
+  - open/save/build/run workflows;
+  - selection, double-click, right-click and context-menu behavior;
+  - MDI window behavior and Window-menu commands;
+  - Project Explorer behavior;
+  - Robot Manager structure and workflows;
+  - I/O, Task Manager, Command Window, point-management, controller/setup and related RC+ workflows;
+  - keyboard shortcuts;
+  - status/error/build feedback;
+  - other interaction semantics that materially teach the real RC+ workflow.
+- Do **not** repeatedly ask for approval on each small fidelity detail once official RC+ behavior has been verified.
+- Ask the user only when:
+  - official RC+ behavior is ambiguous or version-dependent;
+  - Android requires a meaningful adaptation that could change how the workflow is learned;
+  - there is a legal/IP, safety, hardware, or commercialization tradeoff;
+  - multiple materially different implementation choices exist.
+- Fidelity approval does **not** authorize copying proprietary visual assets. Icons, logos, screenshots, artwork, window chrome, typography and visual styling remain independently designed.
+- When Android needs an adaptation (for example long-press for right-click), preserve the original RC+ interaction when mouse/keyboard is available and add the touch equivalent alongside it.
