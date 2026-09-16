@@ -55,4 +55,23 @@ class AdapterRegistryTest {
             projectFormats = listOf(format)
         )
     }
+    @Test
+    fun rcPlus7BaselineResolvesSpelAndProjectFormat() {
+        val registry = AdapterRegistry(
+            simulators = listOf(mx.youteachtk.epsonrasimulator.adapters.rcplus.RcPlus7SimulatorAdapter),
+            languages = listOf(mx.youteachtk.epsonrasimulator.adapters.rcplus.SpelPlusLanguageAdapter),
+            projectFormats = listOf(mx.youteachtk.epsonrasimulator.adapters.rcplus.RcPlusProjectFormatAdapter)
+        )
+
+        val simulator = registry.requireSimulator(
+            SimulatorAdapterId("epson-rcplus-7.5.3")
+        )
+
+        assertEquals("epson-spel-plus", registry.languageFor(simulator.id).id.value)
+        assertEquals(
+            setOf("sprj", "prg", "inc", "pts", "mac"),
+            registry.projectFormatFor(simulator.id).fileExtensions
+        )
+    }
+
 }
