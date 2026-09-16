@@ -105,3 +105,10 @@ This file records decisions that should survive future conversations.
 - Once a project/session has active work, subsequent launches should **resume directly into the last active view/mode** instead of forcing the user through the mode chooser every time.
 - The user must still be able to switch between RC+ Trainer and Visual Lab at any time from a clear in-app mode switcher.
 - The last-view resume behavior must never hide or duplicate project state: both experiences continue operating on the same current project/simulation state.
+
+### RC+ Trainer learning availability
+- RC+ Trainer should expose the **full set of implemented RC+-like areas from the beginning** rather than hiding or locking advanced screens behind progression.
+- Guided learning is an **optional overlay**, not a gate. A learner can enter any available screen at any time.
+- The product is intended for self-directed learning as well as guided practice; the user should be able to explore unfamiliar RC+ areas freely and use contextual help when needed.
+- Each RC+-like area should support contextual **? help**, short explanations of purpose and controls, and optional guided walkthroughs/tasks.
+- Guided mode may recommend an order of learning, highlight the next control to use, and provide practice exercises, but it must never remove access to the underlying screen or simplify away the real concept.
