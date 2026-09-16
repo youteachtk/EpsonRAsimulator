@@ -64,3 +64,11 @@ This file records decisions that should survive future conversations.
 - If imported SPEL+ contains syntax or instructions that the visual editor does not yet understand, the code must be preserved as an editable **Advanced SPEL+ / Direct Code** block.
 - Unsupported SPEL+ must never be silently deleted, rewritten as something different, or rejected merely because the visual editor lacks a corresponding block.
 - Round-trip compatibility and preservation of user-authored robot programs take priority over forcing every statement into a visual block.
+
+### RC+ editor fidelity
+- The programming experience should be **as close as practical to the official EPSON RC+ workflow**, while preserving the app's touch-first educational advantages.
+- SPEL+ source remains a first-class view, with familiar concepts such as projects/files/functions, syntax highlighting, diagnostics, build/run controls, points and I/O context.
+- The intuitive visual editor is an additional synchronized representation of the same SPEL+ program, not a replacement language.
+- Prefer RC+-like terminology and workflow where verified, but do not clone the official UI pixel-for-pixel.
+- When code is valid and supported, visual and source views stay synchronized. Unsupported/advanced SPEL+ remains preserved as editable direct-code blocks.
+- Errors in SPEL+ must be surfaced without destroying the last valid visual representation or silently changing user code.
