@@ -310,3 +310,177 @@ Sources:
 - EPSON RC+ 7.0 User's Guide Rev.9: https://files.support.epson.com/far/docs/epson_rc_pl_70_users_guide-rc700_rc90%28v75r9%29.pdf
 - EPSON RC+ 7.0 Spanish User's Guide: https://files.support.epson.com/far/docs/epson_rc_pl_70_users_guide_spanish_%28v73r2%29.pdf
 - Force Guide 7.0 manuals from Epson support.
+
+## Verified RC+ 7.0 v7.5 menu inventory
+
+The official v7.5 documentation confirms this baseline menu structure. Section numbering varies across manual revisions, so commands are tracked by menu/name rather than chapter number.
+
+### File
+- New
+- Open
+- Close
+- Save
+- Save As
+- Restore
+- Rename
+- Delete
+- Import
+- Print
+- Exit
+
+### Edit
+- Undo
+- Redo
+- Cut
+- Copy
+- Paste
+- Find
+- Find Next
+- Replace
+- Select All
+- Indent
+- Outdent
+- Comment Block
+- Uncomment Block
+- Go To Definition
+- Navigate Backward (documented in later v7.5 revisions)
+
+Verified shortcut examples:
+- Undo: Ctrl+Z
+- Redo: Ctrl+Y
+- Cut: Ctrl+X
+- Copy: Ctrl+C
+- Paste: Ctrl+V
+- Find: Ctrl+F
+- Find Next: F3
+- Replace: Ctrl+R
+- Select All: Ctrl+A
+
+### View
+- Project Explorer
+- Status Window
+- System History
+
+### Project
+- Wizard (present in later v7.5 documentation)
+- New
+- Open
+- Recent Projects
+- Close
+- Edit
+- Save
+- Save As
+- Rename
+- Import
+- Export
+- Copy
+- Delete
+- Build
+- Rebuild
+- Properties
+
+Verified build shortcuts:
+- Build: Ctrl+B
+- Rebuild: Ctrl+Shift+B
+
+### Run
+- Run Window
+- Operator Window
+- Step Into
+- Step Over
+- Walk
+- Resume
+- Stop
+- Toggle Breakpoint
+- Clear All Breakpoints
+- Display Variables
+- Call Stack
+
+Verified shortcuts:
+- Run Window: F5
+- Operator Window: Shift+F5
+- Step Into: F11
+- Step Over: F10
+- Walk: F12
+- Resume: F7
+- Toggle Breakpoint: F9
+- Clear All Breakpoints: Ctrl+Shift+F9
+- Display Variables: F4
+
+### Tools
+Core documented entries:
+- Robot Manager
+- Command Window
+- I/O Monitor
+- Task Manager
+- Macros
+- I/O Label Editor
+- User Error Editor
+- Controller
+
+Option/profile-dependent Tools entries documented in v7.5 materials can include capabilities such as:
+- Vision / Vision Guide
+- Force-related tools such as Force Monitor
+- Simulator-related tools and optional modules
+
+The Tools menu must therefore be capability/profile driven.
+
+### Setup
+- PC to Controller Communications
+- System Configuration
+- Preferences
+- Options
+
+### Window
+- Cascade
+- Tile Vertical
+- Tile Horizontal
+- Arrange Icons
+- Close All
+- numbered/currently-open-window list
+- Windows
+
+The Windows dialog supports operations such as Activate, Save and Close for selected windows.
+
+### Help
+- How Do I
+- Contents
+- Index
+- Search
+- Manuals
+- About EPSON RC+ 7.0
+
+## Verified Build / Run / Status behavior
+
+### Build
+- Project > Build performs the minimum compile/link/update work needed to bring the project/controller up to date.
+- Build progress is shown in the Status pane.
+- Build errors are shown in the Status pane.
+- Rebuild recompiles/relinks the entire project and sends project point files as documented.
+- Build uses Ctrl+B; Rebuild uses Ctrl+Shift+B.
+
+### Run Window / Operator Window
+- Opening Run Window saves changed files as needed, builds the project, and only opens the Run Window when the build succeeds.
+- When Auto File Save is disabled, RC+ prompts to save changed files before build/run.
+- Run Window is primarily for testing/debugging.
+- Operator Window is intended as a simpler operator interface.
+- Run Window shortcut is F5; Operator Window is Shift+F5.
+
+### Debugging
+- Breakpoints can be toggled from the Run menu, F9, or editor margin where supported.
+- When a breakpoint is reached, RC+ opens the source window and highlights the execution line.
+- Step Into, Step Over and Walk preserve their documented debugging semantics.
+- Resume is available for halted tasks.
+- Stop stops running tasks.
+
+### Status pane / status bar
+- Status pane is bottom-docked and vertically resizable.
+- If closed, it automatically reopens when an important build/error message needs to be shown.
+- Build error entries include source context and can be double-clicked to navigate to the relevant source line.
+- Status bar includes message/status areas including operation-mode and emergency-stop state in documented configurations.
+
+### RC+ Trainer consequence
+RC+ Trainer should preserve these workflows and state transitions, not merely display matching menu names. Commands should enable/disable based on the same conceptual state (active document, dirty files, build state, running/halted tasks, controller/profile capability), with simulation-safe equivalents in Local Simulation mode.
+
+Official baseline:
+- EPSON RC+ 7.0 User's Guide v7.5 (official Epson support/download).
