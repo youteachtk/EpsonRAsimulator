@@ -211,3 +211,17 @@ This file records decisions that should survive future conversations.
 - Shortcut handling must be contextual and must not override Android/system-reserved key combinations.
 - Only shortcuts verified against official RC+ documentation for the supported version/profile should be labeled as official RC+ shortcuts.
 - The shortcut map should be centralized and data-driven so School Setup and Full Learning can expose the appropriate verified commands.
+
+### RC+ names/labels vs original visual assets
+- Preserve **verified RC+ functional names, menu labels, tool/window names, shortcuts, file extensions, and SPEL+ command names** where necessary for authentic learning and interoperability.
+- Do **not** copy Epson/RC+ icons, logos, screenshots, proprietary artwork, exact graphic assets, or pixel-for-pixel visual styling.
+- RC+ Trainer uses an **independently designed icon set and visual skin** while retaining the functional terminology and navigation model learners must recognize.
+- Brand names such as EPSON / EPSON RC+ are used only descriptively for training/compatibility context and must not be used in a way that implies official sponsorship or affiliation.
+
+
+### RC+ project round-trip preservation
+- Imported RC+ projects should be **round-trip preserving whenever technically possible**.
+- Files/configuration that the app does not understand must be preserved byte-for-byte or as untouched opaque project resources rather than discarded or rewritten.
+- Known editable resources such as .prg/.inc/.pts may be represented in the app, but unsupported sections/data must survive export.
+- Unknown/proprietary project structures such as .sprj must not be guessed or destructively regenerated. Preserve originals until the format/behavior is independently verified.
+- Android/Visual Lab metadata should live in separate sidecar/app metadata so it does not corrupt native RC+ project content.
