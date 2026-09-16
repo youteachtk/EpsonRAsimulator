@@ -141,3 +141,14 @@ This file records decisions that should survive future conversations.
 - Fidelity is **functional/structural rather than pixel-copying**. Visual styling may be modernized for Android: cleaner typography, rounded controls/windows, improved spacing, touch targets, responsive layout, and richer 3D visualization, while preserving RC+ organization and behavior.
 - The 3D robot icon used in early HTML mockups is only a placeholder. Production RC+ Trainer and Visual Lab must use the actual articulated Epson C4-A601S 3D model.
 - Visual Lab remains a separate, more original interface and is not constrained by RC+'s desktop layout.
+
+### Full RC+ learning coverage, including optional modules
+- RC+ Trainer should ultimately teach **all documented EPSON RC+ 7.0 areas and optional modules that are relevant to the supported controller/robot ecosystem**, not only the subset installed or licensed on the school's PC.
+- Optional/licensed/hardware-dependent capabilities remain accessible in the trainer for learning, but must be clearly identified as **optional / license-dependent / hardware-dependent** where applicable.
+- The trainer should distinguish:
+  - what is part of the standard RC+ environment;
+  - what requires an optional software license;
+  - what requires additional controller hardware, sensors, cameras, force sensors, fieldbus, conveyor hardware, teach pendant, or other equipment;
+  - what is present on the user's school setup versus what is available only in the full-learning catalog.
+- Learning availability in the trainer is not the same thing as claiming the real school controller has that option installed.
+- Coverage should be built from official Epson RC+ 7.0 documentation and option manuals, with a living feature inventory in the repository.
