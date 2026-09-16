@@ -176,3 +176,11 @@ This file records decisions that should survive future conversations.
 - On smaller screens, a child window may maximize automatically for usability, while an open-window switcher/task strip provides fast access to the rest of the active RC+ windows.
 - Switching device orientation or screen class should preserve the same project, open tools/windows, active document, and window state wherever practical.
 - Returning to a larger landscape workspace should restore multi-window MDI layout instead of losing the user's working context.
+
+### RC+ Trainer internal window taskbar
+- RC+ Trainer child windows are fully windowed and support **move, resize, maximize, restore, minimize, focus, and close** inside the RC+ workspace.
+- Minimizing a child window sends it to an **internal taskbar/window bar** inside RC+ Trainer rather than simply hiding it.
+- The internal taskbar shows currently minimized/open RC+ child windows and allows one-tap restore/focus.
+- Window state (position, size, minimized/maximized state, z-order/focus where practical) should persist across orientation and screen-size changes.
+- RC+-style Window commands such as Cascade/Tile operate on non-minimized child windows; minimized windows remain available in the internal taskbar.
+- On phone/small layouts, the same taskbar concept becomes the compact open-window switcher rather than removing window-management behavior.
