@@ -168,3 +168,11 @@ This file records decisions that should survive future conversations.
 - If the independent replacement cannot achieve acceptable visual/technical quality, the current model may continue to be used for private development/testing; however, its commercial redistribution status remains unresolved and it must not silently be treated as commercially cleared.
 - Kinematics, pivots, joint axes, collision proxies, TCP/flange data, and animation behavior must be kept separate from the render mesh so the visual model can be replaced without rewriting robot logic.
 - Asset provenance must be documented for every future robot/tool/workcell model.
+
+### RC+ Trainer form-factor behavior
+- **Landscape tablet is the primary RC+ Trainer form factor** and should present the closest approximation to the full RC+ desktop workspace.
+- In landscape tablet mode, preserve the MDI mental model: menu bar, toolbar, Project Explorer, status areas, and multiple simultaneously visible child windows.
+- Phone and portrait layouts are **adaptations of the same RC+ workspace**, not separate simplified products.
+- On smaller screens, a child window may maximize automatically for usability, while an open-window switcher/task strip provides fast access to the rest of the active RC+ windows.
+- Switching device orientation or screen class should preserve the same project, open tools/windows, active document, and window state wherever practical.
+- Returning to a larger landscape workspace should restore multi-window MDI layout instead of losing the user's working context.
