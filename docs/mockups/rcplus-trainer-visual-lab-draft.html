@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Epson RA Simulator — RC+ Trainer / Visual Lab</title>
+<style>
+:root{--bg:#eef1f4;--panel:#fff;--line:#c7cdd4;--dark:#26323d;--muted:#66727d;--accent:#d8e7f3;--warn:#fff4cc;--green:#dff0df}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#18222b}
+.top{height:50px;background:#2d3944;color:white;display:flex;align-items:center;padding:0 16px;gap:16px;border-bottom:1px solid #17212a}
+.brand{font-weight:700}.spacer{flex:1}.pill{border:1px solid #72808d;border-radius:999px;padding:5px 10px;font-size:12px}
+.nav{display:flex;background:#dfe4e8;border-bottom:1px solid #aeb7bf;gap:2px;padding:6px}
+.nav button,.tabs button{border:1px solid #aeb7bf;background:#f8f9fa;padding:8px 12px;border-radius:4px;font-weight:600;cursor:pointer}
+.nav button.active,.tabs button.active{background:white;border-bottom-color:white}
+.page{display:none;padding:14px;height:calc(100vh - 94px)}.page.active{display:block}
+.home{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch;max-width:1100px;margin:34px auto}
+.entry{background:white;border:1px solid var(--line);border-radius:12px;padding:24px;box-shadow:0 4px 18px #00000014;display:flex;flex-direction:column;min-height:380px}
+.entry h1{font-size:28px;margin:0 0 6px}.entry p{color:var(--muted);line-height:1.45}.entry .hero{height:170px;border-radius:8px;background:linear-gradient(135deg,#eef4f7,#d3dde5);display:flex;align-items:center;justify-content:center;margin:18px 0;font-size:64px}
+.entry button{margin-top:auto;padding:13px;border:0;border-radius:7px;background:#344958;color:white;font-weight:700}
+.workspace{display:grid;grid-template-columns:220px 1fr 310px;gap:10px;height:100%}
+.panel{background:white;border:1px solid var(--line);border-radius:6px;overflow:hidden;min-height:0}
+.panel h3{margin:0;padding:9px 11px;background:#e7ebee;border-bottom:1px solid var(--line);font-size:14px}
+.tree{padding:9px;font-size:13px;line-height:1.75}.tree .sub{padding-left:18px;color:#46515b}
+.center{display:flex;flex-direction:column;min-width:0}
+.tabs{display:flex;gap:4px;padding:7px;background:#eef1f3;border-bottom:1px solid var(--line)}
+.editor{display:grid;grid-template-columns:1fr 1fr;min-height:0;flex:1}
+.code{padding:12px;font-family:Consolas,monospace;background:#fbfbfb;border-right:1px solid var(--line);font-size:13px;line-height:1.6;overflow:auto}
+.code .kw{color:#224f9a;font-weight:bold}.code .pt{color:#8a4d11}.visual{padding:12px;overflow:auto;background:#f5f7f8}
+.block{background:white;border:1px solid #bcc5cc;border-left:4px solid #547d9a;padding:10px;margin:8px 0;border-radius:4px}
+.sim{height:190px;background:linear-gradient(#edf4f8,#d6e0e7);display:flex;align-items:center;justify-content:center;position:relative;border-top:1px solid var(--line)}
+.robot{font-size:80px}.front{position:absolute;top:8px;right:8px;background:white;border:1px solid var(--line);padding:5px 9px;border-radius:4px;font-size:12px}
+.help{position:absolute;bottom:8px;left:8px;border-radius:50%;width:30px;height:30px;background:#344958;color:white;display:flex;align-items:center;justify-content:center;font-weight:bold}
+.right .section{padding:10px;border-bottom:1px solid var(--line);font-size:13px}
+.kv{display:flex;justify-content:space-between;margin:7px 0}.io{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.io span{padding:5px;text-align:center;border:1px solid #b8c0c7;border-radius:3px;background:#f7f7f7}.io .on{background:var(--green)}
+.visualLab{display:grid;grid-template-columns:1fr 330px;gap:10px;height:100%}
+.stage{background:white;border:1px solid var(--line);border-radius:8px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(#f7f9fa,#dfe7ec)}
+.bigrobot{font-size:170px}.hud{position:absolute;left:12px;top:12px;background:#ffffffdd;border:1px solid var(--line);border-radius:7px;padding:10px;font-size:13px}.hud b{display:block;margin-bottom:5px}
+.toolbar{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:7px}.toolbar button{padding:9px 12px;border:1px solid #9aa5ae;background:white;border-radius:6px}
+.sidebar{display:flex;flex-direction:column;gap:10px}.card{background:white;border:1px solid var(--line);border-radius:8px;padding:12px}.card h3{margin:0 0 9px}.slider{height:7px;background:#d7dde2;border-radius:6px;margin:10px 0;position:relative}.slider:after{content:"";position:absolute;width:15px;height:15px;border-radius:50%;background:#536a7a;left:45%;top:-4px}
+.note{background:var(--warn);border:1px solid #e0cf8a;padding:9px;border-radius:5px;font-size:12px;margin-top:10px}
+.small{font-size:12px;color:var(--muted)}
+@media(max-width:900px){.workspace{grid-template-columns:160px 1fr}.right{display:none}.editor{grid-template-columns:1fr}.visual{display:none}.visualLab{grid-template-columns:1fr}.sidebar{display:none}}
+</style>
+</head>
+<body>
+<div class="top"><div class="brand">EPSON RA SIMULATOR</div><span class="pill">C4-A601S</span><span class="pill">SIMULATION</span><div class="spacer"></div><span class="pill">EN / ES</span><span class="pill">?</span></div>
+<div class="nav">
+<button onclick="show('home',this)" class="active">Home</button>
+<button onclick="show('trainer',this)">RC+ Trainer</button>
+<button onclick="show('lab',this)">Visual Lab</button>
+</div>
+
+<section id="home" class="page active">
+  <div class="home">
+    <div class="entry">
+      <h1>RC+ Trainer</h1><p>Learn EPSON RC+ using familiar concepts, menus, SPEL+, points, I/O and robot management — with a clearer simulator beside it.</p>
+      <div class="hero">⌨️ 🤖</div>
+      <div class="note"><b>Learning goal:</b> what you learn here should transfer naturally to RC+ on the school PC.</div>
+      <button onclick="openPage('trainer')">OPEN RC+ TRAINER</button>
+    </div>
+    <div class="entry">
+      <h1>Visual Lab</h1><p>Our touch-first interface: direct robot manipulation, enhanced 3D workcell, visual programming, tools, sensors and actuators.</p>
+      <div class="hero">🤖 ✋</div>
+      <div class="note"><b>Same project underneath:</b> points, program, robot and workcell are shared with RC+ Trainer.</div>
+      <button onclick="openPage('lab')">OPEN VISUAL LAB</button>
+    </div>
+  </div>
+</section>
+
+<section id="trainer" class="page">
+  <div class="workspace">
+    <aside class="panel">
+      <h3>Project Explorer &nbsp;?</h3>
+      <div class="tree">
+        📁 Project1
+        <div class="sub">📄 Main.prg</div>
+        <div class="sub">📄 Functions.prg</div>
+        <div>🤖 Robot Manager</div>
+        <div>📍 Points</div>
+        <div>🔌 I/O</div>
+        <div>🧪 Simulator</div>
+        <div>⚙ Settings</div>
+      </div>
+    </aside>
+
+    <main class="panel center">
+      <div class="tabs">
+        <button class="active">Code</button><button>Visual</button><button>Split</button>
+        <div class="spacer"></div><button>Build</button><button>Run</button><button>Stop</button><button>?</button>
+      </div>
+      <div class="editor">
+        <div class="code"><span class="kw">Function</span> main<br><br>
+&nbsp;&nbsp;Motor On<br>
+&nbsp;&nbsp;Speed 30<br>
+&nbsp;&nbsp;Go <span class="pt">P1</span><br>
+&nbsp;&nbsp;On gripper<br>
+&nbsp;&nbsp;Wait 0.5<br>
+&nbsp;&nbsp;Move <span class="pt">P2</span><br>
+&nbsp;&nbsp;Off gripper<br><br>
+<span class="kw">Fend</span></div>
+        <div class="visual">
+          <div class="block"><b>Motor On</b><div class="small">Enable simulated robot motion</div></div>
+          <div class="block"><b>Speed 30</b></div>
+          <div class="block"><b>Go P1</b></div>
+          <div class="block"><b>Output: gripper ON</b></div>
+          <div class="block"><b>Wait 0.5 s</b></div>
+          <div class="block"><b>Move P2</b></div>
+        </div>
+      </div>
+      <div class="sim"><div class="front">FRONT / RESET VIEW</div><div class="robot">🦾</div><div class="help">?</div></div>
+    </main>
+
+    <aside class="panel right">
+      <h3>Robot / Monitor</h3>
+      <div class="section"><b>Current Position</b><div class="kv"><span>X</span><b>324.2 mm</b></div><div class="kv"><span>Y</span><b>112.5 mm</b></div><div class="kv"><span>Z</span><b>441.8 mm</b></div></div>
+      <div class="section"><b>Points</b><div class="kv"><span>P1</span><span>Pick</span></div><div class="kv"><span>P2</span><span>Place</span></div></div>
+      <div class="section"><b>I/O</b><div class="io"><span class="on">1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span></div></div>
+      <div class="section"><b>Context Help ?</b><p class="small">Tap ? on any panel to explain the equivalent RC+ concept in English or Spanish.</p></div>
+    </aside>
+  </div>
+</section>
+
+<section id="lab" class="page">
+  <div class="visualLab">
+    <div class="stage">
+      <div class="hud"><b>Visual Lab — Workcell</b>TCP X 324.2 &nbsp; Y 112.5 &nbsp; Z 441.8<br><span class="small">Tool: Two-finger gripper • Mode: Touch Target</span></div>
+      <div class="bigrobot">🦾</div>
+      <div class="toolbar"><button>FRONT</button><button>TOUCH</button><button>SAVE P1</button><button>GHOST</button><button>WORKCELL</button><button>?</button></div>
+    </div>
+    <div class="sidebar">
+      <div class="card"><h3>Robot Control</h3><b>J1</b><div class="slider"></div><b>J2</b><div class="slider"></div><b>J3</b><div class="slider"></div><div class="small">Joint / Cartesian / Tool modes</div></div>
+      <div class="card"><h3>Program</h3><div class="tabs"><button>Visual</button><button>Code</button><button>Split</button></div><p class="small">Changes here update the same SPEL+ program used in RC+ Trainer.</p></div>
+      <div class="card"><h3>Workcell</h3><div class="kv"><span>Pneumatic feeder</span><b>READY</b></div><div class="kv"><span>Part sensor</span><b>ON</b></div><div class="kv"><span>Safety enclosure</span><b>CLOSED</b></div></div>
+    </div>
+  </div>
+</section>
+
+<script>
+function show(id,b){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));if(b)b.classList.add('active')}
+function openPage(id){const btn=[...document.querySelectorAll('.nav button')].find(x=>x.textContent.toLowerCase().includes(id==='trainer'?'rc+':'visual'));show(id,btn)}
+</script>
+</body>
+</html>
