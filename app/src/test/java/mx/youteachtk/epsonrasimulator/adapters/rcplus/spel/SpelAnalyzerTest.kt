@@ -1,5 +1,6 @@
 package mx.youteachtk.epsonrasimulator.adapters.rcplus.spel
 
+import mx.youteachtk.epsonrasimulator.programming.DiagnosticSeverity
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
@@ -23,7 +24,8 @@ class SpelAnalyzerTest {
         val result = SpelAnalyzer.analyze(source)
 
         assertTrue(result.diagnostics.isEmpty())
-        val model = assertNotNull(result.semanticModel) as SpelProgramSemanticModel
+        assertNotNull(result.semanticModel)
+        val model = result.semanticModel as SpelProgramSemanticModel
         val body = model.functions.single().statements
 
         assertTrue(body[0] is SpelStatement.Speed)
@@ -57,7 +59,8 @@ class SpelAnalyzerTest {
         )
 
         assertTrue(result.diagnostics.isEmpty())
-        val model = assertNotNull(result.semanticModel) as SpelProgramSemanticModel
+        assertNotNull(result.semanticModel)
+        val model = result.semanticModel as SpelProgramSemanticModel
         assertTrue(
             model.functions.single().statements.single() is SpelStatement.DirectCode
         )
@@ -69,10 +72,14 @@ class SpelAnalyzerTest {
 
         val result = SpelAnalyzer.analyze(source)
 
-        val model = assertNotNull(result.semanticModel) as SpelProgramSemanticModel
+        assertNotNull(result.semanticModel)
+        val model = result.semanticModel as SpelProgramSemanticModel
         val speed = model.functions.single().statements.single() as SpelStatement.Speed
 
-        assertEquals("50", source.substring(speed.argumentRange.start, speed.argumentRange.endExclusive))
+        assertEquals(
+            "50",
+            source.substring(speed.argumentRange.start, speed.argumentRange.endExclusive)
+        )
     }
 
     @Test
