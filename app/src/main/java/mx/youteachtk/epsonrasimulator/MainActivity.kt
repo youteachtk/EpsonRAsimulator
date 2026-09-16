@@ -6,16 +6,22 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import mx.youteachtk.epsonrasimulator.runtime.AppRuntimeFactory
 import mx.youteachtk.epsonrasimulator.ui.RobotTrainerScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val runtime = remember {
+                AppRuntimeFactory.createDefault().runtime
+            }
+
             MaterialTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    RobotTrainerScreen()
+                    RobotTrainerScreen(runtime = runtime)
                 }
             }
         }
