@@ -225,3 +225,10 @@ This file records decisions that should survive future conversations.
 - Known editable resources such as .prg/.inc/.pts may be represented in the app, but unsupported sections/data must survive export.
 - Unknown/proprietary project structures such as .sprj must not be guessed or destructively regenerated. Preserve originals until the format/behavior is independently verified.
 - Android/Visual Lab metadata should live in separate sidecar/app metadata so it does not corrupt native RC+ project content.
+
+### RC+ Trainer mouse/touch context menus
+- Context menus in RC+ Trainer preserve the desktop RC+ interaction model while adding a touch equivalent.
+- With a mouse/trackpad, **right-click** opens the contextual menu for Project Explorer items and other RC+ elements where the official environment uses a context menu.
+- With touch, **long-press** opens the same contextual menu.
+- The menu commands, labels, enable/disable state, and target semantics should match verified RC+ behavior; only the visual styling/icons are independently designed.
+- Long-press is an Android accessibility/adaptation layer and must not replace the official mouse behavior when a pointing device is connected.
