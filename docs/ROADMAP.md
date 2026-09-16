@@ -1,5 +1,15 @@
 # Development Roadmap
 
+## Shared Runtime Foundation — implemented on feature branch
+- neutral `RobotProvider` / `RobotRegistry` added;
+- simulator, programming-language and project-format adapter contracts added;
+- EPSON RC+ 7.0 v7.5.3 + SPEL+ baseline registered;
+- canonical `SharedRuntime` owns the current C4 robot selection, joints and teach points;
+- the current C4 Compose trainer dispatches robot-state changes through `SharedRuntime`;
+- Local Simulation remains the only executable connection mode.
+
+This foundation does **not** yet implement SPEL+ parsing/execution, I/O runtime, task runtime, the RC+ MDI workspace, functional workcell actors, the Windows bridge, or physical-robot control.
+
 ## Phase 0 — Foundation
 - repository;
 - architecture;
