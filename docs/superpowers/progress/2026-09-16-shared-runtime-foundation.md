@@ -60,7 +60,12 @@ Do not rely only on Codex conversation history or a local `.superpowers` workspa
 **Next action:** Task 4 may proceed after checking Codex activity; Task 2 remains separately incomplete until `ConnectionMode.kt` is published.
 
 ### Task 4 — RC+ 7.5.3 / SPEL+ baseline adapters
-**Status:** pending
+**Status:** complete
+**RED commit:** `be3950885d2582ca74f783e266886caa505eba56`
+**Implementation commit:** `3e8803623edd6eada2b149968322c5f787076159`
+**Review:** inline plan/spec review passed; exact simulator/language/project-format IDs, School Setup profile, verified extensions, and six baseline capability IDs match the plan.
+**Tests/CI:** run 109 failed as intended because the RC+ adapter package did not exist; run 110 succeeded.
+**Next action:** Task 5 TDD.
 
 ### Task 5 — Canonical SharedRuntime state and commands
 **Status:** pending
@@ -360,3 +365,9 @@ No preflight finding requires adding source parsing, project persistence, task s
 - Final implementation commits: capability/profile models `a6c611019f1923a6e7e50b9d03b8ed7591c308dc`; connection-mode vocabulary `c382dc24f2c056d8fd171a17e8d4f128b490bc4c`.
 - GitHub Actions run 107 succeeded through unit tests, debug APK build, and artifact upload.
 - Phase 1 execution authority remains Local Simulation only.
+
+### Inline Task 4 completion checkpoint
+- Task 4 is complete and reviewed inline.
+- GitHub Actions run 110 completed successfully on `3e8803623edd6eada2b149968322c5f787076159`.
+- The implementation adds descriptor metadata only; no parser, bridge, controller, or robot execution behavior was introduced.
+- Codex activity check before Task 5: no newer Codex commit/comment detected; inline execution may continue.
