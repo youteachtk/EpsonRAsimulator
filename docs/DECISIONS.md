@@ -191,3 +191,15 @@ This file records decisions that should survive future conversations.
 - The embedded workspace exists only to reproduce RC+ behaviors: child windows, focus/z-order, move/resize, maximize/restore, minimize, internal taskbar, Cascade/Tile, Project Explorer, tool windows, and status areas.
 - The internal taskbar belongs only to RC+ Trainer and should represent RC+ windows/tools, not unrelated app features.
 - Visual Lab remains a normal modern Android experience and does not inherit the desktop metaphor unless a specific tool benefits from it.
+
+### RC+ Trainer taskbar and authentic tool entry points
+- The internal RC+ taskbar is **only for minimized child windows**. It is not a launcher and does not contain permanent shortcuts to RC+ tools.
+- RC+ tools such as Robot Manager, I/O Monitor, Command Window, Task Manager, and other utilities must be opened from the **same conceptual locations used by RC+** (menus and toolbars, once verified), so the learner practices authentic navigation.
+- The taskbar appears as a window-management aid only and should remain visually subordinate to the RC+ workspace.
+- Child-window touch behavior should support:
+  - drag from title bar to move;
+  - double-tap title bar to maximize/restore;
+  - resize from edges/corners using larger invisible touch targets than the visible border;
+  - minimize to the internal taskbar;
+  - restore/focus with one tap from the taskbar.
+- These Android adaptations may improve usability but must not replace RC+ menu/tool workflows.
