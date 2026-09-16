@@ -52,7 +52,12 @@ Do not rely only on Codex conversation history or a local `.superpowers` workspa
 **Next action:** Codex should add `ConnectionMode.kt` exactly as specified by the plan, or inline should retry if the mutation restriction clears; then review Task 2 before moving into dependent runtime work.
 
 ### Task 3 — Simulator/language/project-format adapter contracts
-**Status:** pending
+**Status:** complete
+**RED commit:** `06dd342fafb97d299aa0a47f0866ca20e63357b3`
+**Implementation head:** `d03ce87c42daa0e9ddce0a4800392e3bc24f22d7`
+**Review:** inline plan/spec review passed; no Critical/Important findings.
+**Tests/CI:** GitHub Actions run 100 failed as expected on unresolved adapter types; run 105 succeeded with unit tests, debug APK build, and APK upload.
+**Next action:** Task 4 may proceed after checking Codex activity; Task 2 remains separately incomplete until `ConnectionMode.kt` is published.
 
 ### Task 4 — RC+ 7.5.3 / SPEL+ baseline adapters
 **Status:** pending
@@ -340,3 +345,12 @@ No preflight finding requires adding source parsing, project persistence, task s
 - Ruling: do not weaken/rename the approved enum just to evade the tooling restriction. Preserve the exact planned contract and hand this one-file publication to Codex if the restriction persists.
 - Exact next action on Codex return: re-read ledger + HANDOFF-RULES, confirm branch HEAD, add the exact planned `ConnectionMode.kt`, run focused `CapabilityModelsTest` plus CI, independently review Task 2, update ledger, then continue Task 3.
 - If inline continues before Codex returns: it may work only on independent areas that do not require `ConnectionMode`; before every write, re-check PR #6 head for Codex activity and do not race an active Codex worker.
+
+### Inline Task 3 review — accepted
+- TDD RED evidence: GitHub Actions run 100 failed in Unit tests because `ProgrammingLanguageAdapter`, `ProjectFormatAdapter`, `SimulatorAdapter`, adapter IDs, and `AdapterRegistry` did not exist.
+- GREEN implementation commits culminate at `d03ce87c42daa0e9ddce0a4800392e3bc24f22d7`; changed production files are exactly the five Task 3 adapter-contract/registry files.
+- Verification: GitHub Actions run 105 completed successfully: Unit tests success, Build debug APK success, Upload debug APK success.
+- Inline review against the Task 3 plan: required IDs, interfaces, duplicate-ID validation, language/project-format reference validation, `requireSimulator`, `languageFor`, and `projectFormatFor` are present. No extra parser/project behavior was added.
+- Review limitation: this ChatGPT inline session cannot provide the independent subagent reviewer used by Codex; Codex may re-review Task 3 on return, but should not reimplement it unless it finds a concrete defect.
+- Publication note: several mutations were temporarily rejected by the connector; all accepted Task 3 files are now on the branch. No force ref update was used.
+- Exact next action: re-check Codex activity. If still paused, try to complete Task 2's exact `ConnectionMode.kt`; otherwise let Codex take over from this ledger. Task 4 is dependency-safe with respect to Task 3 but Task 5 must not start until Task 2 is complete.
