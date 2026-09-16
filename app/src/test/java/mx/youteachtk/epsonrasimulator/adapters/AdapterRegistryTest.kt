@@ -139,4 +139,24 @@ class AdapterRegistryTest {
             registry.projectFormatFor(simulator.id).fileExtensions
         )
     }
+    @Test
+    fun rcPlusSourceLanguageOpensLosslessSpelDocument() {
+        val registry = AdapterRegistry(
+            simulators = listOf(mx.youteachtk.epsonrasimulator.adapters.rcplus.RcPlus7SimulatorAdapter),
+            languages = listOf(mx.youteachtk.epsonrasimulator.adapters.rcplus.SpelPlusLanguageAdapter),
+            projectFormats = listOf(mx.youteachtk.epsonrasimulator.adapters.rcplus.RcPlusProjectFormatAdapter)
+        )
+
+        val source = "Function main\n  Go P1\nFend\n"
+        val session = registry
+            .sourceLanguageFor(SimulatorAdapterId("epson-rcplus-7.5.3"))
+            .openSession(source)
+
+        assertEquals(source, session.document.sourceText)
+        assertEquals(
+            mx.youteachtk.epsonrasimulator.programming.ProgramSupportState.SUPPORTED,
+            session.document.supportState
+        )
+    }
+
 }
