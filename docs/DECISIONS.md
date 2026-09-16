@@ -129,3 +129,15 @@ This file records decisions that should survive future conversations.
 - In **RC+ Trainer**, verified official Epson/RC+ terminology should remain recognizable and faithful to the official software; Spanish may appear as a translated label or explanation where that does not alter the technical token.
 - In **Visual Lab**, the full UI may be naturally localized into either English or Spanish because it is the app's own interface.
 - Translation architecture must be centralized so new screens and features are bilingual by default rather than translated later as an afterthought.
+
+### RC+ Trainer fidelity target
+- RC+ Trainer is no longer defined as merely "RC+-like". Its goal is **functional and structural fidelity to EPSON RC+ 7.0**, using the school's confirmed EPSON RC+ 7.0 v7.5.3 environment as the baseline reference.
+- The trainer should reproduce the **complete standard development-environment mental model**: main parent window, menu bar, tool bar, Project Explorer, Status Window/Pane, status bar, and multiple simultaneously open child windows.
+- The RC+ Trainer workspace should behave as an **MDI-style environment**. Program editors and tool windows can be opened together, focused, moved/resized where practical on Android, and arranged using equivalents of RC+'s Window commands (including cascade/tile behavior where appropriate).
+- The main menu architecture should preserve the verified RC+ top-level structure: **File, Edit, View, Project, Run, Tools, Setup, Window, Help**.
+- Implemented RC+ tools should open as their own internal windows/panels rather than being flattened into one simplified dashboard. This includes, as applicable and verified: **Robot Manager, Command Window, I/O Monitor, Task Manager, Macros, I/O Label Editor, User Error Editor, Controller**, program/source windows, point files, Run/Operator windows, and other documented RC+ windows.
+- Robot Manager must be treated as a substantial RC+ subsystem with its own pages/tabs and behavior, not as a small custom robot-control card.
+- The goal is to let a learner practice navigation and workflows in RC+ Trainer and then recognize the same concepts, names, window relationships, and procedures when using EPSON RC+ on Windows.
+- Fidelity is **functional/structural rather than pixel-copying**. Visual styling may be modernized for Android: cleaner typography, rounded controls/windows, improved spacing, touch targets, responsive layout, and richer 3D visualization, while preserving RC+ organization and behavior.
+- The 3D robot icon used in early HTML mockups is only a placeholder. Production RC+ Trainer and Visual Lab must use the actual articulated Epson C4-A601S 3D model.
+- Visual Lab remains a separate, more original interface and is not constrained by RC+'s desktop layout.
