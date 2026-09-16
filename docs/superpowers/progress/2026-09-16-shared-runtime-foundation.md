@@ -68,7 +68,13 @@ Do not rely only on Codex conversation history or a local `.superpowers` workspa
 **Next action:** Task 5 TDD.
 
 ### Task 5 — Canonical SharedRuntime state and commands
-**Status:** pending
+**Status:** complete
+**RED commit:** `23f588a09b83f476c9148ff0789133a4995c0711`
+**Implementation commit:** `1a2715b06e8e85903c33a48ed511785a2059eec5`
+**Review:** inline plan/spec review passed; no Critical/Important findings. Independent subagent review unavailable in this session.
+**Tests/CI:** run 112 failed as intended because runtime classes did not exist; run 113 passed unit tests, debug APK build, and artifact upload.
+**Extra ruling coverage:** initial joint states must match robot count, be finite, and remain within configured limits; command joint values/states reject non-finite values; finite out-of-range command values still clamp.
+**Next action:** Task 6 TDD.
 
 ### Task 6 — AppRuntimeFactory composition root
 **Status:** pending
@@ -371,3 +377,9 @@ No preflight finding requires adding source parsing, project persistence, task s
 - GitHub Actions run 110 completed successfully on `3e8803623edd6eada2b149968322c5f787076159`.
 - The implementation adds descriptor metadata only; no parser, bridge, controller, or robot execution behavior was introduced.
 - Codex activity check before Task 5: no newer Codex commit/comment detected; inline execution may continue.
+
+### Inline Task 5 completion checkpoint
+- Task 5 complete at `1a2715b06e8e85903c33a48ed511785a2059eec5`.
+- GitHub Actions run 113 succeeded end-to-end.
+- Non-local connection mode dispatch throws before state mutation; Local Simulation remains the only executable authority.
+- Review limitation: no subagent reviewer tool is exposed in this chat; Codex may re-review later but should not reimplement without a concrete finding.
