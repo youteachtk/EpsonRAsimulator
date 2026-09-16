@@ -8,6 +8,19 @@ The approved architecture is fully defined in:
 
 This file remains a concise architectural overview. Where an older statement here conflicts with the formal design spec, the formal design spec takes precedence.
 
+## Implemented foundation packages
+
+The current Phase 1 feature branch implements the first neutral foundation inside the existing Android module:
+
+- `mx.youteachtk.epsonrasimulator.robot` — `RobotProvider`, `RobotRegistry`, and the Epson C4 provider;
+- `mx.youteachtk.epsonrasimulator.runtime` — capability/profile primitives, connection-mode vocabulary, canonical `SharedRuntime`, runtime commands/subscriptions, and `AppRuntimeFactory`;
+- `mx.youteachtk.epsonrasimulator.adapters` — simulator/language/project-format identities, contracts, and registry;
+- `mx.youteachtk.epsonrasimulator.adapters.rcplus` — the verified RC+ 7.0 v7.5.3 / SPEL+ / RC+ project-format baseline descriptors.
+
+The current Compose trainer now observes and dispatches C4 robot state through `SharedRuntime`. Its 3D presentation and kinematics remain intentionally C4-specific in this phase; registering another robot does not yet imply a generic renderer.
+
+Local Simulation is the only executable connection authority in this foundation. Digital Twin and Real Hardware remain reserved architectural states without transport/control behavior.
+
 ## Layering
 
 ### UI
