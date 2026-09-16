@@ -43,6 +43,12 @@ Key characteristics:
 - Language can be switched in place without resetting the current activity.
 - RC+/SPEL+ technical tokens remain exact; English terms are preserved where needed, with Spanish explanation rather than unsafe translation.
 
+### Authentic RC+ tool navigation
+- The internal taskbar contains only minimized RC+ child windows.
+- Permanent tool shortcuts are not added to the taskbar.
+- Robot Manager, I/O Monitor, Command Window, Task Manager, and other tools open from their verified RC+ menu/toolbar entry points.
+- Touch adaptations may enlarge invisible move/resize targets and support double-tap maximize/restore without changing the learned RC+ navigation model.
+
 ### RC+ Trainer window management
 - Child windows support move, resize, maximize, restore, minimize, focus, and close.
 - Minimized windows remain visible in an internal RC+ taskbar/window bar and can be restored with one tap.
