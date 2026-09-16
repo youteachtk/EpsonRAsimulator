@@ -67,6 +67,16 @@ Key characteristics:
 - Small screens may maximize the active child window and provide an open-window switcher.
 - Orientation and screen-size changes preserve the same project and working-window context.
 
+### RC+ terminology and visual originality
+- Keep verified RC+ functional names/menu/tool labels/shortcuts so learners recognize the real environment.
+- Use original icons, artwork, window chrome, spacing, and visual styling; do not copy proprietary RC+ graphic assets or screenshots.
+- Use Epson/RC+ brand names descriptively rather than as the product's own branding.
+
+### RC+ project round-trip
+- Preserve imported RC+ project resources that are not understood rather than deleting or rewriting them.
+- Keep app/Visual Lab metadata separate from native project files.
+- Do not guess or regenerate opaque/proprietary project structures until independently verified.
+
 ### RC+ Trainer fidelity baseline
 - Baseline target: EPSON RC+ 7.0 v7.5.3 as used in the school environment.
 - RC+ Trainer should reproduce the standard RC+ development-environment structure and workflows rather than collapse them into a simplified mobile dashboard.
