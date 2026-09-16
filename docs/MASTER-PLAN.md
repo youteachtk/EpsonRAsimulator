@@ -43,6 +43,16 @@ Key characteristics:
 - Language can be switched in place without resetting the current activity.
 - RC+/SPEL+ technical tokens remain exact; English terms are preserved where needed, with Spanish explanation rather than unsafe translation.
 
+### RC+ Trainer fidelity baseline
+- Baseline target: EPSON RC+ 7.0 v7.5.3 as used in the school environment.
+- RC+ Trainer should reproduce the standard RC+ development-environment structure and workflows rather than collapse them into a simplified mobile dashboard.
+- Preserve the verified top-level menus: File, Edit, View, Project, Run, Tools, Setup, Window, Help.
+- Use an MDI-style workspace with multiple internal child windows for program editors and RC+ tools, plus Project Explorer, Status Pane, tool bar, and status bar.
+- Major RC+ windows/subsystems should be represented individually as documented, including Robot Manager, Command Window, I/O Monitor, Task Manager, Macros, I/O Label Editor, User Error Editor, Controller, Run/Operator windows, source/program windows, point files, and other verified standard windows.
+- Window-management behaviors should include RC+-style simultaneous windows and equivalents of cascade/tile where practical on Android.
+- The visual language may be modernized for touch (rounded controls/windows, cleaner spacing and typography, responsive sizing) without changing RC+ concepts, names, navigation relationships, or workflow.
+- Production simulation views use the actual articulated C4-A601S 3D model; emoji/mockup robot icons are temporary placeholders only.
+
 ### RC+ Trainer learning behavior
 - All implemented RC+-like screens remain available from the start.
 - Guided learning is optional and overlays the real interface rather than replacing it.
