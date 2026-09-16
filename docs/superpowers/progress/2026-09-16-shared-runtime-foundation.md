@@ -85,7 +85,12 @@ Do not rely only on Codex conversation history or a local `.superpowers` workspa
 **Next action:** Task 7 Compose binding.
 
 ### Task 7 — Compose binding to SharedRuntime
-**Status:** pending
+**Status:** implementation complete; manual C4 smoke test pending
+**Implementation commit:** `01624224272955a882e1a27db13ab4623877fdcf`
+**Review:** inline plan/spec review passed; changed files are only MainActivity, RobotTrainerScreen, and RuntimeStateBinding. Existing C4RobotScene remains unchanged.
+**Tests/CI:** GitHub Actions run 118 passed unit tests, debug APK build, and artifact upload.
+**Behavioral verification still required:** manual Android smoke for C4 render, articulation, limits, ZERO, RC+ TEST POSE, TCP readout, orbit and pinch zoom.
+**Next action:** Task 8 documentation/final automated verification; do not declare Phase 1 complete until manual smoke also passes.
 
 ### Task 8 — Documentation + final verification
 **Status:** pending
@@ -393,3 +398,11 @@ No preflight finding requires adding source parsing, project persistence, task s
 - Task 6 complete at `78c452b665b3bd7d6f5cd6da2defeb0fc1c34625`.
 - Default composition resolves C4, RC+ 7.5.3, SPEL+, School Setup, and Local Simulation through the registries.
 - No extra simulator/profile switching behavior was introduced.
+
+### Inline Task 7 implementation checkpoint
+- C4 screen no longer owns authoritative joint state; it derives joints from SharedRuntime state.
+- Slider changes, ZERO JOINTS, and RC+ TEST POSE dispatch RuntimeCommand values.
+- MainActivity owns one remembered default SharedRuntime for the app composition.
+- Calibration disclaimer remains unchanged; RC+ Cartesian mapping is still unvalidated.
+- No Digital Twin or real-hardware behavior is exposed.
+- Automated verification: Actions run 118 success. Manual visual/device smoke remains a required final gate.
