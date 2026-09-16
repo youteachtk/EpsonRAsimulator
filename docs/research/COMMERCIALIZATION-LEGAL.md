@@ -72,10 +72,18 @@ Mitigation:
 ### 4. Epson CAD/model asset redistribution
 The project currently uses GLB geometry derived from an Epson-published STEP model. Commercial redistribution rights for that CAD-derived asset have not been verified.
 
+Current project decision:
+- do not contact Epson for permission at this stage;
+- create an independently authored replacement robot model as the preferred commercial asset;
+- keep the present CAD-derived model as a development/reference fallback because its quality is already acceptable to the user;
+- do not treat that fallback as commercially cleared unless its redistribution rights are later verified.
+
 Mitigation:
-- treat the current C4 GLBs as a commercialization blocker until written license/permission or an applicable redistribution grant is confirmed;
-- if permission is unavailable, replace commercial-distribution geometry with an independently created model based on measurements/specifications that does not copy protected CAD expression beyond what is legally permissible;
-- keep a license/provenance manifest for all robot/tool/workcell assets.
+- independently author mesh topology, geometry details, materials, textures and visual assets;
+- use lawful factual references such as measurements, dimensions, observed joint relationships and independently captured photographs where permitted;
+- separate render assets from kinematic/robot-definition data so the mesh can be swapped without changing simulation logic;
+- keep a license/provenance manifest for all robot/tool/workcell assets;
+- perform an IP review of the final independently created model before a paid/public release.
 
 ### 5. SPEL+ names, syntax, compatibility and documentation
 Using real SPEL+ for interoperability/learning is a core requirement, but documentation text and examples are copyrighted even if language syntax/command names need to be referenced for compatibility.
