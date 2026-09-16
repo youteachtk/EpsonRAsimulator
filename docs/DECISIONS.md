@@ -232,3 +232,10 @@ This file records decisions that should survive future conversations.
 - With touch, **long-press** opens the same contextual menu.
 - The menu commands, labels, enable/disable state, and target semantics should match verified RC+ behavior; only the visual styling/icons are independently designed.
 - Long-press is an Android accessibility/adaptation layer and must not replace the official mouse behavior when a pointing device is connected.
+
+### RC+ Trainer Project Explorer selection/open behavior
+- Project Explorer should preserve the RC+ desktop selection/open model while adapting it to touch.
+- **Single click/tap** selects an item without opening it.
+- **Double-click/double-tap** opens the selected file or jumps to the selected function, matching verified RC+ behavior.
+- Right-click/long-press continues to open the context menu.
+- Touch adaptation must not collapse selection and open into the same gesture because the learner should practice the same interaction distinction used in RC+.
