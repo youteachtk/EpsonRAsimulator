@@ -72,6 +72,12 @@ Key characteristics:
 - Use original icons, artwork, window chrome, spacing, and visual styling; do not copy proprietary RC+ graphic assets or screenshots.
 - Use Epson/RC+ brand names descriptively rather than as the product's own branding.
 
+### Project Explorer selection/open gestures
+- Single click/tap selects.
+- Double-click/double-tap opens a file or jumps to a function.
+- Right-click/long-press opens the context menu.
+- Touch preserves the same distinction between selection, opening, and context actions as desktop RC+.
+
 ### RC+ context menu interaction
 - Mouse/trackpad: right-click opens the verified RC+ contextual menu.
 - Touch: long-press opens the same menu.
