@@ -72,6 +72,11 @@ Key characteristics:
 - Use original icons, artwork, window chrome, spacing, and visual styling; do not copy proprietary RC+ graphic assets or screenshots.
 - Use Epson/RC+ brand names descriptively rather than as the product's own branding.
 
+### RC+ context menu interaction
+- Mouse/trackpad: right-click opens the verified RC+ contextual menu.
+- Touch: long-press opens the same menu.
+- Menu commands/semantics follow verified RC+ behavior; visuals remain independently designed.
+
 ### RC+ project round-trip
 - Preserve imported RC+ project resources that are not understood rather than deleting or rewriting them.
 - Keep app/Visual Lab metadata separate from native project files.
