@@ -301,3 +301,11 @@ This file records decisions that should survive future conversations.
 - The current shared runtime remains the common robot/workcell/I-O/task foundation wherever concepts are portable; vendor-specific semantics stay in adapter modules.
 - Future robot/model assets must follow the same provenance/IP rule as the C4: use redistributable assets or independently authored geometry rather than silently redistributing proprietary CAD.
 - Existing C4-A601S / RC+ projects must remain compatible as the catalog grows.
+
+### Approved design section 1: Shared Runtime / Single Source of Truth
+- The shared-runtime architecture section is approved.
+- RC+ Trainer and Visual Lab are two interfaces over one canonical project/simulation state.
+- The shared runtime owns project, program, points, robot state, kinematics/motion, tasks, I/O, workcell, tools/TCP, diagnostics, profiles/capabilities and other portable simulation state.
+- UIs issue commands/actions to the runtime and observe resulting state; they do not maintain independent authoritative copies.
+- School Setup and Full Learning are capability/profile configurations over the same runtime.
+- The architecture remains extensible through RobotProvider / SimulatorAdapter / ProgrammingLanguageAdapter / ProjectFormatAdapter boundaries so future robots/simulators can be added without redefining the application core.
