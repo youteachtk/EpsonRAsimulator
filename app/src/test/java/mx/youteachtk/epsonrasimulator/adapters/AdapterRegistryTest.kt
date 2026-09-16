@@ -55,6 +55,72 @@ class AdapterRegistryTest {
             projectFormats = listOf(format)
         )
     }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun rejectsSimulatorThatReferencesUnknownProjectFormat() {
+        val simulator = object : SimulatorAdapter {
+            override val id = SimulatorAdapterId("sim")
+            override val displayName = "Simulator"
+            override val programmingLanguageId = language.id
+            override val projectFormatId = ProjectFormatAdapterId("missing")
+            override val defaultProfileId = TrainingProfileId("school")
+            override val capabilities = CapabilitySet()
+        }
+
+        AdapterRegistry(
+            simulators = listOf(simulator),
+            languages = listOf(language),
+            projectFormats = emptyList()
+        )
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun rejectsDuplicateSimulatorIds() {
+        fun simulator(name: String) = object : SimulatorAdapter {
+            override val id = SimulatorAdapterId("duplicate")
+            override val displayName = name
+            override val programmingLanguageId = language.id
+            override val projectFormatId = format.id
+            override val defaultProfileId = TrainingProfileId("school")
+            override val capabilities = CapabilitySet()
+        }
+
+        AdapterRegistry(
+            simulators = listOf(simulator("A"), simulator("B")),
+            languages = listOf(language),
+            projectFormats = listOf(format)
+        )
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun rejectsDuplicateLanguageIds() {
+        val duplicateLanguage = object : ProgrammingLanguageAdapter {
+            override val id = language.id
+            override val displayName = "Duplicate Language"
+        }
+
+        AdapterRegistry(
+            simulators = emptyList(),
+            languages = listOf(language, duplicateLanguage),
+            projectFormats = listOf(format)
+        )
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun rejectsDuplicateProjectFormatIds() {
+        val duplicateFormat = object : ProjectFormatAdapter {
+            override val id = format.id
+            override val displayName = "Duplicate Format"
+            override val fileExtensions = setOf("inc")
+        }
+
+        AdapterRegistry(
+            simulators = emptyList(),
+            languages = listOf(language),
+            projectFormats = listOf(format, duplicateFormat)
+        )
+    }
+
     @Test
     fun rcPlus7BaselineResolvesSpelAndProjectFormat() {
         val registry = AdapterRegistry(
@@ -73,5 +139,4 @@ class AdapterRegistryTest {
             registry.projectFormatFor(simulator.id).fileExtensions
         )
     }
-
 }
