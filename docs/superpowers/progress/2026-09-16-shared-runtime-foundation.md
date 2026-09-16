@@ -92,3 +92,35 @@ Execute `docs/superpowers/plans/2026-09-16-shared-runtime-foundation.md` with Su
 Use the plan as the implementation procedure and the formal spec as the binding authority. Use a fresh implementer per task, independent task review, TDD, final whole-branch review, and verification-before-completion.
 
 After every task or interruption, update and commit this GitHub ledger before continuing.
+
+## Quota-stop handoff protocol
+
+If Codex is about to stop because Work/Codex quota is exhausted, it must use its final available turn to persist an exact handoff to GitHub before stopping.
+
+Required actions:
+1. Finish or safely stop the current atomic step; do not leave an uncommitted half-edit if avoidable.
+2. Run the narrowest relevant verification that still fits the remaining budget.
+3. Commit all valid code already completed on `feature/shared-runtime-foundation`.
+4. Update this ledger with:
+   - current task and exact sub-step;
+   - what is complete;
+   - what remains;
+   - latest commit SHA;
+   - test commands run and results;
+   - any failing test/error/blocker;
+   - reviewer findings still open;
+   - any Superpowers ruling made;
+   - exact files currently being worked on;
+   - exact next command/action to resume;
+   - whether the working tree is clean or has uncommitted changes.
+5. Commit the ledger update.
+6. Push the branch.
+7. Add a short comment to Draft PR #6 containing:
+   - `HANDOFF READY FOR INLINE RESUME`;
+   - latest commit SHA;
+   - current task number;
+   - exact next action;
+   - pointer to this ledger.
+8. Do not merge the PR.
+
+After that, ChatGPT inline can resume by reading the branch, Draft PR #6, and this ledger.
