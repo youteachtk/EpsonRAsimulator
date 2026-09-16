@@ -43,6 +43,11 @@ Key characteristics:
 - Language can be switched in place without resetting the current activity.
 - RC+/SPEL+ technical tokens remain exact; English terms are preserved where needed, with Spanish explanation rather than unsafe translation.
 
+### RC+ keyboard shortcuts
+- Physical/Bluetooth keyboard support reproduces verified RC+ shortcuts for the corresponding tool/command.
+- Touch remains first-class; shortcuts provide authentic RC+ practice rather than a separate control scheme.
+- Shortcut mappings are centralized, version/profile aware, and avoid Android/system-reserved combinations.
+
 ### Authentic RC+ tool navigation
 - The internal taskbar contains only minimized RC+ child windows.
 - Permanent tool shortcuts are not added to the taskbar.
