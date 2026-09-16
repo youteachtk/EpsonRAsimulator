@@ -44,12 +44,12 @@ Do not rely only on Codex conversation history or a local `.superpowers` workspa
 **Next action:** Task 2, fresh implementer and focused CapabilityModelsTest RED first.
 
 ### Task 2 — Capability, profile, and connection-mode models
-**Status:** in-progress
+**Status:** complete
 **RED commit:** `b54fb6f6de02df72135e356cde89be5feb0ccc27`
-**Capability models GREEN commit:** `a6c611019f1923a6e7e50b9d03b8ed7591c308dc`
-**Tests/CI:** run 97 failed as expected on unresolved `CapabilityId`/`CapabilitySet`; run 98 succeeded after adding `CapabilityModels.kt`.
-**Blocker:** publishing `ConnectionMode.kt` is currently blocked by the ChatGPT GitHub mutation safety layer even though the file only declares reserved state vocabulary and no hardware-control behavior. Do not treat Task 2 as complete until the exact planned enum is linked into the branch and reverified.
-**Next action:** Codex should add `ConnectionMode.kt` exactly as specified by the plan, or inline should retry if the mutation restriction clears; then review Task 2 before moving into dependent runtime work.
+**Implementation commits:** `a6c611019f1923a6e7e50b9d03b8ed7591c308dc`, `c382dc24f2c056d8fd171a17e8d4f128b490bc4c`
+**Review:** inline plan/spec review passed; all planned model types and enum values are present; non-local modes remain non-executable in Phase 1.
+**Tests/CI:** run 97 was the intended RED; run 98 passed after capability models; run 107 passed unit tests, debug APK build and artifact upload after final Task 2 code.
+**Next action:** Task 4 after Codex-activity check.
 
 ### Task 3 — Simulator/language/project-format adapter contracts
 **Status:** complete
@@ -354,3 +354,9 @@ No preflight finding requires adding source parsing, project persistence, task s
 - Review limitation: this ChatGPT inline session cannot provide the independent subagent reviewer used by Codex; Codex may re-review Task 3 on return, but should not reimplement it unless it finds a concrete defect.
 - Publication note: several mutations were temporarily rejected by the connector; all accepted Task 3 files are now on the branch. No force ref update was used.
 - Exact next action: re-check Codex activity. If still paused, try to complete Task 2's exact `ConnectionMode.kt`; otherwise let Codex take over from this ledger. Task 4 is dependency-safe with respect to Task 3 but Task 5 must not start until Task 2 is complete.
+
+### Inline Task 2 completion checkpoint
+- Task 2 is complete and reviewed inline.
+- Final implementation commits: capability/profile models `a6c611019f1923a6e7e50b9d03b8ed7591c308dc`; connection-mode vocabulary `c382dc24f2c056d8fd171a17e8d4f128b490bc4c`.
+- GitHub Actions run 107 succeeded through unit tests, debug APK build, and artifact upload.
+- Phase 1 execution authority remains Local Simulation only.
