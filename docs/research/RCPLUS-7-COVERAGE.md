@@ -629,3 +629,191 @@ RC+ Trainer windows are therefore views/controllers over shared simulator state.
 Official sources used for this inventory:
 - EPSON RC+ 7.0 User's Guide v7.5 official Epson manuals.
 - Epson RC700/RC90 controller manuals for Tools > Controller maintenance workflows.
+
+## Verified main toolbar baseline (RC+ 7.0 v7.5)
+
+Official RC+ 7.0 v7.5 documentation confirms:
+- The main toolbar sits directly below the menu bar.
+- Toolbar buttons map to menu commands rather than creating a separate command model.
+- Hovering with a pointer shows a tooltip for the command.
+- The toolbar is customizable through **Add or Remove Buttons > Main Toolbar**.
+- Toolbar command positions are fixed; customization shows/hides commands rather than freely rearranging them.
+- A visible connection-status area is part of the toolbar area (for example, Connection: Offline).
+- Because RC+ supports optional modules, the available toolbar command set is capability/license dependent.
+
+Verified toolbar command families/buttons include:
+- Project Wizard / Wizard
+- New
+- Open
+- Save / Save All (version/context dependent)
+- Print
+- Cut
+- Copy
+- Paste
+- Find / Find Next / Find Previous / Replace (as supported by the revision)
+- Select All
+- Indent
+- Outdent
+- Comment Block
+- Uncomment Block
+- Build
+- Run Window
+- Toggle Breakpoint
+- Robot Manager
+- Command Window
+- I/O Monitor
+- Task Manager
+- Macros
+- I/O Label Editor
+- User Error Editor
+- Simulator
+- GUI Builder
+- Conveyor Tracking
+- Part Feeding
+- Vision
+- Force Guide
+- Force Monitor
+- PC-to-Controller / connection control
+- Help
+
+Verified RC+ 7 shortcuts for tool/option commands include:
+- Robot Manager — F6
+- Command Window — Ctrl+M
+- I/O Monitor — Ctrl+I
+- Task Manager — Ctrl+T
+- I/O Label Editor — Ctrl+L
+- User Error Editor — Ctrl+U
+- Simulator — Ctrl+F5
+- GUI Builder — Ctrl+F7
+- Conveyor Tracking — Ctrl+F8
+- Vision — Ctrl+F9
+- Force Monitor — Ctrl+F10
+- Force Guide — Ctrl+F11
+- Part Feeding — Ctrl+F12
+
+Trainer consequence:
+- Preserve toolbar-to-menu command equivalence.
+- Preserve the fixed-order/show-hide customization behavior.
+- Preserve official shortcut labels where verified.
+- Use our own original icons and styling.
+- Touch tooltips/help can be exposed through long-press or contextual help without removing pointer hover behavior.
+
+Sources:
+- EPSON RC+ 7.0 v7.5 User's Guide, GUI > Tool Bar.
+- EPSON RC+ 7.0 Part Feeding manual Tools-menu screenshot.
+
+## Robot Manager capability/page matrix baseline
+
+For the confirmed C4-A601S / RC+ 7.0 v7.5 School Setup baseline, the official Robot Manager screenshots/documentation show the left-side page family:
+- Control Panel
+- Jog & Teach
+- Points
+- Hands
+- Arch
+- Locals
+- Tools
+- Pallets
+- ECP
+- Boxes
+- Planes
+- Weight
+
+Other documented robot/controller combinations may additionally or alternatively expose pages such as:
+- Arms
+- Inertia
+- XYZ Limits
+- Range
+- Force (when Force Guide/force-sensor integration is available)
+
+Capability rules:
+- Page availability is driven by robot type, controller model, installed options, and feature support.
+- Full Learning may expose documented pages for study even when not present on School Setup, but must label the required capability.
+- School Setup should match the verified C4-A601S/controller configuration instead of showing every page indiscriminately.
+- Robot Manager is therefore implemented through a page registry + capability predicates, not a hard-coded universal page list.
+
+Current C4-specific verified examples:
+- Tools: 15 tool-coordinate definitions with X/Y/Z/U/V/W and Apply/Restore/Defaults/Clear behavior.
+- Pallets: pallet definitions, wizard/manual definition, point geometry and row/column structure.
+- Jog & Teach: World/Tool/Local/Joint/ECP modes and C4 six-axis XYZUVW/joint controls.
+- Points: C4 point spreadsheet including X/Y/Z/U/V/W and point-file operations.
+- Arch: Jump/Jump3-related arch parameters.
+- Force: optional integration, not assumed to be present in School Setup.
+
+The detailed field/control matrix for every page remains implementation research work, but the window/page architecture is sufficiently established for the formal design spec.
+
+## Full Learning optional-module inventory baseline
+
+Official RC+ 7.0 documentation and Epson option manuals establish these learning domains/options:
+
+### Vision Guide 7.0
+- Integrated vision guidance/image-processing environment.
+- Has its own vision sequences/objects, properties/results and hardware/setup concepts.
+- RC+ contextual help and SPEL+ integration are part of the documented workflow.
+- Full Learning should support an educational/simulated vision path independent of actual camera hardware.
+
+### Force Guide 7.0 / Force Control / Force Monitor
+- Force-sensor setup and correction.
+- Force Guide sequences/objects and SPEL+ commands.
+- Force Monitor for current/historical force values.
+- Robot Manager Force integration where supported.
+- Full Learning can simulate force signals and contact; School Setup only shows the module as installed if verified.
+
+### GUI Builder 7.0
+- Optional integrated GUI-development environment within RC+.
+- Full Learning target should teach the RC+ GUI Builder workflow using original visual assets/components rather than copying proprietary artwork.
+
+### Conveyor Tracking
+- Vision- or sensor-based tracking of moving conveyor workpieces.
+- Requires calibration and coordinated robot/conveyor motion.
+- This maps naturally to the future Workcell runtime (moving conveyor, encoder/sensor state, tracked parts).
+
+### Part Feeding 7.0 / IntelliFlex feeding integration
+- Dedicated Part Feeding window.
+- Part definition/configuration and calibration workflow.
+- Adds project resources such as PartFeeding.prg, PartFeeding.inc and project configuration data in documented versions.
+- Full Learning should preserve the workflow and project relationships while using simulated feeders/parts.
+
+### RC+ API 7.0
+- Optional .NET integration for external applications.
+- Primarily a learning/documentation/integration target for the Windows bridge; Android does not need to emulate .NET itself.
+
+### Security
+- RC+ user/security administration and auditing capability documented as part of the RC+ 7 feature set.
+- Full Learning should teach concepts and screens without treating simulated accounts as real controller security.
+
+### PG Motion System / auxiliary axes
+- Supports third-party motors/drives for auxiliary equipment such as XY tables/slides.
+- Workcell architecture must therefore support auxiliary axes beyond J1-J6.
+
+### ECP
+- External Control Point support for CP motion relative to a fixed point.
+- Already reflected in Robot Manager coordinate/jog concepts.
+
+### Fieldbus I/O and expansion I/O
+- Hardware/controller-dependent I/O expansion and fieldbus configurations.
+- Full Learning should expose configuration concepts through the virtual controller capability model.
+
+### Teach pendants / external operator devices
+- Hardware-dependent learning domain; not an RC+ MDI window replacement.
+- May be represented later as separate simulated devices/workflows.
+
+### Additional communications/integration
+Official RC+ 7 materials also document controller communications such as:
+- Ethernet / TCP-IP
+- serial/RS-232 (controller dependent)
+- databases/networking capabilities
+
+These belong to the virtual-controller/runtime capability model, not merely the visual shell.
+
+## Inventory completion status
+
+At architecture level, the remaining fidelity inventory is now sufficient to proceed to design:
+- Core menus: inventoried
+- Main toolbar behavior/command families: inventoried
+- Core Robot Manager page architecture for C4 and capability-driven variants: inventoried
+- Build/Run/Status: inventoried
+- Command Window / I/O Monitor / Task Manager: inventoried
+- Controller / Setup / Preferences: inventoried
+- Optional Full Learning domains: inventoried
+
+Future implementation work still requires per-screen field-level verification before each screen/module is marked High-fidelity.
