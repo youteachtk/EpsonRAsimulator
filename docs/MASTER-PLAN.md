@@ -31,6 +31,13 @@ Key characteristics:
 - contextual ? help for unfamiliar RC+ screens and concepts;
 - improved 3D robot/workcell visualization alongside the RC+-like workflow.
 
+### Full-app localization
+- RC+ Trainer and Visual Lab are fully available in English and Spanish.
+- Navigation, controls, dialogs, simulator/workcell UI, programming UI, diagnostics, settings, lessons, and help are localized.
+- Language switching preserves the current project, program, simulation, and screen context.
+- Exact SPEL+/RC+ technical tokens and user-defined identifiers are never translated.
+- Localization is a shared app service so every new feature is bilingual by default.
+
 ### Language and translation
 - Tutorials, guided walkthroughs, contextual ? help, and educational explanations are available in English and Spanish.
 - Language can be switched in place without resetting the current activity.
