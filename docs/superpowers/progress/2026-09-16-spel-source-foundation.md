@@ -99,7 +99,21 @@ Evidence:
 - `NATIVE_VALID_NOT_LOCALLY_SIMULATABLE` remains deliberately unused without external/native validation evidence.
 
 ### Task 4 — Source-preserving semantic operand edits
-**Status:** pending
+**Status:** complete
+
+Evidence:
+- RED commit: `5b45cfd6d061effe16c687461515e52c4937ad35` (`test: add failing source-preserving SPEL edit tests`).
+- RED CI: Android CI run #136 failed in Unit tests with unresolved references for `SourceEdit` and `SpelSourceEditor`.
+- GREEN implementation commit: `633e5e8f8bfb3209bc68df30fd001195a90f0440` (`feat: add source-preserving SPEL edits`).
+- GREEN CI: Android CI run #137 completed successfully.
+- Unit tests: success.
+- Debug APK build: success.
+- Debug APK upload: success.
+- Implemented `SourceEdit` as a validated half-open range replacement primitive.
+- Implemented `SpelSourceEditor.replaceArgument` only for recognized SPEL statements exposing `argumentRange`; Direct Code cannot be passed to this semantic edit API.
+- Verified that editing `Speed 50` to `Speed 75` preserves surrounding whitespace, CRLF, apostrophe comment, and unknown Direct Code exactly.
+- Verified that reparsing the edited source produces `Speed.argumentText == "75"` with no diagnostics.
+- Out-of-bounds source edits are rejected.
 
 ### Task 5 — Source-capable SPEL+ adapter registry wiring
 **Status:** pending
@@ -131,9 +145,7 @@ Before Phase 2 may be accepted:
 - Phase 2 branch created from exact accepted Phase 1 head.
 - Phase 2 implementation plan committed as `f59fa75781e84c725ad57639942059024801288d`.
 - Draft PR #8 uses base `feature/shared-runtime-foundation`.
-- Task 1 completed with RED/GREEN evidence and full Android CI green.
-- Task 2 completed with RED/GREEN evidence and full Android CI green.
-- Task 3 completed with RED/GREEN evidence and full Android CI green.
-- Implementation head before this ledger update: `9ea3edf1127c64b2f2f0b43df6720c847aa9e7f5`.
-- No concurrent Codex activity was observed before Task 3 edits; inline execution performed the task.
-- Exact next action: Task 4 Step 1 — add failing source-preservation tests proving that replacing a recognized statement operand changes only that operand range and leaves whitespace, comments, CRLF, and Direct Code byte-for-byte unchanged.
+- Tasks 1–4 completed with RED/GREEN evidence and full Android CI green.
+- Implementation head before this ledger update: `633e5e8f8bfb3209bc68df30fd001195a90f0440`.
+- No concurrent Codex activity was observed before Task 4 edits; inline execution performed the task.
+- Exact next action: Task 5 Step 1 — add a failing registry test proving RC+ resolves a source-capable SPEL+ adapter and opens a lossless `ProgramDocumentSession`.
