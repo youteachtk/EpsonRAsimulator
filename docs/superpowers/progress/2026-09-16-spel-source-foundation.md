@@ -64,7 +64,21 @@ Evidence:
 - Verified by tests: token concatenation reconstructs source exactly; ranges are contiguous; CR/LF is preserved; apostrophe inside a string is not treated as a comment; comments remain trivia; unknown characters are retained as symbols.
 
 ### Task 2 — Conservative SPEL+ semantic model and analyzer
-**Status:** pending
+**Status:** complete
+
+Evidence:
+- RED commit: `b7f5ffc117c6c932c94b93f10ffcf3317020d642` (`test: add failing SPEL analyzer tests`).
+- RED CI: Android CI run #130 failed in Unit tests with unresolved references for `SpelAnalyzer`, `SpelProgramSemanticModel`, `SpelStatement`, and `DiagnosticSeverity`.
+- GREEN implementation commit: `9a03a7df39f3b2621e93ac483cee17e6c4b46d48` (`feat: add conservative SPEL semantic analyzer`).
+- GREEN CI: Android CI run #131 completed successfully.
+- Unit tests: success.
+- Debug APK build: success.
+- Debug APK upload: success.
+- Implemented neutral `ProgramSemanticModel` and `ProgramDiagnostic` contracts.
+- Implemented conservative SPEL+ semantics for `Function...Fend`, `Call`, `Go`, `Move`, `Speed`, and `Wait`.
+- Unknown nonblank SPEL+ statements remain `DirectCode` instead of becoming parser errors.
+- Structural diagnostics cover unclosed functions, stray `Fend`, missing function names, nested functions, and missing operands.
+- Recognized operand ranges exclude trailing whitespace/comments and preserve exact source offsets.
 
 ### Task 3 — ProgramDocument and last-valid semantic retention
 **Status:** pending
@@ -103,6 +117,7 @@ Before Phase 2 may be accepted:
 - Phase 2 implementation plan committed as `f59fa75781e84c725ad57639942059024801288d`.
 - Draft PR #8 uses base `feature/shared-runtime-foundation`.
 - Task 1 completed with RED/GREEN evidence and full Android CI green.
-- Implementation head before this ledger update: `46914c3e09503705299c57d06adae3bf6cab79e3`.
-- No concurrent Codex activity was observed before Task 1 edits; inline execution performed the task.
-- Exact next action: Task 2 Step 1 — add failing semantic-subset tests for `Function...Fend`, `Speed`, `Go`, `Move`, `Wait`, `Call`, and Direct Code preservation.
+- Task 2 completed with RED/GREEN evidence and full Android CI green.
+- Implementation head before this ledger update: `9a03a7df39f3b2621e93ac483cee17e6c4b46d48`.
+- No concurrent Codex activity was observed before Task 2 edits; inline execution performed the task.
+- Exact next action: Task 3 Step 1 — add failing `ProgramDocumentSession` tests for last-valid semantic retention after syntax-invalid edits and `PARTIALLY_SUPPORTED` state for Direct Code.
