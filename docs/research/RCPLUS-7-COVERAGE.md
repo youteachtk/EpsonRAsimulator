@@ -213,3 +213,100 @@ Research should therefore focus on building a complete verified inventory of:
 - other documented workflows.
 
 Escalate for product approval only when fidelity conflicts with Android usability, legal/IP boundaries, safety, hardware reality, or a significant design fork.
+
+## Verified Robot Manager baseline for C4 / 6-axis learning
+
+Official EPSON RC+ 7.0 v7.5 documentation shows Robot Manager as a substantial multi-page tool, not a simple jog card.
+
+### Control Panel
+Verified functions/status:
+- Robot selector
+- Emergency Stop status
+- Safeguard status
+- Motors status
+- Power status
+- MOTOR OFF / MOTOR ON
+- POWER LOW / POWER HIGH
+- Reset
+- Home
+- Free/Lock joint controls where supported by the robot type
+
+For a 6-axis C4, unsupported controls must follow RC+ enable/disable behavior rather than being invented.
+
+### Jog & Teach
+Verified controls/behavior:
+- Robot / Local / Tool / ECP selectors
+- Jog modes: World, Tool, Local, Joint, ECP
+- Speed selector
+- Cartesian jog axes X/Y/Z/U/V/W for 6-axis robots
+- Joint jog controls in Joint mode
+- Current Position views: World / Joint / Pulse
+- Current Arm Orientation fields such as Hand, Elbow, Wrist and relevant flags
+- Jog Distance modes: Continuous, Long, Medium, Short
+- Teach Points tab
+- Execute Motion tab
+- Point file and point selector
+- Teach and Edit actions
+- Singularity/step-jog warning behavior documented by RC+ should be represented in the simulator where applicable
+
+### Points
+Verified behavior:
+- Point File selector
+- Point spreadsheet
+- Columns for Number, Label, X, Y, Z, U, V, W for the C4-class 6-axis example
+- Delete selected point
+- Delete All
+- Save
+- Restore
+- Teaching from Jog & Teach updates the Points view
+- In MDI mode, Ctrl+S saves point data
+
+### Additional Robot Manager pages visible/documented for the C4-class environment
+Official v7.5 screenshots/manual sections show a page list including:
+- Hands
+- Arch
+- Locals
+- Tools
+- Pallets
+- ECP
+- Boxes
+- Planes
+- Weight
+
+Older/specific controller/robot configurations also document pages such as:
+- Arms
+- Inertia
+- XYZ Limits
+- Range
+
+Page availability is robot/controller/option dependent and must therefore be data-driven rather than hard-coded as universally available.
+
+### Arch
+Verified:
+- Arch table with seven setting pairs
+- Depart Z
+- Approach Z
+- Apply
+- Restore
+- Defaults
+- Clear
+- Used by Jump / Jump3 / Jump3CP motion behavior
+
+### Optional Force integration
+When Force Guide is available, official documentation shows a Force page integrated into Robot Manager with panels such as:
+- Control
+- Trigger
+- Coordinate System
+- Monitor
+- Motion Restriction
+
+This belongs to Full Learning and appears in School Setup only if verified as present/licensed.
+
+## Design consequence
+
+Robot Manager in RC+ Trainer must be implemented as a page registry driven by robot/controller/options/profile capability metadata. The window shell stays the same, while the left-page list and controls reflect the selected robot and installed/learning capabilities.
+
+Sources:
+- EPSON RC+ 7.0 User's Guide Rev.9: https://files.support.epson.com/far/docs/epson_rc_pl_70_users_guide-rc700_rc90%28v75r9%29.pdf
+- EPSON RC+ 7.0 Spanish User's Guide: https://files.support.epson.com/far/docs/epson_rc_pl_70_users_guide_spanish_%28v73r2%29.pdf
+- Force Guide 7.0 manuals from Epson support.
