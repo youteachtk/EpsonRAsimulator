@@ -484,3 +484,148 @@ RC+ Trainer should preserve these workflows and state transitions, not merely di
 
 Official baseline:
 - EPSON RC+ 7.0 User's Guide v7.5 (official Epson support/download).
+
+## Verified core tool windows: Command, I/O Monitor, Task Manager, Controller / Setup
+
+### Command Window
+Official RC+ 7.0 v7.5 behavior:
+- Opens from Tools > Command Window, toolbar, or Ctrl+M.
+- Presents a prompt using ">".
+- Executes SPEL+ commands directly and shows returned results.
+- Commands may be entered in upper or lower case.
+- Enter executes the command even when the cursor is elsewhere on that prompt line.
+- The user waits for the prompt to return before entering the next command.
+- Errors display an error number and message.
+- A previous prompt line can be revisited with keyboard/mouse and re-executed.
+- Official documentation also defines command-window-specific keyboard behavior such as command recall and navigation; these should be inventoried into the shortcut map rather than replaced with generic mobile history UI.
+
+Trainer consequence:
+- Local Simulation mode needs a simulated SPEL+ command console over the same runtime/state model as Program/Robot Manager.
+- RC+ Digital Twin mode can later route supported commands through the Windows bridge.
+- Unsupported/direct commands must never be silently treated as if executed successfully.
+
+### I/O Monitor
+Official RC+ 7.0 v7.5 behavior:
+- Opens from Tools > I/O Monitor, toolbar, or Ctrl+I.
+- Monitors controller hardware inputs/outputs and memory I/O.
+- Provides one Standard View plus up to three Custom Views.
+- Standard View contains two configurable grids.
+- Each grid can monitor configurable I/O type/size such as bit, byte, or word.
+- Custom Views can combine input, output, and memory items.
+- I/O labels from I/O Label Editor are shown.
+- Status is continuously refreshed while the window is open.
+- The I/O Monitor remains on top of ordinary child windows in the documented desktop environment.
+- Outputs can be toggled by double-clicking the output status LED.
+- In Virtual I/O mode, input bits can also be toggled by double-clicking their status LED.
+- Hexadecimal display is available for bytes/words.
+- The grids support split scroll regions.
+
+Trainer consequence:
+- Preserve Standard/Custom View semantics and live status updates.
+- Mouse double-click preserves RC+ behavior; touch should use a deliberate equivalent that does not cause accidental I/O changes.
+- Local Simulation maps I/O to workcell sensors/actuators and virtual signals.
+- School Setup / Full Learning determine which I/O hardware/options appear.
+
+### Task Manager
+Official RC+ 7.0 v7.5 behavior:
+- Opens from Tools > Task Manager, toolbar, or Ctrl+T.
+- Used to halt/suspend, resume/continue, step, and stop/quit tasks.
+- Shows a task grid including standard tasks, trap tasks, and background tasks when enabled.
+- Documented task information includes:
+  - Task number
+  - Name
+  - Status
+  - Type
+  - Line
+  - Function
+  - Program
+  - Start time
+  - CPU load
+- Documented task statuses include Run, Wait, Halt, Pause, Aborted, and Finished.
+- Documented task types include Normal, NoPause, and NoEmgAbort.
+- CPU-load display is intended to help detect tasks that monopolize controller processing.
+
+Trainer consequence:
+- The SPEL+ simulation runtime must expose a real task model rather than faking a static Task Manager UI.
+- Program execution/debugging, Run Window, Task Manager, Command Window, and status/debug information should share the same runtime/task state.
+
+### Tools > Controller
+Verified controller-maintenance dialog behavior includes:
+- Backup Controller...
+- Restore Controller...
+- View Controller Status...
+- Maintenance...
+- Reset Controller
+
+Controller manuals describe Tools > Controller as the entry point for backup/restore/maintenance operations.
+
+Trainer consequence:
+- Local Simulation should teach the same dialog/workflow using simulated controller state and clearly labeled training backup packages.
+- Operations that affect a real connected controller must remain separated from Local Simulation and later require explicit bridge/safety permissions.
+
+### Setup > PC to Controller Communications
+Official v7.5 behavior:
+- Shows configured connections and current connection/status.
+- Connection types can include USB and Virtual in documented examples.
+- Supports actions such as Connect, Disconnect, Add, Delete, authentication/password where applicable, Apply, Restore, Work Offline, Auto Connect, Close.
+- Work Offline allows project building without a controller but disables some controller-dependent functions such as Robot Manager.
+
+Trainer consequence:
+- RC+ Trainer should preserve the same conceptual connection states while adding an unmistakable product-level mode indicator:
+  - Local Simulation
+  - RC+ Digital Twin
+  - future Real Hardware (separately gated)
+- The RC+ shell should still teach the native Work Offline/connection workflow rather than replacing it with Visual Lab controls.
+
+### Setup > System Configuration
+Official documentation shows System Configuration as a tree-driven dialog for system/controller configuration.
+Verified examples include:
+- Controller preferences
+- Robots / Robot-specific pages
+- Robot amplifiers
+- Inputs / Outputs
+- Fieldbus Master / Slave when installed
+- other hardware/controller dependent pages
+
+The Inputs / Outputs page reflects installed hardware and I/O ranges rather than pretending all option boards are present.
+
+Trainer consequence:
+- System Configuration must be capability/profile-driven from controller, robot, option, and School Setup / Full Learning metadata.
+
+### Setup > Preferences
+Official documentation shows a tree-driven Preferences dialog.
+Verified preference groups include:
+- Workspace
+- Editor
+- Robot Manager
+  - General
+  - Jogging
+- Run Window
+- Command Window
+- GUI Builder
+- Simulator
+- Language
+
+Robot Manager > General includes the MDI Window vs Dialog display preference.
+
+Trainer consequence:
+- Preserve the documented preference organization when it affects the learned RC+ workflow.
+- Android-only accessibility/touch preferences should live in a clearly separate application section so they are not confused with official RC+ preferences.
+
+## Architecture implication from these tools
+
+These windows cannot be independent mock screens. They require shared runtime services:
+- Project / source model
+- SPEL+ parser and execution/runtime model
+- task scheduler/state
+- virtual/physical I/O abstraction
+- controller/profile capability model
+- robot state / motion state
+- status/error event stream
+- connection-mode abstraction
+
+RC+ Trainer windows are therefore views/controllers over shared simulator state. Visual Lab consumes the same state through its own UI.
+
+Official sources used for this inventory:
+- EPSON RC+ 7.0 User's Guide v7.5 official Epson manuals.
+- Epson RC700/RC90 controller manuals for Tools > Controller maintenance workflows.
