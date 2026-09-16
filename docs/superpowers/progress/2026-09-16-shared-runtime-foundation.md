@@ -30,7 +30,7 @@ Do not rely only on Codex conversation history or a local `.superpowers` workspa
 - Phased implementation sequence: approved.
 - Phase 1 executable plan: ready.
 - Feature branch: created.
-- Production implementation: not started.
+- Production implementation: Task 1 complete and independently approved; Tasks 2–8 pending. See latest handoff entry below.
 - Local Simulation remains the only executable authority mode for Phase 1.
 - No Windows bridge or physical-robot control is authorized in Phase 1.
 
@@ -295,3 +295,15 @@ No preflight finding requires adding source parsing, project persistence, task s
 - Rulings: no new ones; providerId remains provenance-only as recorded.
 - Files touched: robot/RobotProvider.kt, robot/RobotRegistry.kt, robot/EpsonRobotProvider.kt, test robot/RobotRegistryTest.kt (all under existing app Kotlin package roots); ledger.
 - Next exact action: record independent Task 1 review verdict, fix/re-review if necessary, then execute quota-stop handoff before starting Task 2 if remaining budget is insufficient.
+
+### Task 1 independent review — accepted
+- Current task: Task 1 complete (implementation 2f914f1875979424d282abeb2ce2a2644a1d66f0); next task: Task 2.
+- Last verified branch HEAD before this review ledger commit: fbb2d2091ba8ec4fe9c7b3251fe8f7059ae00940.
+- Reviewer verdict: Spec compliant; Task quality Approved. Critical: none. Important: none.
+- Evidence: registry implements planned lookup and deterministic global duplicate rejection; provider wraps unchanged C4 catalog; four meaningful RobotRegistryTest cases pass. Focused GREEN and full unit-test command logs report BUILD SUCCESSFUL. Controller git diff --check passed.
+- Minor finding: implementer report attributed APK signing denial to overlapping invocations without supporting evidence. Corrected report to root cause unknown; durable ledger likewise records only AccessDeniedException. No production fix round required.
+- Open findings: APK build signing lock access denial, ADB home-directory permission failure, manual C4 smoke test not performed; GitHub CI/final whole-branch review pending. These remain final acceptance gates, not Task 1 code defects.
+- Rulings: none new.
+- Files touched by review: ledger; ignored report wording corrected; generated .kotlin cache moved inside ignored plan scratch after path-boundary verification.
+- Working tree: clean, no tracked or untracked changes; branch synchronized with GitHub before this ledger update.
+- Next exact action: quota-stop handoff, then fresh Task 2 implementer writes CapabilityModelsTest first and runs focused RED before adding CapabilityModels.kt / ConnectionMode.kt.
