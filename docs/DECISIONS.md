@@ -264,3 +264,12 @@ This file records decisions that should survive future conversations.
   - multiple materially different implementation choices exist.
 - Fidelity approval does **not** authorize copying proprietary visual assets. Icons, logos, screenshots, artwork, window chrome, typography and visual styling remain independently designed.
 - When Android needs an adaptation (for example long-press for right-click), preserve the original RC+ interaction when mouse/keyboard is available and add the touch equivalent alongside it.
+
+### Approved top-level architecture: shared neutral runtime (Option B)
+- Approved approach: **one neutral shared Project/Simulation Runtime with two separate user interfaces: RC+ Trainer and Visual Lab**.
+- RC+ Trainer is a high-fidelity learning interface over the shared runtime. It may reproduce verified RC+ workflows without owning the robot/project/program state.
+- Visual Lab is an independent touch-first interface over the same runtime and is free to use a more modern interaction model.
+- Both interfaces operate on the same canonical project/program/points/I/O/robot/workcell/task state; they are not synchronized by copying between separate models.
+- A change made through one interface becomes visible to the other because both observe the same underlying state.
+- The future Windows RC+ Bridge also connects at the shared runtime/integration boundary rather than coupling directly to either UI.
+- This architecture is intended to prevent RC+ desktop constraints from leaking into Visual Lab while also preventing divergent project state between the two experiences.
