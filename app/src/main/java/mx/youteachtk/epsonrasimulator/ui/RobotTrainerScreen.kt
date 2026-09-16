@@ -23,27 +23,23 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import mx.youteachtk.epsonrasimulator.domain.EpsonRobotCatalog
 import mx.youteachtk.epsonrasimulator.domain.JointDefinition
 import mx.youteachtk.epsonrasimulator.domain.RobotDefinition
 import mx.youteachtk.epsonrasimulator.kinematics.C4Kinematics
 import mx.youteachtk.epsonrasimulator.kinematics.Vector3
+import mx.youteachtk.epsonrasimulator.runtime.RuntimeCommand
+import mx.youteachtk.epsonrasimulator.runtime.SharedRuntime
 
 @Composable
-fun RobotTrainerScreen() {
-    val robot = EpsonRobotCatalog.C4_A601S
-    val jointValues = remember(robot.id) {
-        mutableStateListOf<Float>().apply {
-            addAll(robot.zeroJointValues.map(Double::toFloat))
-        }
-    }
+fun RobotTrainerScreen(runtime: SharedRuntime) {
+    val runtimeState = rememberRuntimeState(runtime)
+    val robot = runtime.activeRobot()
+    val jointValues = runtimeState.jointState.values.map(Double::toFloat)
 
     val tcpCandidate = C4Kinematics.tcpRcCandidateMm(
         jointValues.map(Float::toDouble)
@@ -124,7 +120,14 @@ fun RobotTrainerScreen() {
                     JointSlider(
                         joint = joint,
                         value = jointValues[index],
-                        onValueChange = { jointValues[index] = it }
+                        onValueChange = {
+                            runtime.dispatch(
+                                RuntimeCommand.SetJointValue(
+                                    index = index,
+                                    value = it.toDouble()
+                                )
+                            )
+                        }
                     )
                 }
 
@@ -132,9 +135,7 @@ fun RobotTrainerScreen() {
 
                 OutlinedButton(
                     onClick = {
-                        robot.zeroJointValues.forEachIndexed { index, value ->
-                            jointValues[index] = value.toFloat()
-                        }
+                        runtime.dispatch(RuntimeCommand.ResetJoints)
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -145,9 +146,11 @@ fun RobotTrainerScreen() {
 
                 OutlinedButton(
                     onClick = {
-                        C4Kinematics.calibrationPoseDegrees.forEachIndexed { index, value ->
-                            jointValues[index] = value.toFloat()
-                        }
+                        runtime.dispatch(
+                            RuntimeCommand.SetJointState(
+                                C4Kinematics.calibrationPoseDegrees
+                            )
+                        )
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
