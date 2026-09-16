@@ -367,3 +367,9 @@ This file records decisions that should survive future conversations.
 - Project synchronization and live synchronization are separate concerns.
 - Simultaneous source/project edits from Android and RC+ produce explicit conflicts; silent last-writer-wins is not acceptable.
 - Future simulator ecosystems may provide separate bridge adapters while the shared runtime remains neutral.
+
+### Final approval of formal RC+ Trainer architecture spec
+- The user approved the complete formal design spec on 2026-09-16.
+- Authoritative spec: `docs/superpowers/specs/2026-09-16-rcplus-trainer-shared-runtime-design.md`.
+- Superpowers implementation planning is authorized.
+- Production implementation must follow written plans, TDD where applicable, and verification-before-completion.
