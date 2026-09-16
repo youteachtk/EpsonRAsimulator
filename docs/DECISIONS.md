@@ -152,3 +152,10 @@ This file records decisions that should survive future conversations.
   - what is present on the user's school setup versus what is available only in the full-learning catalog.
 - Learning availability in the trainer is not the same thing as claiming the real school controller has that option installed.
 - Coverage should be built from official Epson RC+ 7.0 documentation and option manuals, with a living feature inventory in the repository.
+
+### RC+ Trainer profiles: School Setup and Full Learning
+- RC+ Trainer will provide two learning profiles over the same RC+ fidelity architecture:
+  - **School Setup**: reproduce the capabilities, modules, controller/robot context, and availability of the user's actual school installation as closely as verified.
+  - **Full Learning**: expose the full documented RC+ learning catalog, including optional/license/hardware-dependent modules, for study and simulation.
+- Full Learning availability must not imply that those options are licensed or physically installed on the school controller.
+- The profile choice affects availability/learning context, not the underlying fidelity requirement for RC+ concepts and workflows.
