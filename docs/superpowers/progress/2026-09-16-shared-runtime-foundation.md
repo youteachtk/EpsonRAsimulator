@@ -85,20 +85,22 @@ Do not rely only on Codex conversation history or a local `.superpowers` workspa
 **Next action:** Task 7 Compose binding.
 
 ### Task 7 — Compose binding to SharedRuntime
-**Status:** implementation complete; manual C4 smoke test pending
+**Status:** complete
 **Implementation commit:** `01624224272955a882e1a27db13ab4623877fdcf`
 **Review:** inline plan/spec review passed; changed files are only MainActivity, RobotTrainerScreen, and RuntimeStateBinding. Existing C4RobotScene remains unchanged.
 **Tests/CI:** GitHub Actions run 118 passed unit tests, debug APK build, and artifact upload.
-**Behavioral verification still required:** manual Android smoke for C4 render, articulation, limits, ZERO, RC+ TEST POSE, TCP readout, orbit and pinch zoom.
-**Next action:** Task 8 documentation/final automated verification; do not declare Phase 1 complete until manual smoke also passes.
+**Behavioral verification:** user-installed final APK and confirmed the robot moves correctly and responsively. The existing C4 interaction remained usable after SharedRuntime migration.
+**Known fidelity gap discovered during smoke:** robot links can self-intersect because self-collision detection is not implemented. Tracked separately as Issue #7; this is outside the SharedRuntime-foundation scope and must be addressed before high-fidelity motion/workcell completion.
+**Next action:** Task 8 closure / branch integration decision.
 
 ### Task 8 — Documentation + final verification
-**Status:** automated verification complete; manual C4 smoke test pending
+**Status:** complete
 **Documentation commits:** `d9b55ba06899459a3eb665f59a3c1d6c0bd2bb58`, `4d7783a103c155796f5a4865d78839855635209a`
 **Validation-coverage commit:** `1791dc33e280a4fe4407d0257b63d9b4ef43b2a6`
 **Automated verification:** GitHub Actions run 122 passed unit tests, debug APK build, and artifact upload after the final validation-coverage change.
 **Whole-branch review:** no Critical/Important code finding remains; adapter duplicate/unknown-format validation branches received explicit tests before closure.
-**Pending gate:** manual Android C4 smoke test. Issue #1 and PR merge remain intentionally unchanged until that gate passes.
+**Manual smoke:** passed for responsive C4 movement on the final APK. Self-collision absence discovered and tracked as Issue #7; it does not invalidate the SharedRuntime migration but remains an explicit simulator-fidelity requirement.
+**Integration:** PR #6 remains Draft until the user chooses how to integrate the feature branch.
 
 ## Verification required before Phase 1 completion
 
@@ -420,3 +422,12 @@ No preflight finding requires adding source parsing, project persistence, task s
 - A temporary local clone for exact `git diff --check` / `git status --short` could not run because this container could not resolve `github.com`. The remote PR has no uncommitted working-tree concept; patch-level checking is recorded instead of pretending the local command succeeded.
 - Phase 1 is not declared complete because the approved nine-step manual C4 smoke test has not been executed in this environment.
 - Do not update Issue #1 as verified complete and do not merge Draft PR #6 until the manual smoke passes and the final HEAD is green.
+
+### Phase 1 manual acceptance — 2026-09-16
+- User installed the final debug APK built from this Phase 1 branch.
+- User reported the C4 moves correctly and responsively after migration to SharedRuntime.
+- New observation: joint combinations can visually pass robot links through other robot links because self-collision detection does not yet exist.
+- Follow-up tracked in GitHub Issue #7: `C4 self-collision detection and joint-motion guard`.
+- Ruling: do not retrofit collision behavior into the SPEL+ parser/project-format phase. Collision belongs in neutral motion/workcell diagnostics and must be completed before simulator fidelity is considered mature.
+- Phase 1 acceptance gates are satisfied for the Shared Runtime Foundation itself: implementation tasks complete, automated tests/build/artifact green on prior final code head, and Android smoke accepted by the user.
+- PR #6 remains Draft pending the user's branch-integration choice.
