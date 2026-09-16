@@ -85,3 +85,15 @@ This file records decisions that should survive future conversations.
   - digital-twin simulation of tools, actuators, sensors, parts, and processes;
   - the ability to expose advanced RC+-like functions progressively instead of overwhelming a new learner.
 - The product should help the learner move between the Android app and the official RC+ software with minimal conceptual friction.
+
+### Dual experience: RC+ Trainer and Visual Lab
+- The app will have **two clearly separated user experiences**:
+  1. **RC+ Trainer** — a learning-oriented simulator that stays as close as practical to the official EPSON RC+ concepts, terminology, structure, and workflows.
+  2. **Visual Lab** — the app's own optimized interface for touch-first robot interaction, enhanced 3D simulation, workcell control, visual programming, and educational exploration.
+- RC+ Trainer exists to help users learn the official software with minimal conceptual friction when they later use EPSON RC+ on Windows.
+- Visual Lab is not constrained by the official RC+ screen layout and may use better tablet controls, richer 3D views, direct manipulation, and more intuitive visualizations.
+- Both experiences operate on the same underlying robot/workcell/program/project state wherever practical, so they are different interfaces over the same simulation rather than separate products.
+- Contextual **? help** is a core feature across both experiences. Help should explain what a screen, control, RC+ concept, SPEL+ instruction, point, I/O signal, or robot concept does without forcing the learner to leave the current task.
+- Contextual help should distinguish clearly between:
+  - verified EPSON RC+ behavior/concepts;
+  - the app's own enhanced/educational behavior.
