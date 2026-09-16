@@ -192,3 +192,24 @@ Android design consequence:
 Official sources:
 - https://files.support.epson.com/far/docs/r6.pdf
 - https://files.support.epson.com/far/docs/epson_rc_pl_70_users_guide_spanish_cpd60416_%28v75r1%29.pdf
+
+## Fidelity research operating rule
+
+The user has approved a blanket fidelity rule: once an RC+ behavior is verified from official documentation or the confirmed school environment and it materially helps learning transfer, it should be carried into RC+ Trainer without requiring another yes/no decision for every small detail.
+
+Research should therefore focus on building a complete verified inventory of:
+- menus/submenus;
+- toolbars and shortcuts;
+- Project Explorer/project files;
+- editors and point files;
+- Robot Manager;
+- I/O Monitor;
+- Task Manager;
+- Command Window;
+- Controller/setup;
+- build/run/status/error behavior;
+- optional modules;
+- MDI/window behavior;
+- other documented workflows.
+
+Escalate for product approval only when fidelity conflicts with Android usability, legal/IP boundaries, safety, hardware reality, or a significant design fork.
