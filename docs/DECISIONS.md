@@ -184,3 +184,10 @@ This file records decisions that should survive future conversations.
 - Window state (position, size, minimized/maximized state, z-order/focus where practical) should persist across orientation and screen-size changes.
 - RC+-style Window commands such as Cascade/Tile operate on non-minimized child windows; minimized windows remain available in the internal taskbar.
 - On phone/small layouts, the same taskbar concept becomes the compact open-window switcher rather than removing window-management behavior.
+
+### RC+ Trainer workspace is an embedded desktop, not an operating system
+- RC+ Trainer intentionally uses a **desktop/window-manager metaphor** because EPSON RC+ itself is a multi-window desktop development environment.
+- This is **not** a separate operating system and should not duplicate Android concepts such as apps, notifications, system settings, filesystems, or a general-purpose launcher.
+- The embedded workspace exists only to reproduce RC+ behaviors: child windows, focus/z-order, move/resize, maximize/restore, minimize, internal taskbar, Cascade/Tile, Project Explorer, tool windows, and status areas.
+- The internal taskbar belongs only to RC+ Trainer and should represent RC+ windows/tools, not unrelated app features.
+- Visual Lab remains a normal modern Android experience and does not inherit the desktop metaphor unless a specific tool benefits from it.
