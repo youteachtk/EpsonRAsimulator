@@ -72,3 +72,16 @@ This file records decisions that should survive future conversations.
 - Prefer RC+-like terminology and workflow where verified, but do not clone the official UI pixel-for-pixel.
 - When code is valid and supported, visual and source views stay synchronized. Unsupported/advanced SPEL+ remains preserved as editable direct-code blocks.
 - Errors in SPEL+ must be surfaced without destroying the last valid visual representation or silently changing user code.
+
+### RC+ familiarity + simulator advantage
+- The app should intentionally feel familiar to a learner coming from **EPSON RC+**, because part of the product goal is to help users understand the official Epson environment rather than replace it with an unrelated workflow.
+- Preserve verified RC+ concepts, terminology, project/program structure, points, I/O, robot management concepts, and execution mental models wherever practical.
+- Do **not** copy the official interface pixel-for-pixel. Improve the experience where Android/touch/3D can make concepts clearer.
+- The app's differentiators are:
+  - substantially better 3D visualization of the robot and complete workcell;
+  - direct touch manipulation and clearer robot controls;
+  - synchronized Visual <-> SPEL+ programming;
+  - educational explanations of unfamiliar RC+ concepts/screens;
+  - digital-twin simulation of tools, actuators, sensors, parts, and processes;
+  - the ability to expose advanced RC+-like functions progressively instead of overwhelming a new learner.
+- The product should help the learner move between the Android app and the official RC+ software with minimal conceptual friction.
