@@ -81,7 +81,22 @@ Evidence:
 - Recognized operand ranges exclude trailing whitespace/comments and preserve exact source offsets.
 
 ### Task 3 — ProgramDocument and last-valid semantic retention
-**Status:** pending
+**Status:** complete
+
+Evidence:
+- RED commit: `b2c8f2e4bf7e1cfcf585eec0dd829cca398d2872` (`test: add failing program document session tests`).
+- RED CI: Android CI run #133 failed in Unit tests with unresolved references for `ProgramDocumentSession` and `ProgramSupportState`.
+- GREEN implementation commit: `9ea3edf1127c64b2f2f0b43df6720c847aa9e7f5` (`feat: preserve last valid SPEL semantics`).
+- GREEN CI: Android CI run #134 completed successfully.
+- Unit tests: success.
+- Debug APK build: success.
+- Debug APK upload: success.
+- Implemented `ProgramDocument`, `ProgramAnalyzer`, `ProgramDocumentSession`, and `ProgramSupportState`.
+- Syntax-invalid edits preserve exact source/tokens while setting `semanticModel = null` and retaining the prior valid semantic model in `lastValidSemanticModel`.
+- Direct Code documents are `PARTIALLY_SUPPORTED` without losing valid semantics.
+- Fully recognized documents are `SUPPORTED`.
+- Valid edits replace the remembered last-valid semantic model with the new semantic model.
+- `NATIVE_VALID_NOT_LOCALLY_SIMULATABLE` remains deliberately unused without external/native validation evidence.
 
 ### Task 4 — Source-preserving semantic operand edits
 **Status:** pending
@@ -118,6 +133,7 @@ Before Phase 2 may be accepted:
 - Draft PR #8 uses base `feature/shared-runtime-foundation`.
 - Task 1 completed with RED/GREEN evidence and full Android CI green.
 - Task 2 completed with RED/GREEN evidence and full Android CI green.
-- Implementation head before this ledger update: `9a03a7df39f3b2621e93ac483cee17e6c4b46d48`.
-- No concurrent Codex activity was observed before Task 2 edits; inline execution performed the task.
-- Exact next action: Task 3 Step 1 — add failing `ProgramDocumentSession` tests for last-valid semantic retention after syntax-invalid edits and `PARTIALLY_SUPPORTED` state for Direct Code.
+- Task 3 completed with RED/GREEN evidence and full Android CI green.
+- Implementation head before this ledger update: `9ea3edf1127c64b2f2f0b43df6720c847aa9e7f5`.
+- No concurrent Codex activity was observed before Task 3 edits; inline execution performed the task.
+- Exact next action: Task 4 Step 1 — add failing source-preservation tests proving that replacing a recognized statement operand changes only that operand range and leaves whitespace, comments, CRLF, and Direct Code byte-for-byte unchanged.
