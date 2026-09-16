@@ -120,3 +120,12 @@ This file records decisions that should survive future conversations.
 - Spanish translation/explanation is provided alongside or on demand for accessibility to classmates who are less comfortable in English.
 - Translation must never alter code, command names, point names, I/O identifiers, or other technical tokens that must remain exact.
 - Where an Epson/RC+ term does not have a safe one-to-one translation, keep the original English term and explain it in Spanish instead of inventing a misleading replacement.
+
+### Full-app bilingual interface
+- The **entire application** must support both **English and Spanish**, not only tutorials and contextual help.
+- This includes RC+ Trainer, Visual Lab, navigation, settings, dialogs, simulator controls, workcell controls, programming UI, points, I/O panels, diagnostics, lessons, and general app text.
+- Users may switch language without leaving the current project or losing simulation/program state.
+- RC+/SPEL+ technical tokens, source code, identifiers, point names, I/O names, and other exact machine/program symbols must remain unchanged by translation.
+- In **RC+ Trainer**, verified official Epson/RC+ terminology should remain recognizable and faithful to the official software; Spanish may appear as a translated label or explanation where that does not alter the technical token.
+- In **Visual Lab**, the full UI may be naturally localized into either English or Spanish because it is the app's own interface.
+- Translation architecture must be centralized so new screens and features are bilingual by default rather than translated later as an afterthought.
