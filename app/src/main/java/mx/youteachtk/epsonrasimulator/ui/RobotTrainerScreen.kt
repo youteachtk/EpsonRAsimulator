@@ -20,6 +20,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
@@ -60,24 +61,31 @@ fun RobotTrainerScreen() {
                 modifier = Modifier
                     .fillMaxSize()
                     .clip(RoundedCornerShape(20.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant),
-                contentAlignment = Alignment.Center
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
             ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "C4-A601S • 3D VIEW",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = "Official articulated model slot prepared",
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Next: STEP → optimized GLB → J1–J6 node mapping",
-                        style = MaterialTheme.typography.bodySmall
-                    )
+                C4RobotScene(
+                    jointValues = jointValues,
+                    modifier = Modifier.fillMaxSize()
+                )
+
+                Surface(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(12.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    tonalElevation = 4.dp
+                ) {
+                    Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)) {
+                        Text(
+                            text = "C4-A601S • Official Epson CAD",
+                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Text(
+                            text = "Drag: orbit camera • Pinch: zoom",
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
                 }
             }
         }
@@ -100,7 +108,7 @@ fun RobotTrainerScreen() {
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = "RC+ ranges for C4-A601S",
+                    text = "C4-A601S joint limits",
                     style = MaterialTheme.typography.bodySmall
                 )
 
@@ -131,7 +139,7 @@ fun RobotTrainerScreen() {
 
                 Text("TCP", fontWeight = FontWeight.Bold)
                 Text(
-                    "X / Y / Z will be calculated after forward kinematics is calibrated.",
+                    "XYZ will be enabled after RC+ pose calibration.",
                     style = MaterialTheme.typography.bodySmall
                 )
 
