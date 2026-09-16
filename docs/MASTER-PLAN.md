@@ -44,6 +44,11 @@ Key characteristics:
 
 Both experiences should share the same underlying simulation/project state wherever practical.
 
+### Startup / resume
+- First launch or no active work: show two large entries, **RC+ Trainer** and **Visual Lab**.
+- With active work in progress: reopen directly to the last active view/mode.
+- Always keep an obvious way to switch between RC+ Trainer and Visual Lab without leaving or duplicating the current project.
+
 ## User-facing modes
 
 ### Explore
