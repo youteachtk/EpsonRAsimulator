@@ -37,11 +37,11 @@ Do not rely only on Codex conversation history or a local `.superpowers` workspa
 ## Task ledger
 
 ### Task 1 — RobotProvider and RobotRegistry
-**Status:** pending  
-**Implementation commits:** none  
-**Review:** not started  
-**Tests:** not run  
-**Next action:** execute Task 1 from the plan using TDD.
+**Status:** complete  
+**Implementation commits:** `2f914f1875979424d282abeb2ce2a2644a1d66f0`  
+**Review:** independent Spec compliant / Task quality Approved; no blocking code findings  
+**Tests:** focused RED/GREEN and full unit-test command passed; APK signing blocked (see handoff)  
+**Next action:** Task 2, fresh implementer and focused CapabilityModelsTest RED first.
 
 ### Task 2 — Capability, profile, and connection-mode models
 **Status:** pending
