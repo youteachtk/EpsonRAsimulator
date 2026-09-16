@@ -31,6 +31,11 @@ Key characteristics:
 - contextual ? help for unfamiliar RC+ screens and concepts;
 - improved 3D robot/workcell visualization alongside the RC+-like workflow.
 
+### Language and translation
+- Tutorials, guided walkthroughs, contextual ? help, and educational explanations are available in English and Spanish.
+- Language can be switched in place without resetting the current activity.
+- RC+/SPEL+ technical tokens remain exact; English terms are preserved where needed, with Spanish explanation rather than unsafe translation.
+
 ### RC+ Trainer learning behavior
 - All implemented RC+-like screens remain available from the start.
 - Guided learning is optional and overlays the real interface rather than replacing it.
