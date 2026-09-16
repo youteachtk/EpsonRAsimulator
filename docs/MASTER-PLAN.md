@@ -43,6 +43,12 @@ Key characteristics:
 - Language can be switched in place without resetting the current activity.
 - RC+/SPEL+ technical tokens remain exact; English terms are preserved where needed, with Spanish explanation rather than unsafe translation.
 
+### RC+ Trainer form factors
+- Landscape tablet is the primary RC+ Trainer target and should expose the fullest MDI-style workspace.
+- Phone and portrait layouts preserve the same RC+ windows and workflow, adapting presentation rather than removing functionality.
+- Small screens may maximize the active child window and provide an open-window switcher.
+- Orientation and screen-size changes preserve the same project and working-window context.
+
 ### RC+ Trainer fidelity baseline
 - Baseline target: EPSON RC+ 7.0 v7.5.3 as used in the school environment.
 - RC+ Trainer should reproduce the standard RC+ development-environment structure and workflows rather than collapse them into a simplified mobile dashboard.
