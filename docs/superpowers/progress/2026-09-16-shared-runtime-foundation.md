@@ -1,9 +1,9 @@
 # Shared Runtime Foundation — Execution Ledger
 
-**Plan:** `docs/superpowers/plans/2026-09-16-shared-runtime-foundation.md`  
-**Spec:** `docs/superpowers/specs/2026-09-16-rcplus-trainer-shared-runtime-design.md`  
-**Branch:** `feature/shared-runtime-foundation`  
-**Execution mode:** Codex + Superpowers Subagent-Driven Development  
+**Plan:** `docs/superpowers/plans/2026-09-16-shared-runtime-foundation.md`
+**Spec:** `docs/superpowers/specs/2026-09-16-rcplus-trainer-shared-runtime-design.md`
+**Branch:** `feature/shared-runtime-foundation`
+**Execution mode:** Codex + Superpowers Subagent-Driven Development
 **Purpose:** Persist enough execution state in GitHub that ChatGPT can resume inline if Codex/Work usage is exhausted.
 
 ## Mandatory progress-recording rule
@@ -37,10 +37,10 @@ Do not rely only on Codex conversation history or a local `.superpowers` workspa
 ## Task ledger
 
 ### Task 1 — RobotProvider and RobotRegistry
-**Status:** complete  
-**Implementation commits:** `2f914f1875979424d282abeb2ce2a2644a1d66f0`  
-**Review:** independent Spec compliant / Task quality Approved; no blocking code findings  
-**Tests:** focused RED/GREEN and full unit-test command passed; APK signing blocked (see handoff)  
+**Status:** complete
+**Implementation commits:** `2f914f1875979424d282abeb2ce2a2644a1d66f0`
+**Review:** independent Spec compliant / Task quality Approved; no blocking code findings
+**Tests:** focused RED/GREEN and full unit-test command passed; APK signing blocked (see handoff)
 **Next action:** Task 2, fresh implementer and focused CapabilityModelsTest RED first.
 
 ### Task 2 — Capability, profile, and connection-mode models
@@ -93,7 +93,12 @@ Do not rely only on Codex conversation history or a local `.superpowers` workspa
 **Next action:** Task 8 documentation/final automated verification; do not declare Phase 1 complete until manual smoke also passes.
 
 ### Task 8 — Documentation + final verification
-**Status:** pending
+**Status:** automated verification complete; manual C4 smoke test pending
+**Documentation commits:** `d9b55ba06899459a3eb665f59a3c1d6c0bd2bb58`, `4d7783a103c155796f5a4865d78839855635209a`
+**Validation-coverage commit:** `1791dc33e280a4fe4407d0257b63d9b4ef43b2a6`
+**Automated verification:** GitHub Actions run 122 passed unit tests, debug APK build, and artifact upload after the final validation-coverage change.
+**Whole-branch review:** no Critical/Important code finding remains; adapter duplicate/unknown-format validation branches received explicit tests before closure.
+**Pending gate:** manual Android C4 smoke test. Issue #1 and PR merge remain intentionally unchanged until that gate passes.
 
 ## Verification required before Phase 1 completion
 
@@ -190,8 +195,8 @@ After that, ChatGPT inline can resume by reading the branch, Draft PR #6, and th
 
 # Shared Runtime Foundation Preflight
 
-Date: 2026-09-16  
-Branch: `feature/shared-runtime-foundation`  
+Date: 2026-09-16
+Branch: `feature/shared-runtime-foundation`
 Scope: read-only review of the implementation plan, approved design spec, and current repository code. This report is scratch input for execution and is not part of the implementation deliverables.
 
 ## Decision
@@ -406,3 +411,12 @@ No preflight finding requires adding source parsing, project persistence, task s
 - Calibration disclaimer remains unchanged; RC+ Cartesian mapping is still unvalidated.
 - No Digital Twin or real-hardware behavior is exposed.
 - Automated verification: Actions run 118 success. Manual visual/device smoke remains a required final gate.
+
+### Task 8 automated verification checkpoint
+- Latest code/docs head before this ledger commit: `1791dc33e280a4fe4407d0257b63d9b4ef43b2a6`.
+- GitHub Actions run 122: Unit tests success; Build debug APK success; Upload debug APK success.
+- Final PR diff review covered all changed filenames. No conflict markers were found.
+- A patch-level whitespace scan found only Markdown hard-break spaces in this ledger; this commit removes trailing whitespace from the ledger.
+- A temporary local clone for exact `git diff --check` / `git status --short` could not run because this container could not resolve `github.com`. The remote PR has no uncommitted working-tree concept; patch-level checking is recorded instead of pretending the local command succeeded.
+- Phase 1 is not declared complete because the approved nine-step manual C4 smoke test has not been executed in this environment.
+- Do not update Issue #1 as verified complete and do not merge Draft PR #6 until the manual smoke passes and the final HEAD is green.
