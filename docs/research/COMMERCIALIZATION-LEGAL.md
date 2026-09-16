@@ -154,3 +154,18 @@ Do not launch a paid/public build until all of the following are resolved:
 - Google Play Impersonation policy
 - Google Play Payments / Subscriptions policies
 - Mexico Federal Law on Protection of Personal Data Held by Private Parties (DOF 20-03-2025; current law should be checked before launch)
+
+### Functional names and labels vs copyrighted visuals
+
+Current design rule:
+- exact short functional labels such as menu names, window/tool names, file extensions and programming command names may be retained where needed for compatibility and authentic training;
+- do not treat this as a blanket permission to copy Epson branding or expressive UI assets;
+- create our own icons, artwork, visual skin, spacing, window chrome, help text and tutorials;
+- use EPSON / EPSON RC+ only as descriptive compatibility/training references, with clear non-affiliation language for a commercial release.
+
+Reasoning baseline:
+- U.S. Copyright Office guidance states that names, titles and short phrases are generally not copyrightable, but they can still be protected under trademark law.
+- Mexico's IMPI recognizes words/names/designs and overall commercial image as potentially protectable distinctive signs.
+- Epson states that EPSON and its logos are registered trademarks and that no trademark license is implied by its website/materials.
+
+This is a risk-reduction design rule, not a legal clearance opinion.
