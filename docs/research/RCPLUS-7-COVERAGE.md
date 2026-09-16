@@ -164,3 +164,31 @@ The Trainer should model a **real project model**, not a generic Android file br
 Sources:
 - Epson RC+ 7.0 support/manual page: https://epson.com/Support/Robots/Software/Epson-RC%2B-7-0/s/SPT_R12N793031
 - Epson RC+ 7.0 v7.5 User's Guide, Project Explorer / File / Project sections.
+
+## Verified Project Explorer interaction baseline
+
+From the official EPSON RC+ 7.0 User's Guide:
+
+- Project Explorer displays project files and functions in a sorted tree.
+- Double-clicking a file opens it.
+- Double-clicking a function jumps directly to that function.
+- The pane can be hidden/shown from View > Project Explorer.
+- The pane can be resized.
+- The pane can be docked on either the left or right side of the main window.
+- Right-clicking a project-tree item opens a context menu.
+- Verified context-menu commands shown in the manual:
+  - New...
+  - Open
+  - Rename...
+  - Remove
+  - Delete
+- The Status pane is bottom-docked, resizable vertically, and automatically reopens when an important error/status message must be shown.
+
+Android design consequence:
+- Keep the same tree/action model and command names.
+- Use our own icons and visual styling.
+- A touch equivalent for right-click still needs explicit product approval.
+
+Official sources:
+- https://files.support.epson.com/far/docs/r6.pdf
+- https://files.support.epson.com/far/docs/epson_rc_pl_70_users_guide_spanish_cpd60416_%28v75r1%29.pdf
