@@ -139,3 +139,126 @@ After that, ChatGPT inline can resume by reading the branch, Draft PR #6, and th
 - Files touched: this ledger only (tracked); ignored SDD workspace and external tooling/logs (scratch).
 - Next exact action: inspect baseline test result and preflight table, record rulings, then dispatch fresh Task 1 implementer with TDD brief.
 
+
+### Preflight review and controller rulings
+- Current task: preflight before Task 1; status: in-progress.
+- Last verified GitHub HEAD: 892db0fe28ac061b8f2f00fa70a4a2631adeb371.
+- Reviewer: independent preflight agent; verdict: conditional go with proposed R1/R2/R3 below.
+- Tests: initial baseline failed before tests with AccessDeniedException C:\\.android; retry with ANDROID_USER_HOME under workspace now reaches Android resource tasks. No passing baseline claimed yet.
+- Publication: local Git push did not update remote; authenticated GitHub connector update_file committed ledger as 892db0f. Local duplicate bookkeeping commit 77e7661 replaced by this remote commit; branch synchronized.
+- Ruling: defer preflight R1 profile-keyed capabilities and adapter/profile validation in R2 — Phase 1 plan explicitly supplies identity-only contracts and only one composed School Setup; spec's multi-profile behavior belongs to later capability work — cost if wrong: evolve these contracts later, no currently selectable profiles are lost.
+- Ruling: accept R2 finite and valid initial joint-state checks for Task 5 with failing regression tests first — canonical state must respect the existing robot limits — cost if wrong: stricter constructor/input rejection than example code.
+- Ruling: accept R3 as documentation of the retained C4 presentation boundary; keep current renderer unchanged — generic provider/runtime support is not generic rendering — cost if wrong: future renderer migration remains required.
+- Ruling: providerId remains provenance identity only in Task 1; global robot IDs determine lookup — follows plan API without extra uniqueness policy — cost if wrong: add provider validation later.
+- Findings open: baseline verification pending; no production implementation or task reviewer verdict yet.
+- Files touched: ledger only; briefs/constraints/preflight report in ignored SDD scratch.
+- Next exact action: obtain successful baseline, dispatch Task 1 from task-1-brief.md, run RED/GREEN, publish code and ledger, then independent review.
+
+<details>
+<summary>Independent preflight tables and recommendations (recommendations adjudicated above)</summary>
+
+# Shared Runtime Foundation Preflight
+
+Date: 2026-09-16  
+Branch: `feature/shared-runtime-foundation`  
+Scope: read-only review of the implementation plan, approved design spec, and current repository code. This report is scratch input for execution and is not part of the implementation deliverables.
+
+## Decision
+
+**Conditional go.** The phase boundary is appropriately small, and the task order follows the approved dependency direction. Before implementation, settle three contract issues so the foundation does not encode contradictions that immediately require replacement:
+
+1. Model capabilities per training profile rather than as one simulator-wide set.
+2. Make `SharedRuntime` validate its simulator/profile identity and every canonical joint state, including the initial state.
+3. Keep the current Compose screen explicitly C4-specific for this phase and narrow the extensibility claim accordingly; do not imply that registering a second robot already makes this screen render it.
+
+These rulings stay inside the foundation phase. They do not add parsing, persistence, tasks, I/O, workcell behavior, RC+ windows, a bridge, or hardware control.
+
+## Authority used
+
+- The approved spec requires a neutral shared runtime, one canonical robot/point state, profile-dependent capability availability, and separate Local Simulation / Digital Twin / Real Hardware authority modes.
+- The plan intentionally limits implementation to identities, registries, the current C4 robot state, and Local Simulation execution.
+- Existing code confirms that `RobotDefinition.validatedState` clamps joint values, while `C4RobotScene` and `C4Kinematics` remain C4-only. The current UI therefore cannot safely render an arbitrary robot merely because it exists in `RobotRegistry`.
+
+## Required rulings
+
+### R1 — Profile capabilities
+
+The planned `SimulatorAdapter.defaultProfileId` plus one `SimulatorAdapter.capabilities` value cannot represent the spec's central distinction between School Setup and Full Learning. It also gives `AdapterRegistry` nothing to validate for the default profile.
+
+Use the smallest future-safe shape in this phase: expose profiles as a map (or descriptors) owned by the simulator adapter, with one `school-setup` entry now, and require the default profile to be present. Rich capability provenance/fidelity metadata remains deferred.
+
+Example contract shape:
+
+```kotlin
+interface SimulatorAdapter {
+    val defaultProfileId: TrainingProfileId
+    val capabilitiesByProfile: Map<TrainingProfileId, CapabilitySet>
+}
+```
+
+`AdapterRegistry` should reject an adapter whose default profile is absent. No Full Learning features need to be implemented now.
+
+### R2 — Canonical runtime invariants
+
+The planned runtime checks only the initial joint count. It can therefore publish an out-of-range or non-finite initial state. It also accepts simulator/profile IDs without access to `AdapterRegistry`, so a public `SharedRuntime` can begin with unknown or mismatched IDs.
+
+Pass `AdapterRegistry` (or a resolved/validated simulator profile) into `SharedRuntime`. At construction, require the simulator and profile to exist and require the initial joint values to be finite and within the active robot's limits. Apply the same finite-value rule to `SetJointValue` and `SetJointState`; retain the existing clamp behavior for finite out-of-range commands if that is the intended jog behavior.
+
+The selected simulator/profile may remain fixed session configuration in this phase. Adding simulator/profile switching commands is unnecessary unless the plan continues to claim they are user-selectable now.
+
+### R3 — C4 UI boundary
+
+Task 7 reads a generic `activeRobot()` but immediately passes its state into `C4Kinematics` and `C4RobotScene`, whose current contract requires exactly six values and uses fixed C4 assets/axes. A second registered robot can therefore crash or be rendered incorrectly.
+
+Keep the screen C4-only and make that precondition explicit for this phase. The documentation should say that provider/runtime selection is neutral while the existing trainer presentation remains the C4 presentation adapter. A generic renderer/kinematics provider belongs to a later plan; it should not be pulled into this phase.
+
+## Per-task self-consistency
+
+| Task | Status | Finding | Ruling before execution |
+|---|---|---|---|
+| 1 — Robot provider/registry | Pass with minor cleanup | Global robot-ID uniqueness is enforced and matches runtime lookup. `providerId` is otherwise unused and duplicate provider IDs are not checked. | Either reject duplicate `providerId`s now or document it as display/provenance-only. Do not add more provider metadata in this phase. |
+| 2 — Capability/profile/mode models | Pass as primitives | The value types and reserved connection modes are coherent. On their own they do not establish profile-to-capability association. | Keep these primitives; apply R1 in Task 3. Reserved non-local modes are state vocabulary only. |
+| 3 — Adapter contracts/registry | **Change required** | Language and project-format references are validated, but the simulator-wide capability set contradicts profile-specific availability. Tests cover only an unknown language, not duplicate IDs, unknown project format, or the default profile. | Apply R1 and add focused registry tests for each validation branch. Keep parser/project-resource behavior deferred. |
+| 4 — RC+ baseline adapters | **Change required through R1** | The IDs, extensions, and six listed capability families are supported by the research inventory. The single capability set has no explicit `school-setup` association. | Register exactly one School Setup profile entry for now. Do not infer installed optional modules or Full Learning availability. |
+| 5 — Shared runtime/reducer | **Change required** | Commands preserve a single state and notify observers correctly. Initial values are size-checked only; simulator/profile IDs are unvalidated; NaN can enter via joint commands. | Apply R2. Add tests for unknown simulator/profile, out-of-limit initial state, non-finite values, and unchanged state after a rejected connection-mode command. |
+| 6 — Composition root | **Change required through R1/R2** | It creates all three registries/baselines coherently, but `AdapterRegistry` is stored beside the runtime rather than participating in runtime validation. | Resolve and validate the School Setup profile before constructing the runtime, and pass the registry/resolved configuration required by R2. Keep the one C4 + one RC+ baseline. |
+| 7 — Compose binding | Pass for C4 after R3 | Subscription lifecycle and command routing remove the screen-owned joint state. The screen remains concretely C4-specific and has no automated binding test. | Apply R3, preserve the manual C4 smoke test, and avoid claiming the screen is multi-robot. No new generic renderer is needed. |
+| 8 — Docs/final verification | Pass with execution caveats | The proposed implementation claims are otherwise bounded. Final `git status` will also show this untracked scratch report, and the issue update must follow green CI. | Treat `work/preflight.md` as an acknowledged scratch exception (or remove it after consuming it). Do not stage it. Update Issue #1 only after push/green CI as written. |
+
+## Cross-task interfaces and shared files
+
+Every direct task pair that shares a produced/consumed contract or file is listed below.
+
+| Pair | Shared boundary/file | Conflict risk | Ruling |
+|---|---|---|---|
+| 1 → 5 | `RobotRegistry`, `RobotDefinition`, joint limits | Runtime validates only joint count initially. | R2: validate the whole initial state against the resolved robot. |
+| 1 → 6 | `EpsonRobotProvider`, `RobotRegistry` | None beyond hard-coded baseline selection. | Keep the explicit C4 baseline; factory test proves it. |
+| 2 → 3 | `TrainingProfileId`, `CapabilitySet` | A single simulator-wide capability set cannot distinguish profiles. | R1: profile-keyed capabilities and registry validation. |
+| 2 → 4 | Capability/profile primitives | RC+ capabilities are not attached to School Setup explicitly. | Put the verified six capability IDs in the `school-setup` profile entry only. |
+| 2 → 5 | `TrainingProfileId`, `ConnectionMode` | Runtime accepts an arbitrary profile ID; reserved modes are intentionally non-executable. | Validate the profile; keep non-local transitions rejected without state mutation. |
+| 2 → 6 | Profile/mode construction | Factory chooses a default profile without validating that the simulator owns it. | Resolve through the adapter registry before runtime creation. |
+| 3 → 4 | Adapter interfaces; shared `AdapterRegistryTest.kt` | This is the only direct same-file edit conflict. Task 4's appended test depends on Task 3's final test structure. | Execute sequentially. Task 4 edits the existing test after Task 3 lands. |
+| 3 → 5 | `SimulatorAdapterId` and adapter registry semantics | State carries only an unvalidated adapter ID. | R2: runtime receives registry/resolved configuration. |
+| 3 → 6 | `AdapterRegistry` | Registry is composed but otherwise detached from runtime. | Use it to validate the simulator/profile during construction. |
+| 4 → 5 | Baseline simulator/profile identifiers | Task 5 duplicates string literals and can drift from Task 4. | In production composition use adapter object IDs; string literals are acceptable in isolated negative/unit fixtures only. |
+| 4 → 6 | RC+ adapter singleton objects | No conflict after R1. | Compose the exact verified baseline objects and School Setup entry. |
+| 5 → 6 | `SharedRuntime`, `SharedRuntimeState` | Constructor currently lacks the adapter validation dependency. | Apply R2 and update the factory test to prove the state matches the resolved adapter/profile. |
+| 5 → 7 | `SharedRuntime`, `RuntimeCommand`, subscription | State flow is coherent. C4-only rendering is outside the neutral runtime contract. | Keep runtime pure Kotlin; enforce/document the presentation precondition in Task 7. |
+| 6 → 7 | `AppRuntimeFactory.createDefault()` | `MainActivity` discards the bundle and retains only runtime; this is harmless today because runtime retains robot registry, but adapter data becomes unavailable to future UI. | For this phase, retain one `AppRuntimeBundle` in `remember` and pass `.runtime` to the C4 screen. This preserves the composition root without expanding UI. |
+
+## Execution ordering and staging
+
+The numbered order is safe. If work is split, only Tasks 1 and 2 are initially independent. Then run Task 3, Task 4, Task 5, Task 6, Task 7, and Task 8 in dependency order.
+
+The plan's broad staging commands are unsafe under parallel edits:
+
+- Task 2 and Task 5 both stage the whole `runtime` directory; Task 5 can accidentally absorb Task 6 files.
+- Task 3 stages the whole `adapters` directory and Task 4 extends the same test file.
+
+Stage explicit files for each commit, or complete and commit dependencies sequentially. Do not stage `work/preflight.md`.
+
+## Phase boundary preserved
+
+No preflight finding requires adding source parsing, project persistence, task scheduling, I/O, simulation clock, workcell actors, RC+ workspace/window registries, Digital Twin transport, or real-hardware behavior. Those remain in later plans.
+
+</details>
