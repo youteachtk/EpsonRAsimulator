@@ -341,3 +341,16 @@ This file records decisions that should survive future conversations.
   - RC+ Digital Twin via future Windows bridge;
   - future Real Hardware as a separately gated safety path.
 - Simulated metrics such as CPU load are labeled as simulated when they are not measured from a real controller.
+
+### Approved design section 4: RC+ Trainer Workspace / Window / Command Architecture
+- The RC+ Trainer workspace/window/command architecture section is approved.
+- RC+ Trainer uses an internal MDI-style workspace composed of menu bar, main toolbar, Project Explorer, child-window area, Status pane, status bar, and minimized-window bar.
+- RcWindowManager owns child-window lifecycle and state: open/focus, z-order, move, resize, minimize, maximize/restore, close, cascade/tile, and persistence/adaptation across form factors.
+- RcCommandRegistry is the single command model used by menus, toolbar buttons, keyboard shortcuts, context menus, and other command surfaces.
+- Multiple UI entry points for the same RC+ command must invoke the same command and share enable/disable state.
+- RcToolRegistry describes tool/window availability, menu/toolbar placement, shortcuts, contextual help, capability requirements, and School Setup / Full Learning availability.
+- Tablet landscape presents the full MDI workspace; phone/portrait adapts presentation while preserving the same open-window state and workflows.
+- Project Explorer, Status pane, toolbar, and other structural workspace elements retain their documented RC+ roles rather than becoming arbitrary floating app windows.
+- RC+-specific dialogs/windows are separated from Android-native app dialogs and from the independent Visual Lab UI.
+- Contextual help is data-driven through help identifiers and original bilingual content, and may distinguish verified RC+ behavior, training simulation behavior, hardware/option requirements, and unsupported/not-yet-simulated functionality.
+- The command/tool/window registry architecture must be simulator-adapter driven so future RC+ versions or other simulator ecosystems can provide their own command/window catalogs without redefining the shared runtime.
