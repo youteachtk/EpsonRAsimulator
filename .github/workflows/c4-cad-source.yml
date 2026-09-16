@@ -1,16 +1,13 @@
 name: Build C4 Android 3D assets
 
 on:
-  push:
-    branches:
-      - "feature/c4-cad-acquisition"
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
   build-cad:
-    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
 
     steps:
