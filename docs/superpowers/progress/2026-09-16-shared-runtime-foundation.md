@@ -262,3 +262,13 @@ Stage explicit files for each commit, or complete and commit dependencies sequen
 No preflight finding requires adding source parsing, project persistence, task scheduling, I/O, simulation clock, workcell actors, RC+ workspace/window registries, Digital Twin transport, or real-hardware behavior. Those remain in later plans.
 
 </details>
+
+### Baseline verified / Task 1 dispatched
+- Current task: Task 1 RobotProvider/RobotRegistry, TDD RED step; status: in-progress.
+- Last verified GitHub HEAD: e1f22ab29de62b5cc0fbe04add58b839c09a0d81.
+- Tests: `gradle testDebugUnitTest --stacktrace` with workspace GRADLE_USER_HOME and ANDROID_USER_HOME: BUILD SUCCESSFUL, 24 tasks executed, exit 0. Kotlin daemon emitted AccessDeniedException for its user-profile marker directory and compiler fallback completed successfully. Subsequent runs use `-Pkotlin.compiler.execution.strategy=in-process` to avoid that environment warning.
+- Reviewer verdict: preflight recorded above; Task 1 independent review pending implementation.
+- Findings open: no code findings; local Git push unavailable, use authenticated GitHub connector commits and synchronize checkout.
+- Ruling: run downloaded Gradle 9.6.0 with installed JDK 23 while retaining repository Java source/target 17 — baseline verifies compatibility, repository CI still uses JDK 17 — cost if wrong: CI catches JDK-specific discrepancy before completion.
+- Files touched: ledger; external untracked build helper/caches/logs only. No production code completed yet.
+- Next exact action: await fresh Task 1 implementer RED/GREEN report, publish its valid commit and ledger, then dispatch independent task reviewer.
