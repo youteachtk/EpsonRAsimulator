@@ -88,6 +88,12 @@ Key characteristics:
 - Keep app/Visual Lab metadata separate from native project files.
 - Do not guess or regenerate opaque/proprietary project structures until independently verified.
 
+### Default fidelity rule
+- Verified RC+ behavior that improves transfer to the real software is preserved by default without requiring repeated per-detail approval.
+- Preserve menus, workflows, file/project behavior, editors, tools, window semantics, shortcuts, status/error behavior, and other learning-relevant interaction patterns.
+- Ask only for meaningful deviations, ambiguity, legal/safety issues, or materially different product choices.
+- Visual assets and styling remain original even when functional behavior is preserved.
+
 ### RC+ Trainer fidelity baseline
 - Baseline target: EPSON RC+ 7.0 v7.5.3 as used in the school environment.
 - RC+ Trainer should reproduce the standard RC+ development-environment structure and workflows rather than collapse them into a simplified mobile dashboard.
