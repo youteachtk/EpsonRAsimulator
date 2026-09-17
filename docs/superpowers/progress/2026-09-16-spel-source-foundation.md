@@ -7,172 +7,106 @@
 **Plan:** `docs/superpowers/plans/2026-09-16-source-preserving-spel-foundation.md`
 **Spec:** `docs/superpowers/specs/2026-09-16-rcplus-trainer-shared-runtime-design.md`
 
-## Durable-state rule
+## Durable handoff rule
 
-GitHub is the authoritative execution record. After every completed task, review/fix round, blocker, Codex interruption, or chat-context handoff, update this ledger and commit it.
-
-Before any inline/Codex worker edits:
-1. read this ledger;
-2. read the Phase 2 plan and binding spec;
-3. inspect Draft PR #8 head/comments;
-4. check for concurrent Codex/inline activity;
-5. do not duplicate an active worker.
-
-If Codex becomes active while inline work is running, stop before the next write, let Codex continue, and record the observed head/task.
-
-## Quota/context handoff requirements
-
-A handoff must record:
-- current task and exact sub-step;
-- completed commit SHAs;
-- RED/GREEN test evidence;
-- review verdict/findings;
-- blockers/rulings;
-- current branch HEAD;
-- exact next action;
-- whether Codex appears active.
-
-Codex quota-stop comment on PR #8 must begin:
-`HANDOFF READY FOR INLINE RESUME`
-
-Chat-context handoff must tell the next chat to re-check GitHub/Codex before editing.
+GitHub is the authoritative execution record. Before Codex or an inline chat edits this phase, read this ledger, the Phase 2 plan/spec, and Draft PR #8; then verify whether another worker is active. Do not duplicate an active worker. A Codex quota-stop PR comment must begin `HANDOFF READY FOR INLINE RESUME`.
 
 ## Scope rulings
 
-- Native source is authoritative and must remain character-lossless through tokenization.
-- Unknown SPEL+ source becomes Direct Code; unsupported is not equivalent to invalid.
-- Locally generated parser diagnostics are not Epson-native controller errors.
-- Phase 2 does not execute SPEL+.
-- `.sprj` and `.pts` are preserved, not semantically rewritten.
-- Phase 2 does not address C4 self-collision; that remains Issue #7.
-- No bridge or physical robot control.
+- Native source text is authoritative and must remain character-lossless through tokenization.
+- Unknown SPEL+ source is preserved as Direct Code; unsupported is not equivalent to invalid.
+- Local parser diagnostics are not Epson-native controller errors.
+- Phase 2 does not execute SPEL+, emulate RC+ Build/Run, implement TaskRuntime/I/O, or control hardware.
+- `.sprj` and `.pts` contents are preserved, not semantically parsed or rewritten.
+- Legacy `domain/ProgramModels.kt` remains untouched.
+- C4 self-collision remains Issue #7 and is outside this phase.
 
-## Tasks
+## Tasks and evidence
 
 ### Task 1 — Source ranges and lossless SPEL+ lexer
 **Status:** complete
-
-Evidence:
-- RED commit: `5bf7c377c3225f64bb5cc27d7726876cc2120660` (`test: add failing source range tests`).
-- RED CI: Android CI run #127 failed in Unit tests with `Unresolved reference 'SourceRange'`.
-- GREEN implementation commit: `46914c3e09503705299c57d06adae3bf6cab79e3` (`feat: add lossless SPEL source lexer`).
-- GREEN CI: Android CI run #128 completed successfully.
-- Unit tests: success.
-- Debug APK build: success.
-- Debug APK upload: success.
-- Implemented `SourceRange`, `SourceToken`, `SpelTokenKind`, `SpelLexer`, and `SpelLexerTest`.
-- Verified by tests: token concatenation reconstructs source exactly; ranges are contiguous; CR/LF is preserved; apostrophe inside a string is not treated as a comment; comments remain trivia; unknown characters are retained as symbols.
+- RED: `5bf7c377c3225f64bb5cc27d7726876cc2120660`; CI run #127 failed on missing `SourceRange`.
+- GREEN: `46914c3e09503705299c57d06adae3bf6cab79e3`; CI run #128 success.
+- Verified exact token concatenation, contiguous source ranges, CR/LF preservation, comments, strings containing apostrophes, and unknown-symbol preservation.
 
 ### Task 2 — Conservative SPEL+ semantic model and analyzer
 **Status:** complete
-
-Evidence:
-- RED commit: `b7f5ffc117c6c932c94b93f10ffcf3317020d642` (`test: add failing SPEL analyzer tests`).
-- RED CI: Android CI run #130 failed in Unit tests with unresolved references for `SpelAnalyzer`, `SpelProgramSemanticModel`, `SpelStatement`, and `DiagnosticSeverity`.
-- GREEN implementation commit: `9a03a7df39f3b2621e93ac483cee17e6c4b46d48` (`feat: add conservative SPEL semantic analyzer`).
-- GREEN CI: Android CI run #131 completed successfully.
-- Unit tests: success.
-- Debug APK build: success.
-- Debug APK upload: success.
-- Implemented neutral `ProgramSemanticModel` and `ProgramDiagnostic` contracts.
-- Implemented conservative SPEL+ semantics for `Function...Fend`, `Call`, `Go`, `Move`, `Speed`, and `Wait`.
-- Unknown nonblank SPEL+ statements remain `DirectCode` instead of becoming parser errors.
-- Structural diagnostics cover unclosed functions, stray `Fend`, missing function names, nested functions, and missing operands.
-- Recognized operand ranges exclude trailing whitespace/comments and preserve exact source offsets.
+- RED: `b7f5ffc117c6c932c94b93f10ffcf3317020d642`; CI run #130 failed on missing analyzer/model types.
+- GREEN: `9a03a7df39f3b2621e93ac483cee17e6c4b46d48`; CI run #131 success.
+- Recognized subset: `Function...Fend`, `Call`, `Go`, `Move`, `Speed`, `Wait`.
+- Unknown statements remain Direct Code; structural diagnostics cover unclosed/nested functions, stray `Fend`, missing function names and missing operands.
 
 ### Task 3 — ProgramDocument and last-valid semantic retention
 **Status:** complete
-
-Evidence:
-- RED commit: `b2c8f2e4bf7e1cfcf585eec0dd829cca398d2872` (`test: add failing program document session tests`).
-- RED CI: Android CI run #133 failed in Unit tests with unresolved references for `ProgramDocumentSession` and `ProgramSupportState`.
-- GREEN implementation commit: `9ea3edf1127c64b2f2f0b43df6720c847aa9e7f5` (`feat: preserve last valid SPEL semantics`).
-- GREEN CI: Android CI run #134 completed successfully.
-- Unit tests: success.
-- Debug APK build: success.
-- Debug APK upload: success.
-- Implemented `ProgramDocument`, `ProgramAnalyzer`, `ProgramDocumentSession`, and `ProgramSupportState`.
-- Syntax-invalid edits preserve exact source/tokens while setting `semanticModel = null` and retaining the prior valid semantic model in `lastValidSemanticModel`.
-- Direct Code documents are `PARTIALLY_SUPPORTED` without losing valid semantics.
-- Fully recognized documents are `SUPPORTED`.
-- Valid edits replace the remembered last-valid semantic model with the new semantic model.
-- `NATIVE_VALID_NOT_LOCALLY_SIMULATABLE` remains deliberately unused without external/native validation evidence.
+- RED: `b2c8f2e4bf7e1cfcf585eec0dd829cca398d2872`; CI run #133 failed on missing document/session types.
+- GREEN: `9ea3edf1127c64b2f2f0b43df6720c847aa9e7f5`; CI run #134 success.
+- Syntax-invalid edits keep exact current source/tokens and retain the prior valid semantic model.
+- Direct Code yields `PARTIALLY_SUPPORTED`; recognized-only source yields `SUPPORTED`.
+- `NATIVE_VALID_NOT_LOCALLY_SIMULATABLE` is deliberately not assigned without external/native validation evidence.
 
 ### Task 4 — Source-preserving semantic operand edits
 **Status:** complete
-
-Evidence:
-- RED commit: `5b45cfd6d061effe16c687461515e52c4937ad35` (`test: add failing source-preserving SPEL edit tests`).
-- RED CI: Android CI run #136 failed in Unit tests with unresolved references for `SourceEdit` and `SpelSourceEditor`.
-- GREEN implementation commit: `633e5e8f8bfb3209bc68df30fd001195a90f0440` (`feat: add source-preserving SPEL edits`).
-- GREEN CI: Android CI run #137 completed successfully.
-- Unit tests: success.
-- Debug APK build: success.
-- Debug APK upload: success.
-- Implemented `SourceEdit` as a validated half-open range replacement primitive.
-- Implemented `SpelSourceEditor.replaceArgument` only for recognized SPEL statements exposing `argumentRange`; Direct Code cannot be passed to this semantic edit API.
-- Verified that editing `Speed 50` to `Speed 75` preserves surrounding whitespace, CRLF, apostrophe comment, and unknown Direct Code exactly.
-- Verified that reparsing the edited source produces `Speed.argumentText == "75"` with no diagnostics.
-- Out-of-bounds source edits are rejected.
+- RED: `5b45cfd6d061effe16c687461515e52c4937ad35`; CI run #136 failed on missing source-edit types.
+- GREEN: `633e5e8f8bfb3209bc68df30fd001195a90f0440`; CI run #137 success.
+- Editing `Speed 50` to `Speed 75` changes only the argument range while preserving whitespace, CRLF, comments and unknown Direct Code exactly.
+- Out-of-bounds edits are rejected.
 
 ### Task 5 — Source-capable SPEL+ adapter registry wiring
 **Status:** complete
-
-Evidence:
-- RED commit: `e65e9cbd042e233d3a5d1dddf15e2261edf3a339` (`test: add failing source-capable adapter registry test`).
-- RED CI: Android CI run #139 failed in Unit tests with `Unresolved reference 'sourceLanguageFor'`.
-- GREEN implementation commit: `8b09d9ab10e445b708410b64a61be4d4a948c99e` (`feat: expose source-capable SPEL adapter`).
-- GREEN CI: Android CI run #140 completed successfully.
-- Unit tests: success.
-- Debug APK build: success.
-- Debug APK upload: success.
-- Added `SourceProgrammingLanguageAdapter` as a source-capable sub-interface without changing metadata-only language adapters.
-- Added `AdapterRegistry.sourceLanguageFor(simulatorId)` with an explicit capability check.
-- `SpelPlusLanguageAdapter` now implements the source-capable interface and opens `ProgramDocumentSession` with `SpelAnalyzer`.
-- Verified that RC+ 7.5.3 resolves SPEL+ through the registry and opens a lossless supported source document.
+- RED: `e65e9cbd042e233d3a5d1dddf15e2261edf3a339`; CI run #139 failed on missing `sourceLanguageFor`.
+- GREEN: `8b09d9ab10e445b708410b64a61be4d4a948c99e`; CI run #140 success.
+- Added `SourceProgrammingLanguageAdapter`; RC+ 7.5.3 resolves SPEL+ through the registry and opens a lossless `ProgramDocumentSession`.
 
 ### Task 6 — Native RC+ project-resource categories/classifier
 **Status:** complete
-
-Evidence:
-- RED commit: `db9939694d1c0d2f8b4f0cdb7c58caa7d244ccea` (`test: add failing RC+ resource classifier tests`).
-- RED CI: Android CI run #142 failed in Unit tests with unresolved `project.*` resource types and `RcPlusResourceClassifier`.
-- GREEN implementation commits: `4275c41973d3c04e6bf3bb08de95d4573ffa9d0a` and `ad96d02d68ec3e1cbb70a444cc38d59ea7739e08`.
-- GREEN CI: Android CI run #144 completed successfully.
-- Unit tests: success.
-- Debug APK build: success.
-- Debug APK upload: success.
-- Implemented resource categories `NativeKnownEditable`, `NativeKnownPreserved`, `NativeOpaque`, and `AppSidecarMetadata` with defensive byte copies.
-- Implemented native kinds PROGRAM, INCLUDE, POINTS, MACRO, IO_LABELS, USER_ERRORS, PROJECT_DESCRIPTOR, and UNKNOWN.
-- RC+ classifier treats `.prg`/`.inc` as editable text resources; `.pts`/`.mac`/`.sprj` plus `IOLABEL.DAT` and `USERERRORS.DAT` as preserved resources; unknown files remain opaque.
-- Classifier uses filename/extension only and does not parse or guess native file contents.
-- Defensive-copy test proves caller mutation cannot alter stored resource bytes.
+- RED: `db9939694d1c0d2f8b4f0cdb7c58caa7d244ccea`; CI run #142 failed on missing resource/classifier types.
+- GREEN: `4275c41973d3c04e6bf3bb08de95d4573ffa9d0a` + `ad96d02d68ec3e1cbb70a444cc38d59ea7739e08`; CI run #144 success.
+- `.prg`/`.inc` are known editable; `.pts`/`.mac`/`.sprj`, `IOLABEL.DAT`, `USERERRORS.DAT` are known preserved; unknown files are opaque.
+- Classification is filename/extension-only and resource bytes are defensively copied.
 
 ### Task 7 — Native resource-set round-trip
-**Status:** pending
+**Status:** complete
+- RED: `60fa411531600335d6dd5a95e530a1570362f5e4`; CI run #146 failed because `NativeProjectResourceSet` did not exist.
+- GREEN implementation culminates at `e29dad9a084067054df165a7ead939630313fde3`; CI run #149 success.
+- Untouched known and opaque files export byte-for-byte identical.
+- Supported `.prg` edit changes only program bytes while `.pts` and opaque files remain identical.
+- `replaceEditable` rejects preserved/opaque resources and unknown paths.
+- Import/export and resource byte access use defensive copies.
 
 ### Task 8 — Documentation and final verification
-**Status:** pending
+**Status:** implementation/review complete; this ledger commit itself requires final CI confirmation
+- Documentation: `bce1bb2ac3c8b4aae02b2926429f0937942986e4` (`ROADMAP.md`) and `bcaa992b43c2ce14f4b2af28e82d02848751a448` (`ARCHITECTURE.md`).
+- Fresh CI on code+documentation head `bcaa992b43c2ce14f4b2af28e82d02848751a448`: Android CI run #151 succeeded; Unit tests, Build debug APK, and Upload debug APK all passed.
+- Whole-branch comparison from Phase 1 accepted head to `bcaa992...`: 27 Phase 2 commits, limited to programming/adapters/project resources, tests and Phase 2 docs.
+- Review found no changes to legacy `domain/ProgramModels.kt`, runtime execution, 3D, bridge, or hardware-control code.
+- Patch scan found no implementation TODO/TBD placeholders; `.sprj` references are classifier/preservation/docs only; no `REAL_HARDWARE` implementation is added.
+- No destructive formatter/regenerator or `.sprj` parser was introduced.
 
-## Verification gates
+## Acceptance cases verified by tests
 
-Before Phase 2 may be accepted:
-- focused RED/GREEN evidence for Tasks 1–7;
-- `gradle testDebugUnitTest --stacktrace` green;
-- `gradle assembleDebug --stacktrace` green;
-- PR #8 Actions green on final head;
-- final whole-branch review;
-- no destructive source rewrite;
-- no `.sprj` parser/execution/hardware claims;
-- Draft PR remains unmerged unless user explicitly chooses integration.
+1. Token concatenation reconstructs source exactly.
+2. CRLF/comments survive; apostrophe inside a string is not a comment delimiter.
+3. Unknown SPEL+ lines survive as Direct Code.
+4. Syntax-invalid edits preserve exact source and the last valid semantic model.
+5. Recognized Speed operand editing changes only the owned range.
+6. Untouched `.pts` and opaque bytes export identically.
+7. Known-preserved/opaque resources cannot be mutated through the editable-resource API.
+8. RC+ source adapter opens the same source text through the registry.
 
-## Current checkpoint
+## Deliberate deferrals
 
-- Phase 1 accepted and preserved on its own branch.
-- Phase 2 branch created from exact accepted Phase 1 head.
-- Phase 2 implementation plan committed as `f59fa75781e84c725ad57639942059024801288d`.
-- Draft PR #8 uses base `feature/shared-runtime-foundation`.
-- Tasks 1–6 completed with RED/GREEN evidence and full Android CI green.
-- Implementation head before this ledger update: `ad96d02d68ec3e1cbb70a444cc38d59ea7739e08`.
-- Concurrent-worker check before Task 6 GREEN: PR #8 head remained on the inline RED commit; no newer Codex/inline commit was present.
-- Exact next action: Task 7 Step 1 — add failing round-trip tests for untouched known/opaque bytes, supported `.prg` edit, and protected-resource replacement rejection.
+- Full SPEL+ grammar/expression parser.
+- Native RC+ compiler/Build/Run equivalence.
+- Local program execution semantics and TaskRuntime/I/O/simulation clock.
+- `.pts` semantic parsing/writing.
+- `.sprj` internal parsing/writing.
+- Encoding auto-detection beyond explicit ASCII-compatible fixtures.
+- C4 self-collision (Issue #7).
+
+## Final handoff checkpoint
+
+- Phase 1 remains preserved on `feature/shared-runtime-foundation` and is not merged.
+- Phase 2 remains on Draft PR #8 and must not be merged without explicit user instruction.
+- Code/docs head verified before this ledger commit: `bcaa992b43c2ce14f4b2af28e82d02848751a448`, CI run #151 success.
+- This ledger update is intended as the final file-changing commit for Phase 2. The next action is **only** to verify GitHub Actions on the new PR #8 HEAD. If green, record final acceptance in a PR comment without creating another commit.
+- If Codex resumes after final acceptance, it must not redo Phase 2. It should read this ledger and PR #8 comments, then proceed to the next approved phase/plan.
