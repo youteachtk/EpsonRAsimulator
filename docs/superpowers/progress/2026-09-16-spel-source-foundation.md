@@ -132,7 +132,21 @@ Evidence:
 - Verified that RC+ 7.5.3 resolves SPEL+ through the registry and opens a lossless supported source document.
 
 ### Task 6 — Native RC+ project-resource categories/classifier
-**Status:** pending
+**Status:** complete
+
+Evidence:
+- RED commit: `db9939694d1c0d2f8b4f0cdb7c58caa7d244ccea` (`test: add failing RC+ resource classifier tests`).
+- RED CI: Android CI run #142 failed in Unit tests with unresolved `project.*` resource types and `RcPlusResourceClassifier`.
+- GREEN implementation commits: `4275c41973d3c04e6bf3bb08de95d4573ffa9d0a` and `ad96d02d68ec3e1cbb70a444cc38d59ea7739e08`.
+- GREEN CI: Android CI run #144 completed successfully.
+- Unit tests: success.
+- Debug APK build: success.
+- Debug APK upload: success.
+- Implemented resource categories `NativeKnownEditable`, `NativeKnownPreserved`, `NativeOpaque`, and `AppSidecarMetadata` with defensive byte copies.
+- Implemented native kinds PROGRAM, INCLUDE, POINTS, MACRO, IO_LABELS, USER_ERRORS, PROJECT_DESCRIPTOR, and UNKNOWN.
+- RC+ classifier treats `.prg`/`.inc` as editable text resources; `.pts`/`.mac`/`.sprj` plus `IOLABEL.DAT` and `USERERRORS.DAT` as preserved resources; unknown files remain opaque.
+- Classifier uses filename/extension only and does not parse or guess native file contents.
+- Defensive-copy test proves caller mutation cannot alter stored resource bytes.
 
 ### Task 7 — Native resource-set round-trip
 **Status:** pending
@@ -158,7 +172,7 @@ Before Phase 2 may be accepted:
 - Phase 2 branch created from exact accepted Phase 1 head.
 - Phase 2 implementation plan committed as `f59fa75781e84c725ad57639942059024801288d`.
 - Draft PR #8 uses base `feature/shared-runtime-foundation`.
-- Tasks 1–5 completed with RED/GREEN evidence and full Android CI green.
-- Implementation head before this ledger update: `8b09d9ab10e445b708410b64a61be4d4a948c99e`.
-- No concurrent Codex activity was observed before Task 5 edits; inline execution performed the task.
-- Exact next action: Task 6 Step 1 — add failing RC+ resource-classification and defensive-copy tests for editable, preserved, and opaque native project resources.
+- Tasks 1–6 completed with RED/GREEN evidence and full Android CI green.
+- Implementation head before this ledger update: `ad96d02d68ec3e1cbb70a444cc38d59ea7739e08`.
+- Concurrent-worker check before Task 6 GREEN: PR #8 head remained on the inline RED commit; no newer Codex/inline commit was present.
+- Exact next action: Task 7 Step 1 — add failing round-trip tests for untouched known/opaque bytes, supported `.prg` edit, and protected-resource replacement rejection.
