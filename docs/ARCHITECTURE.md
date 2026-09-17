@@ -21,6 +21,20 @@ The current Compose trainer now observes and dispatches C4 robot state through `
 
 Local Simulation is the only executable connection authority in this foundation. Digital Twin and Real Hardware remain reserved architectural states without transport/control behavior.
 
+## Implemented source-preserving programming foundation
+
+The Phase 2 feature branch adds a neutral source/programming layer without turning source code into a lossy AST:
+
+- `mx.youteachtk.epsonrasimulator.programming` owns source ranges, lossless source tokens, program diagnostics, `ProgramDocument`, `ProgramDocumentSession`, source edits, and native project-resource abstractions;
+- `mx.youteachtk.epsonrasimulator.adapters.rcplus.spel` owns the SPEL+ lexer, conservative semantic analyzer, semantic statement model, and source-preserving operand edits;
+- `mx.youteachtk.epsonrasimulator.adapters.rcplus.project` classifies RC+ resource paths without interpreting undocumented file contents.
+
+The SPEL+ lexer preserves every original character. The initial semantic subset recognizes `Function...Fend`, `Call`, `Go`, `Move`, `Speed`, and `Wait`; any other nonblank statement is preserved as Direct Code instead of being discarded. Syntax-invalid edits retain the exact current source plus the last valid semantic model.
+
+`NativeProjectResourceSet` preserves path identity and resource bytes. `.prg` and `.inc` are currently known editable resources; `.pts`, `.mac`, `.sprj`, `IOLABEL.DAT`, and `USERERRORS.DAT` are known preserved resources; unknown files remain opaque. Export returns defensive copies and untouched preserved/opaque resources round-trip byte-for-byte.
+
+This foundation does not execute SPEL+, emulate native RC+ compilation/build semantics, parse `.sprj` internals, semantically rewrite `.pts`, or add bridge/physical-robot behavior.
+
 ## Layering
 
 ### UI
