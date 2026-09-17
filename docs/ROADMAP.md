@@ -8,7 +8,16 @@
 - the current C4 Compose trainer dispatches robot-state changes through `SharedRuntime`;
 - Local Simulation remains the only executable connection mode.
 
-This foundation does **not** yet implement SPEL+ parsing/execution, I/O runtime, task runtime, the RC+ MDI workspace, functional workcell actors, the Windows bridge, or physical-robot control.
+## Source-Preserving SPEL+ Foundation — implemented on Phase 2 feature branch
+- lossless SPEL+ tokenization preserves original characters, comments, whitespace and newline style;
+- a conservative semantic subset recognizes `Function...Fend`, `Call`, `Go`, `Move`, `Speed` and `Wait`;
+- unsupported source remains preserved as Direct Code rather than being deleted or guessed;
+- syntax-invalid edits retain exact source plus the last valid semantic model;
+- supported operand edits replace only the original source range they own;
+- RC+ native resources are classified as editable, preserved or opaque without parsing undocumented contents;
+- untouched preserved/opaque resource bytes round-trip exactly through `NativeProjectResourceSet`.
+
+This foundation does **not** execute SPEL+, emulate RC+ Build/Run, parse `.sprj` internals, semantically rewrite `.pts`, implement TaskRuntime/I/O, bridge to RC+, or control physical hardware.
 
 ## Phase 0 — Foundation
 - repository;

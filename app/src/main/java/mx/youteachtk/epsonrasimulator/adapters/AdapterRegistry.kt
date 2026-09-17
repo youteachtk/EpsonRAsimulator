@@ -28,6 +28,14 @@ class AdapterRegistry(
         return requireNotNull(languagesById[simulator.programmingLanguageId])
     }
 
+    fun sourceLanguageFor(id: SimulatorAdapterId): SourceProgrammingLanguageAdapter {
+        val language = languageFor(id)
+        require(language is SourceProgrammingLanguageAdapter) {
+            "Language adapter ${language.id.value} does not provide source-document support"
+        }
+        return language
+    }
+
     fun projectFormatFor(id: SimulatorAdapterId): ProjectFormatAdapter {
         val simulator = requireSimulator(id)
         return requireNotNull(formatsById[simulator.projectFormatId])

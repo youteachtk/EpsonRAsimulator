@@ -1,0 +1,3 @@
+package mx.youteachtk.epsonrasimulator.programming
+
+interface ProgramSemanticModel
