@@ -38,7 +38,17 @@ Evidence:
 - Verified paused clocks ignore `advanceBy`, exact `stepBy` works while paused, running clocks apply deterministic speed scaling, pause stops advancement, and invalid negative/nonpositive inputs are rejected.
 
 ### Task 2 — Canonical digital IoRuntime
-**Status:** pending
+**Status:** complete
+
+Evidence:
+- RED commit: `6a6b70d9dd3215bf8d5a7bfbbc9a8ae0b9a8f8ce` (`test: add failing canonical io runtime tests`).
+- RED CI: Android CI run #157 failed in Unit tests with unresolved `IoRuntime` and `IoLayout`.
+- GREEN commit: `e8fb063972b971e123f0499095493ece316230a8` (`feat: add canonical digital io runtime`).
+- GREEN CI: Android CI run #158 completed successfully.
+- Unit tests: success.
+- Debug APK build: success.
+- Debug APK upload: success.
+- Verified configured input/output ranges, canonical values, exact labels, default-false channels, label clearing, empty layouts, full snapshots, and rejection of negative/out-of-range channels.
 
 ### Task 3 — Task model, breakpoints, step/resume/stop
 **Status:** pending
@@ -56,6 +66,6 @@ Evidence:
 
 - Phase 3 plan committed and self-reviewed.
 - Draft PR #9 targets the verified Phase 2 branch.
-- Task 1 has RED/GREEN evidence and full Android CI green.
-- Implementation head before this ledger commit: `90efdc427dd3af7841d2426ec65dc4d202ed9f7e`.
-- Exact next action: Task 2 Step 1 — add failing I/O value/label/range tests.
+- Tasks 1–2 have RED/GREEN evidence and full Android CI green.
+- Implementation head before this ledger commit: `e8fb063972b971e123f0499095493ece316230a8`.
+- Exact next action: Task 3 Step 1 — add failing TaskRuntime breakpoint/step/resume/stop tests.
