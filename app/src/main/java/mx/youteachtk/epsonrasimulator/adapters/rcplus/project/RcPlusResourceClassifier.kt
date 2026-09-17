@@ -5,9 +5,10 @@ import mx.youteachtk.epsonrasimulator.project.NativeKnownPreserved
 import mx.youteachtk.epsonrasimulator.project.NativeOpaque
 import mx.youteachtk.epsonrasimulator.project.NativeResourceKind
 import mx.youteachtk.epsonrasimulator.project.ProjectResource
+import mx.youteachtk.epsonrasimulator.project.ProjectResourceClassifier
 
-object RcPlusResourceClassifier {
-    fun classify(path: String, bytes: ByteArray): ProjectResource {
+object RcPlusResourceClassifier : ProjectResourceClassifier {
+    override fun classify(path: String, bytes: ByteArray): ProjectResource {
         val basename = path
             .substringAfterLast('/')
             .substringAfterLast('\\')
