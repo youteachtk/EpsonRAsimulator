@@ -16,6 +16,10 @@ sealed interface ProjectResource {
     fun bytesCopy(): ByteArray
 }
 
+fun interface ProjectResourceClassifier {
+    fun classify(path: String, bytes: ByteArray): ProjectResource
+}
+
 class NativeKnownEditable(
     override val path: String,
     val kind: NativeResourceKind,
