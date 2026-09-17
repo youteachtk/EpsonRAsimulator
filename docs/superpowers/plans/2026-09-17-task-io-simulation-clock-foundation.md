@@ -37,7 +37,7 @@
 ### Shared digital I/O
 - `runtime/io/IoRuntime.kt` — configured channel ranges, canonical input/output values, labels, snapshots.
 
-### Task execution
+### Simulated task execution
 - `runtime/task/TaskModels.kt` — task IDs, status, source locations, neutral actions/instructions/programs, wait reasons/snapshots.
 - `runtime/task/TaskRuntime.kt` — start/pause/resume/step/stop/breakpoints plus run-until-blocked execution.
 
@@ -577,7 +577,7 @@ Record RED/GREEN SHAs, CI runs, review findings and the next approved phase. Do 
 - Bridge and physical controller behavior.
 
 ### Placeholder scan
-No TBD/TODO implementation placeholders are allowed in this plan.
+No incomplete implementation placeholders are allowed in this plan.
 
 ### Type consistency
 `SimulationClock`, `IoLayout`, `IoRuntime`, `TaskId`, `TaskStatus`, `TaskAction`, `TaskInstruction`, `TaskProgram`, `TaskSnapshot`, and `TaskRuntime` are defined before later tasks consume them.
