@@ -39,7 +39,13 @@ sealed interface TaskAction {
 
     data class WaitDuration(
         val durationMillis: Long
-    ) : TaskAction
+    ) : TaskAction {
+        init {
+            require(durationMillis >= 0L) {
+                "Wait duration must be non-negative"
+            }
+        }
+    }
 }
 
 data class TaskInstruction(

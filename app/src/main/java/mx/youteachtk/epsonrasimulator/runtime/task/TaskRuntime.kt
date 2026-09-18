@@ -118,6 +118,20 @@ class TaskRuntime(
         return snapshot(id)
     }
 
+    fun refresh(id: TaskId): TaskSnapshot {
+        val task = requireTask(id)
+        if (task.status != TaskStatus.WAITING) {
+            return snapshot(id)
+        }
+
+        task.status = TaskStatus.RUNNING
+        executeCurrent(task)
+        if (task.status == TaskStatus.RUNNING) {
+            runUntilBlocked(task)
+        }
+        return snapshot(id)
+    }
+
     fun stop(id: TaskId): TaskSnapshot {
         val task = requireTask(id)
         if (!task.status.isTerminal()) {
@@ -163,12 +177,40 @@ class TaskRuntime(
         ) {
             is TaskAction.SetOutput -> {
                 io.setOutput(action.index, action.value)
+                task.waitReason = null
                 task.instructionIndex += 1
             }
 
-            is TaskAction.WaitForInput,
+            is TaskAction.WaitForInput -> {
+                if (io.readInput(action.index) == action.expected) {
+                    task.waitReason = null
+                    task.instructionIndex += 1
+                } else {
+                    task.waitReason = TaskWaitReason.Input(
+                        index = action.index,
+                        expected = action.expected
+                    )
+                    task.status = TaskStatus.WAITING
+                }
+            }
+
             is TaskAction.WaitDuration -> {
-                error("Wait actions are implemented in Task 4")
+                val existingTarget =
+                    (task.waitReason as? TaskWaitReason.UntilTime)
+                        ?.targetTimeMillis
+
+                val target = existingTarget ?: Math.addExact(
+                    clock.state.timeMillis,
+                    action.durationMillis
+                )
+
+                if (clock.state.timeMillis >= target) {
+                    task.waitReason = null
+                    task.instructionIndex += 1
+                } else {
+                    task.waitReason = TaskWaitReason.UntilTime(target)
+                    task.status = TaskStatus.WAITING
+                }
             }
         }
     }
