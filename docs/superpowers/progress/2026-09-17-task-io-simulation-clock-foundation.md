@@ -51,7 +51,17 @@ Evidence:
 - Verified configured input/output ranges, canonical values, exact labels, default-false channels, label clearing, empty layouts, full snapshots, and rejection of negative/out-of-range channels.
 
 ### Task 3 — Task model, breakpoints, step/resume/stop
-**Status:** pending
+**Status:** complete
+
+Evidence:
+- RED commit: `b942c6ab4210948c29e2f58181caaf5f29d1b788` (`test: add failing task runtime control tests`).
+- RED CI: Android CI run #160 failed in Unit tests with unresolved task runtime/model types.
+- GREEN commit: `566dc0ec0bd079b1693b823d7675bedc34a2ad4e` (`feat: add task runtime controls`).
+- GREEN CI: Android CI run #161 completed successfully.
+- Unit tests: success.
+- Debug APK build: success.
+- Debug APK upload: success.
+- Verified breakpoint halt-before-execution, one-instruction stepping, pause/resume, current-breakpoint suppression on resume, breakpoint removal, stop-to-ABORTED, source-location snapshots, empty-program completion, and invalid task IDs/breakpoints.
 
 ### Task 4 — Wait on shared I/O and simulation time
 **Status:** pending
@@ -66,6 +76,6 @@ Evidence:
 
 - Phase 3 plan committed and self-reviewed.
 - Draft PR #9 targets the verified Phase 2 branch.
-- Tasks 1–2 have RED/GREEN evidence and full Android CI green.
-- Implementation head before this ledger commit: `e8fb063972b971e123f0499095493ece316230a8`.
-- Exact next action: Task 3 Step 1 — add failing TaskRuntime breakpoint/step/resume/stop tests.
+- Tasks 1–3 have RED/GREEN evidence and full Android CI green.
+- Implementation head before this ledger commit: `566dc0ec0bd079b1693b823d7675bedc34a2ad4e`.
+- Exact next action: Task 4 Step 1 — add failing canonical-input and deterministic-duration wait tests.
