@@ -154,4 +154,131 @@ class TaskRuntimeTest {
     fun taskIdRejectsBlankValue() {
         TaskId(" ")
     }
+
+    @Test
+    fun waitingTaskResumesFromCanonicalInputAndSetsCanonicalOutput() {
+        val io = IoRuntime(IoLayout(0..7, 0..7))
+        val tasks = TaskRuntime(SimulationClock(), io)
+        val id = TaskId("wait-io")
+        val program = TaskProgram(
+            "main.prg",
+            listOf(
+                TaskInstruction(TaskAction.WaitForInput(3)),
+                TaskInstruction(TaskAction.SetOutput(5, true))
+            )
+        )
+
+        tasks.start(id, program)
+
+        assertEquals(TaskStatus.WAITING, tasks.snapshot(id).status)
+        assertEquals(
+            TaskWaitReason.Input(index = 3, expected = true),
+            tasks.snapshot(id).waitReason
+        )
+        assertFalse(io.readOutput(5))
+
+        io.setInput(3, true)
+        tasks.refresh(id)
+
+        assertEquals(TaskStatus.FINISHED, tasks.snapshot(id).status)
+        assertNull(tasks.snapshot(id).waitReason)
+        assertTrue(io.readOutput(5))
+    }
+
+    @Test
+    fun durationWaitUsesOnlySimulationClockTime() {
+        val clock = SimulationClock()
+        val io = IoRuntime(IoLayout(0..0, 0..0))
+        val tasks = TaskRuntime(clock, io)
+        val id = TaskId("timer")
+        val program = TaskProgram(
+            "timer.prg",
+            listOf(
+                TaskInstruction(TaskAction.WaitDuration(1000)),
+                TaskInstruction(TaskAction.SetOutput(0, true))
+            )
+        )
+
+        tasks.start(id, program)
+
+        assertEquals(TaskStatus.WAITING, tasks.snapshot(id).status)
+        assertEquals(
+            TaskWaitReason.UntilTime(1000),
+            tasks.snapshot(id).waitReason
+        )
+
+        clock.stepBy(999)
+        tasks.refresh(id)
+
+        assertEquals(TaskStatus.WAITING, tasks.snapshot(id).status)
+        assertEquals(
+            TaskWaitReason.UntilTime(1000),
+            tasks.snapshot(id).waitReason
+        )
+        assertFalse(io.readOutput(0))
+
+        clock.stepBy(1)
+        tasks.refresh(id)
+
+        assertEquals(TaskStatus.FINISHED, tasks.snapshot(id).status)
+        assertNull(tasks.snapshot(id).waitReason)
+        assertTrue(io.readOutput(0))
+    }
+
+    @Test
+    fun repeatedRefreshDoesNotMoveDurationWaitTarget() {
+        val clock = SimulationClock()
+        val tasks = TaskRuntime(
+            clock,
+            IoRuntime(IoLayout.EMPTY)
+        )
+        val id = TaskId("stable-target")
+
+        clock.stepBy(250)
+        tasks.start(
+            id,
+            TaskProgram(
+                "timer.prg",
+                listOf(TaskInstruction(TaskAction.WaitDuration(1000)))
+            )
+        )
+
+        assertEquals(
+            TaskWaitReason.UntilTime(1250),
+            tasks.snapshot(id).waitReason
+        )
+
+        tasks.refresh(id)
+        tasks.refresh(id)
+
+        assertEquals(
+            TaskWaitReason.UntilTime(1250),
+            tasks.snapshot(id).waitReason
+        )
+    }
+
+    @Test
+    fun alreadySatisfiedInputWaitContinuesImmediately() {
+        val io = IoRuntime(IoLayout(0..0, 0..0))
+        io.setInput(0, true)
+        val tasks = TaskRuntime(SimulationClock(), io)
+        val id = TaskId("input-ready")
+
+        tasks.start(
+            id,
+            TaskProgram(
+                "ready.prg",
+                listOf(TaskInstruction(TaskAction.WaitForInput(0)))
+            )
+        )
+
+        assertEquals(TaskStatus.FINISHED, tasks.snapshot(id).status)
+        assertNull(tasks.snapshot(id).waitReason)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun waitDurationRejectsNegativeDuration() {
+        TaskAction.WaitDuration(-1)
+    }
+
 }
