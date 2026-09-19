@@ -1043,7 +1043,7 @@ Do not merge.
 - pause while waiting: Task 5 test.
 
 ### Placeholder scan
-This plan contains no implementation TBD/TODO placeholders. Future-phase exclusions are explicit scope boundaries.
+This plan contains no incomplete implementation markers. Future-phase exclusions are explicit scope boundaries.
 
 ### Type consistency
 - `SimulationClockState` and `IoState` flow into `SimulationDomainState`.
