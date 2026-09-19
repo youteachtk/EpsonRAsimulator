@@ -78,7 +78,7 @@
 - Test: `app/src/test/java/mx/youteachtk/epsonrasimulator/simulation/SimulationClockTest.kt`
 
 **Interfaces:**
-- Produces: `SimulationClockState(timeMillis: Long = 0, running: Boolean = false, speedScale: Double = 1.0)`
+- Produces: `SimulationClockState(timeMillis: Long = 0, running: Boolean = false, speedScale: Double = 1.0, fractionalMillisRemainder: Double = 0.0)`
 - Produces: `SimulationClock.start(state)`
 - Produces: `SimulationClock.pause(state)`
 - Produces: `SimulationClock.reset(state)`
@@ -167,11 +167,17 @@ Expected: compile failure because clock types do not exist.
 data class SimulationClockState(
     val timeMillis: Long = 0L,
     val running: Boolean = false,
-    val speedScale: Double = 1.0
+    val speedScale: Double = 1.0,
+    val fractionalMillisRemainder: Double = 0.0
 ) {
     init {
         require(timeMillis >= 0L)
         require(speedScale.isFinite() && speedScale > 0.0)
+        require(
+            fractionalMillisRemainder.isFinite() &&
+                fractionalMillisRemainder >= 0.0 &&
+                fractionalMillisRemainder < 1.0
+        )
     }
 }
 ```
@@ -187,7 +193,11 @@ object SimulationClock {
         state.copy(running = false)
 
     fun reset(state: SimulationClockState): SimulationClockState =
-        state.copy(timeMillis = 0L, running = false)
+        state.copy(
+            timeMillis = 0L,
+            running = false,
+            fractionalMillisRemainder = 0.0
+        )
 
     fun setSpeedScale(
         state: SimulationClockState,
@@ -204,17 +214,28 @@ object SimulationClock {
         require(baseDeltaMillis >= 0L)
         if (!state.running || baseDeltaMillis == 0L) return state
 
-        val scaled = (baseDeltaMillis.toDouble() * state.speedScale).toLong()
-        require(scaled >= 0L)
-        require(Long.MAX_VALUE - state.timeMillis >= scaled) {
+        val exactScaled =
+            baseDeltaMillis.toDouble() * state.speedScale +
+                state.fractionalMillisRemainder
+        require(exactScaled.isFinite() && exactScaled <= Long.MAX_VALUE.toDouble()) {
+            "Scaled simulation delta overflow"
+        }
+
+        val wholeMillis = exactScaled.toLong()
+        val remainder = exactScaled - wholeMillis.toDouble()
+        require(Long.MAX_VALUE - state.timeMillis >= wholeMillis) {
             "Simulation time overflow"
         }
-        return state.copy(timeMillis = state.timeMillis + scaled)
+
+        return state.copy(
+            timeMillis = state.timeMillis + wholeMillis,
+            fractionalMillisRemainder = remainder
+        )
     }
 }
 ```
 
-- [ ] **Step 5: Add overflow regression test**
+- [ ] **Step 5: Add overflow and fractional-scale regression tests**
 
 ```kotlin
 @Test(expected = IllegalArgumentException::class)
@@ -226,6 +247,21 @@ fun timeOverflowIsRejected() {
         ),
         2
     )
+}
+
+@Test
+fun fractionalScaleAccumulatesWithoutLosingTime() {
+    var state = SimulationClock.setSpeedScale(
+        SimulationClock.start(SimulationClockState()),
+        0.5
+    )
+
+    state = SimulationClock.advanceBy(state, 1)
+    assertEquals(0L, state.timeMillis)
+
+    state = SimulationClock.advanceBy(state, 1)
+    assertEquals(1L, state.timeMillis)
+    assertEquals(0.0, state.fractionalMillisRemainder, 0.000001)
 }
 ```
 
@@ -452,7 +488,7 @@ enum class TaskStatus {
 ```
 
 `TaskProgram` contains TaskId/displayName/actions.  
-`SimTaskState` contains program/status/actionIndex/waitingReason/delayDeadlineMillis/breakpoints/elapsedSimulationMillis/statusBeforePause.  
+`TaskProgram` additionally exposes optional `sourceName: String? = null` and `functionName: String? = null` context. `SimTaskState` contains program/status/actionIndex/waitingReason/delayDeadlineMillis/breakpoints/statusBeforePause.  
 `TaskRuntimeState` contains explicit `order: List<TaskId>` plus `tasks: Map<TaskId, SimTaskState>` so evaluation order is deterministic and not dependent on map implementation.
 
 - [ ] **Step 5: Add duplicate-state consistency test**
@@ -746,6 +782,7 @@ data class SimulationDomainState(
 ```
 
 Coordinator rules:
+- `startTask` changes READY to RUNNING and immediately evaluates at the current simulation time until the task blocks, halts, or finishes;
 - `advance` first advances clock then evaluates tasks at the new simulation time;
 - `setInput` updates IoState then immediately reevaluates tasks at current simulation time;
 - direct `setOutput` updates canonical IoState;
@@ -999,7 +1036,7 @@ Do not merge.
 - final docs/handoff/evidence: Task 8.
 
 ### Review Focus coverage
-- zero/negative/overflow clock inputs: Task 1 tests.
+- zero/negative/overflow/fractional clock inputs: Task 1 tests.
 - repeated/unsatisfied input wait semantics: Task 4 tests.
 - output conflict determinism: Task 4 load-order test.
 - breakpoint+step behavior: Task 5 tests.
